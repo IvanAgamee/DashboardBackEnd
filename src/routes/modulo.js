@@ -3,6 +3,7 @@ module.exports = app => {
     var m = require("../controllers/modulo.controller");
 
     router.get('/getModulos', m.getModulos);
+    router.post('/crudModulo', m.crudModulo);
 
     app.use('/api/modulo', router);
 }
