@@ -1,11 +1,15 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
+const Carrera = require("./Carrera");
 
 const Especialidad = sequelize.define("tbl_especialidad", {
     especialidadId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+    },
+    carreraId: {
+        type: Sequelize.INTEGER,
     },
     nombre: {
         type: Sequelize.STRING,
@@ -25,6 +29,11 @@ const Especialidad = sequelize.define("tbl_especialidad", {
     updatedAt: {
         type: Sequelize.DATE,
     }
+});
+
+Especialidad.belongsTo(Carrera, {
+    foreignKey: 'carreraId',
+    as: 'carrera'
 });
 
 module.exports = Especialidad;
