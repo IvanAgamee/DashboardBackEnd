@@ -1,10 +1,10 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
-const Docente = require('../models/Docente');
+const Materia = require('../models/Materia');
 
-exports.getDocentes = async (req, res) => {
+exports.getMaterias = async (req, res) => {
     try {
-        const docentes = await Docente.findAll({
+        const materias = await Materia.findAll({
             where: {
                 status: 1,
             },
@@ -12,7 +12,7 @@ exports.getDocentes = async (req, res) => {
         return res.json({
             success: true,
             message: "Se han encontrado registros.",
-            data: docentes,
+            data: materias,
         });
     } catch (e) {
         console.log(e);
@@ -24,31 +24,31 @@ exports.getDocentes = async (req, res) => {
     }
 };
 
-exports.crudDocente = async (req, res) => {
+exports.crudMateria = async (req, res) => {
     try {
-        let docente = req.body; // Guarda los datos del docente en la variable
+        let materia = req.body; // Guarda los datos de la materia en la variable
 
-        if (docente.docenteId == null) { // En caso de que el id sea nulo, se crea un nuevo docente.
-            let newDocente = await Docente.create(docente);
-            if (newDocente) {
+        if (materia.materiaId == null) { // En caso de que el id sea nulo, se crea una nueva materia.
+            let newMateria = await Materia.create(materia);
+            if (newMateria) {
                 return res.status(200).json({
                     success: true,
-                    message: "Se ha guardado el docente",
+                    message: "Se ha guardado la materia.",
                 });
             }
-        } else if (docente.docenteId) { // En caso de que el id NO sea nulo, se actualiza el docente.
-            let docenteId = docente.docenteId;
-            delete docente.docenteId;
+        } else if (materia.materiaId) { // En caso de que el id NO sea nulo, se actualiza la materia.
+            let materiaId = materia.materiaId;
+            delete materia.materiaId;
 
-            let updatedDocente = await Docente.update(docente, {
+            let updatedMateria = await Materia.update(materia, {
                 where: {
-                    docenteId: docenteId
+                    materiaId: materiaId
                 }
             });
-            if (updatedDocente) {
+            if (updatedMateria) {
                 return res.status(200).json({
                     success: true,
-                    message: "Se ha guardado el docente.",
+                    message: "Se ha guardado la materia.",
                 });
             }
         }

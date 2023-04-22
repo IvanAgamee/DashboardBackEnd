@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
 // Lista de rutas
 require('./routes/modulo')(app);
 require('./routes/docente')(app);
+require('./routes/materia')(app);
 
 // set port, listen for requests
 

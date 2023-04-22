@@ -44,7 +44,10 @@ const Docente = sequelize.define("tbl_docente", {
     updatedAt: {
         type: Sequelize.DATE,
     }
-});
+},
+    {
+        freezeTableName: true
+    });
 
 Docente.belongsTo(Carrera, {
     foreignKey: 'carreraId',
