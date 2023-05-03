@@ -18,6 +18,7 @@ require('./routes/modulo')(app);
 require('./routes/docente')(app);
 require('./routes/materia')(app);
 require('./routes/carrera')(app);
+require('./routes/departamento')(app);
 require('./routes/especialidad')(app);
 
 // set port, listen for requests
