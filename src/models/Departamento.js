@@ -25,6 +25,10 @@ const Departamento = sequelize.define("tbl_departamento", {
     updatedAt: {
         type: Sequelize.DATE,
     }
-});
+},
+{
+    freezeTableName: true
+}
+);
 
 module.exports = Departamento;

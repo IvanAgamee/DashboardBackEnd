@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Carrera = require('../models/Carrera');
+const Departamento = require('../models/Departamento');
 
 exports.getCarreras = async (req, res) => {
     try {
@@ -8,6 +9,18 @@ exports.getCarreras = async (req, res) => {
             where: {
                 status: 1,
             },
+            attributes: {
+                include: [
+                    [sequelize.col('departamento.nombre'), 'departamentoNombre'],
+                ]
+            },
+            include: [
+                {
+                    model: Departamento,
+                    as: "departamento",
+                    attributes: []
+                },
+            ]
         });
         return res.json({
             success: true,
