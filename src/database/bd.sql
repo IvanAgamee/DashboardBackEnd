@@ -70,6 +70,70 @@ CREATE TABLE `tbl_departamento` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_puestoadministrativo`
+--
+
+CREATE TABLE `tbl_puestoadministrativo` (
+  `puestoId` int(11) NOT NULL AUTO_INCREMENT,
+  `nombrePuesto` text NOT NULL,
+  `status` int(2) NOT NULL,
+  `createdBy` int(2) NULL,
+  `createdAt` DATE NULL,
+  `updatedBy` int(2) NULL,
+  `updatedAt` DATE NULL,
+  PRIMARY KEY (`puestoId`),
+  UNIQUE INDEX `puestoId_UNIQUE` (`puestoId` ASC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_administrativo`
+--
+
+CREATE TABLE `tbl_administrativo` (
+  `administrativoId` int(11) NOT NULL AUTO_INCREMENT,
+  `puestoId` int(11) NOT NULL,
+  `nombre` text NOT NULL,
+  `descripcion` text NOT NULL,
+  `imagen` text NULL,
+  `status` int(2) NOT NULL,
+  `createdBy` int(2) NULL,
+  `createdAt` DATE NULL,
+  `updatedBy` int(2) NULL,
+  `updatedAt` DATE NULL,
+  PRIMARY KEY (`administrativoId`),
+  UNIQUE INDEX `administrativoId_UNIQUE` (`administrativoId` ASC),
+  CONSTRAINT `fk_tbl_administrativo_puestoId` FOREIGN KEY (`puestoId`)
+  REFERENCES `dashboardCarreras`.`tbl_puestoAdministrativo`(`puestoId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_administrativo_carrera`
+--
+
+CREATE TABLE `tbl_administrativo_carrera` (
+  `adminCarreraId` int(11) NOT NULL AUTO_INCREMENT,
+  `administrativoId` int(11) NOT NULL,
+  `carreraId` int(11) NOT NULL,
+  `status` int(2) NOT NULL,
+  `createdBy` int(2) NULL,
+  `createdAt` DATE NULL,
+  `updatedBy` int(2) NULL,
+  `updatedAt` DATE NULL,
+  PRIMARY KEY (`adminCarreraId`),
+  UNIQUE INDEX `adminCarreraId_UNIQUE` (`adminCarreraId` ASC),
+  CONSTRAINT `fk_tbl_administrativo_administrativoId` FOREIGN KEY (`administrativoId`)
+  REFERENCES `dashboardCarreras`.`tbl_administrativo`(`administrativoId`),
+  CONSTRAINT `fk_tbl_administrativo_carreraId` FOREIGN KEY (`carreraId`)
+  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_rolPermiso`
 --
 
@@ -231,24 +295,47 @@ CREATE TABLE `tbl_materia` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tbl_pagina`
+-- Estructura de tabla para la tabla `tbl_carrera_docente`
 --
 
-CREATE TABLE `tbl_pagina` (
-  `paginaId` int(11) NOT NULL AUTO_INCREMENT,
-  `moduloId` int(11) NOT NULL,
+CREATE TABLE `tbl_carrera_docente` (
+  `carreraDocenteId` int(11) NOT NULL AUTO_INCREMENT,
   `carreraId` int(11) NOT NULL,
+  `docenteId` int(11) NULL,
   `status` int(2) NOT NULL,
   `createdBy` int(2) NULL,
   `createdAt` DATE NULL,
   `updatedBy` int(2) NULL,
   `updatedAt` DATE NULL,
-  PRIMARY KEY (`paginaId`),
-  UNIQUE INDEX `paginaId_UNIQUE` (`paginaId` ASC),
-  CONSTRAINT `fk_tbl_pagina_moduloId` FOREIGN KEY (`moduloId`)
-  REFERENCES `dashboardCarreras`.`tbl_modulo`(`moduloId`),
-  CONSTRAINT `fk_tbl_pagina_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
+  PRIMARY KEY (`carreraDocenteId`),
+  UNIQUE INDEX `carreraDocenteId_UNIQUE` (`carreraDocenteId` ASC),
+  CONSTRAINT `fk_tbl_carrera_docente_carreraId` FOREIGN KEY (`carreraId`)
+  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`),
+  CONSTRAINT `fk_tbl_carrera_docente_docenteId` FOREIGN KEY (`docenteId`)
+  REFERENCES `dashboardCarreras`.`tbl_docente`(`docenteId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_especialidad_materia`
+--
+
+CREATE TABLE `tbl_especialidad_materia` (
+  `espDocenteId` int(11) NOT NULL AUTO_INCREMENT,
+  `especialidadId` int(11) NOT NULL,
+  `materiaId` int(11) NULL,
+  `status` int(2) NOT NULL,
+  `createdBy` int(2) NULL,
+  `createdAt` DATE NULL,
+  `updatedBy` int(2) NULL,
+  `updatedAt` DATE NULL,
+  PRIMARY KEY (`espDocenteId`),
+  UNIQUE INDEX `espDocenteId_UNIQUE` (`espDocenteId` ASC),
+  CONSTRAINT `fk_tbl_especialidad_materia_especialidadId` FOREIGN KEY (`especialidadId`)
+  REFERENCES `dashboardCarreras`.`tbl_especialidad`(`especialidadId`),
+  CONSTRAINT `fk_tbl_especialidad_materia_materiaId` FOREIGN KEY (`materiaId`)
+  REFERENCES `dashboardCarreras`.`tbl_materia`(`materiaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -260,6 +347,7 @@ CREATE TABLE `tbl_pagina` (
 CREATE TABLE `tbl_seccion` (
   `seccionId` int(11) NOT NULL AUTO_INCREMENT,
   `moduloId` int(11) NOT NULL,
+  `carreraId` int(11) NOT NULL,
   `titulo` text NOT NULL,
   `descripcion` text NOT NULL,
   `status` int(2) NOT NULL,
@@ -270,7 +358,9 @@ CREATE TABLE `tbl_seccion` (
   PRIMARY KEY (`seccionId`),
   UNIQUE INDEX `seccionId_UNIQUE` (`seccionId` ASC),
   CONSTRAINT `fk_tbl_seccion_moduloId` FOREIGN KEY (`moduloId`)
-  REFERENCES `dashboardCarreras`.`tbl_modulo`(`moduloId`)
+  REFERENCES `dashboardCarreras`.`tbl_modulo`(`moduloId`),
+  CONSTRAINT `fk_tbl_seccion_carreraId` FOREIGN KEY (`carreraId`)
+  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -357,6 +447,16 @@ INSERT INTO `tbl_carrera` (`carreraId`, `departamentoId`, `nombre`, `status`, `c
 (9, 5, 'Ingeniería Electrica', 1, NULL, NULL, NULL, NULL),
 (10, 5, 'Ingeniería Electronica', 1, NULL, NULL, NULL, NULL),
 (11, 6, 'Ingeniería en Sistemas Computacionales', 1, NULL, NULL, NULL, NULL);
+
+--
+-- Volcado de datos para la tabla `tbl_puestoadministrativo`
+--
+
+INSERT INTO `tbl_puestoadministrativo` (`puestoId`, `nombrePuesto`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
+(1, 'Jefe de Departamento', 1, NULL, NULL, NULL, NULL),
+(2, 'Jefe de Proyecto de Investigación y Postgrado', 1, NULL, NULL, NULL, NULL),
+(3, 'Jefe de Proyecto de Vinculación', 1, NULL, NULL, NULL, NULL),
+(4, 'Ingeniería Bioquímica', 1, NULL, NULL, NULL, NULL);
 
 --
 -- Volcado de datos para la tabla `tbl_docente`
