@@ -111,29 +111,6 @@ CREATE TABLE `tbl_administrativo` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tbl_administrativo_carrera`
---
-
-CREATE TABLE `tbl_administrativo_carrera` (
-  `adminCarreraId` int(11) NOT NULL AUTO_INCREMENT,
-  `administrativoId` int(11) NOT NULL,
-  `carreraId` int(11) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`adminCarreraId`),
-  UNIQUE INDEX `adminCarreraId_UNIQUE` (`adminCarreraId` ASC),
-  CONSTRAINT `fk_tbl_administrativo_administrativoId` FOREIGN KEY (`administrativoId`)
-  REFERENCES `dashboardCarreras`.`tbl_administrativo`(`administrativoId`),
-  CONSTRAINT `fk_tbl_administrativo_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tbl_rolPermiso`
 --
 
@@ -194,6 +171,29 @@ CREATE TABLE `tbl_carrera` (
   UNIQUE INDEX `carreraId_UNIQUE` (`carreraId` ASC),
   CONSTRAINT `fk_tbl_carrera_departamentoId` FOREIGN KEY (`departamentoId`)
   REFERENCES `dashboardCarreras`.`tbl_departamento`(`departamentoId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tbl_administrativo_carrera`
+--
+
+CREATE TABLE `tbl_administrativo_carrera` (
+  `adminCarreraId` int(11) NOT NULL AUTO_INCREMENT,
+  `administrativoId` int(11) NOT NULL,
+  `carreraId` int(11) NOT NULL,
+  `status` int(2) NOT NULL,
+  `createdBy` int(2) NULL,
+  `createdAt` DATE NULL,
+  `updatedBy` int(2) NULL,
+  `updatedAt` DATE NULL,
+  PRIMARY KEY (`adminCarreraId`),
+  UNIQUE INDEX `adminCarreraId_UNIQUE` (`adminCarreraId` ASC),
+  CONSTRAINT `fk_tbl_administrativo_carrera_administrativoId` FOREIGN KEY (`administrativoId`)
+  REFERENCES `dashboardCarreras`.`tbl_administrativo`(`administrativoId`),
+  CONSTRAINT `fk_tbl_administrativo_carrera_carreraId` FOREIGN KEY (`carreraId`)
+  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
