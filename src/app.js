@@ -20,6 +20,7 @@ require('./routes/materia')(app);
 require('./routes/carrera')(app);
 require('./routes/departamento')(app);
 require('./routes/especialidad')(app);
+require('./routes/usuario')(app);
 
 // set port, listen for requests
 

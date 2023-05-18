@@ -35,6 +35,9 @@ const Usuario = sequelize.define("tbl_usuario", {
     updatedAt: {
         type: Sequelize.DATE,
     }
+},
+{
+    freezeTableName: true
 });
 
 Usuario.belongsTo(Rol, {

@@ -25,6 +25,9 @@ const Rol = sequelize.define("tbl_rol", {
     updatedAt: {
         type: Sequelize.DATE,
     }
+},
+{
+    freezeTableName: true
 });
 
 module.exports = Rol;
