@@ -404,6 +404,22 @@ CREATE TABLE `tbl_tipoObjeto` (
   UNIQUE INDEX `tipoObjId_UNIQUE` (`tipoObjId` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+--
+-- Volcado de datos para la tabla `tbl_rol`
+--
+
+INSERT INTO `tbl_rol` (`rolId`, `nombre`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
+(1, 'Administrador', 1, NULL, NULL, NULL, NULL);
+
+
+--
+-- Volcado de datos para la tabla `tbl_usuario`
+--
+
+INSERT INTO `tbl_usuario` (`usuarioId`, `rolId`, `nombre`, `username`, `password`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
+(1, 1, 'Admin', 'Admin', 'Admin01', 1, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
