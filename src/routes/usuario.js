@@ -7,7 +7,9 @@ module.exports = app => {
         { param_key: 'username', required: true, type: 'string', validator_functions: [] },
         { param_key: 'password', required: true, type: 'string', validator_functions: [] }
     ]), uc.login);
-    // router.post('/crudMateria', m.crudMateria);
+    router.get('/getUsers', uc.getUsers);
+    router.get('/getUserById', uc.getUserById);
+    router.post('/crudUser', uc.crudUser);
 
     app.use('/api/usuario', router);
 }

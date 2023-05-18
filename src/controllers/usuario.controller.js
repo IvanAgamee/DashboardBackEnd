@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
-
+const sequalize = require("../database/database");
 
 exports.login = async (req, res) => {
     try {
@@ -30,62 +30,118 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.getUsuarioById = async (req, res) => {
+exports.getUsers = async (req, res) => {
     try {
-        const usuario = await Usuario.findAll({
+        const users = await Usuario.findAll({
             where: {
-                status: 1,
+                status: 1
             },
+            attributes: {
+                include: [
+                    [sequalize.col('rol.nombre'), 'rolNombre']
+                ]
+            },
+            include: [
+                {
+                    model: Rol,
+                    as: "rol",
+                    where: { status: 1 },
+                }
+            ],
         });
+
         return res.json({
             success: true,
-            message: "Se han encontrado registros.",
-            data: usuario,
+            message: "Se han encontrado registros",
+            data: users,
         });
     } catch (e) {
         console.log(e);
-        return res.status(500).json({
+        res.status(500).json({
             success: false,
-            message: "Ha ocurrido un error al obtener los registros.",
-            error: e.message,
+            message: 'Ha ocurrido un error al obtener los usuarios',
+            error: e
         });
     }
-};
+}
+exports.getUserById = async (req, res) => {
+    const { id } = req.params;
 
-exports.crudMateria = async (req, res) => {
     try {
-        let materia = req.body; // Guarda los datos de la materia en la variable
-
-        if (materia.materiaId == null) { // En caso de que el id sea nulo, se crea una nueva materia.
-            let newMateria = await Materia.create(materia);
-            if (newMateria) {
-                return res.status(200).json({
-                    success: true,
-                    message: "Se ha guardado la materia.",
-                });
+        const user = await Usuario.findOne({
+            where: {
+                id
             }
-        } else if (materia.materiaId) { // En caso de que el id NO sea nulo, se actualiza la materia.
-            let materiaId = materia.materiaId;
-            delete materia.materiaId;
+        });
 
-            let updatedMateria = await Materia.update(materia, {
+        if (!user) {
+            return res.json({
+                success: true,
+                message: 'Usuario no encontrado'
+            });
+        }
+
+        return res.json({
+            success: true,
+            data: user
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: 'Algo ha salido mal',
+            error: e
+        });
+    }
+}
+
+exports.crudUser = async (req, res) => {
+    try {
+        let usuario = req.body;
+
+        if (usuario.usuarioId == null) {
+            let exists = await Usuario.findOne({
                 where: {
-                    materiaId: materiaId
+                    username: usuario.username
                 }
             });
-            if (updatedMateria) {
+
+            if (exists) {
+                return res.json({
+                    success: false,
+                    message: 'Nombre de usuario ya existente'
+                });
+            } else {
+                let newUsuario = await Usuario.create(usuario);
+                if (newUsuario) {
+                    return res.status(200).json({
+                        success: true,
+                        message: "Se ha guardado el usuario",
+                    });
+                }
+            }
+        } else {
+            let usuarioId = usuario.usuarioId;
+            delete usuario.usuarioId;
+
+            let updatedUsuario = await Usuario.update(usuario, {
+                where: {
+                    usuarioId: usuarioId
+                }
+            });
+            if (updatedUsuario) {
                 return res.status(200).json({
                     success: true,
-                    message: "Se ha guardado la materia.",
+                    message: "Se ha guardado el usuario.",
                 });
             }
         }
+
     } catch (e) {
-        console.log(e);
         return res.status(500).json({
             success: false,
-            message: "Ha ocurrido un error al guardar el registro.",
-            error: e.message,
-        });
+            message: "Ha ocurrido un error",
+            error: e
+        })
     }
-};
+}
