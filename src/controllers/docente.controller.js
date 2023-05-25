@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Docente = require('../models/Docente');
+const CarreraDocente = require('../models/CarreraDocente');
 
 exports.getDocentes = async (req, res) => {
     try {
@@ -8,7 +9,13 @@ exports.getDocentes = async (req, res) => {
             where: {
                 status: 1,
             },
+            include: [{
+                model: CarreraDocente,
+                attributes: [],
+                where: { status: 1, carreraId: 11 }
+            }]
         });
+
         return res.json({
             success: true,
             message: "Se han encontrado registros.",

@@ -102,7 +102,8 @@ exports.crudUser = async (req, res) => {
         if (usuario.usuarioId == null) {
             let exists = await Usuario.findOne({
                 where: {
-                    username: usuario.username
+                    username: usuario.username,
+                    status: 1
                 }
             });
 
@@ -111,8 +112,8 @@ exports.crudUser = async (req, res) => {
                     success: false,
                     message: 'Nombre de usuario ya existente'
                 });
-            } else {
-                let newUsuario = await Usuario.create(usuario);
+            } else {  // En caso de que no exista o no se repita el nombre de usuario
+                let newUsuario = await Usuario.create(usuario); // crea el usuario
                 if (newUsuario) {
                     return res.status(200).json({
                         success: true,
