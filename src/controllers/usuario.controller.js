@@ -3,6 +3,7 @@ const sequelize = require("../database/database");
 const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
 const sequalize = require("../database/database");
+const RolPermiso = require('../models/RolPermiso');
 
 exports.login = async (req, res) => {
     try {
@@ -13,9 +14,21 @@ exports.login = async (req, res) => {
                 username,
                 password
             },
+            attributes: {
+                include: [
+                    [sequelize.col('rol.rolPermiso.departamentoId'), 'departamentoId'],
+                    [sequelize.col('rol.nombre'), 'rolNombre'],
+                ]
+            },
             include: [{
                 model: Rol,
-                as: 'rol'
+                as: 'rol',
+                attributes: [],
+                include: [{
+                    model: RolPermiso,
+                    as: 'rolPermiso',
+                    attributes: []
+                }]
             }],
         });
 

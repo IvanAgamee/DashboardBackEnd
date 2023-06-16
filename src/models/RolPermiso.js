@@ -3,7 +3,7 @@ const sequelize = require("../database/database");
 const Rol = require("./Rol");
 const Departamento = require("./Departamento");
 
-const RolPermiso = sequelize.define("tbl_rolPermiso", {
+const RolPermiso = sequelize.define("tbl_rol_permiso", {
     rolPermisoId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -39,11 +39,18 @@ const RolPermiso = sequelize.define("tbl_rolPermiso", {
     updatedAt: {
         type: Sequelize.DATE,
     }
+},
+{
+    freezeTableName: true
 });
-
 RolPermiso.belongsTo(Rol, {
     foreignKey: 'rolId',
     as: 'rol'
+});
+
+Rol.hasOne(RolPermiso, {
+    foreignKey: 'rolId',
+    as: 'rolPermiso'
 });
 
 RolPermiso.belongsTo(Departamento, {
