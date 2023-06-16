@@ -3,7 +3,7 @@ const sequelize = require("../database/database");
 const Docente = require('../models/Docente');
 const CarreraDocente = require('../models/CarreraDocente');
 
-exports.getDocentes = async (req, res) => {
+exports.getSistemasDocentes = async (req, res) => {
     try {
         const docentes = await Docente.findAll({
             where: {
@@ -13,6 +13,34 @@ exports.getDocentes = async (req, res) => {
                 model: CarreraDocente,
                 attributes: [],
                 where: { status: 1, carreraId: 11 }
+            }]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: docentes,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getDocentes = async (req, res) => {
+    try {
+        const docentes = await Docente.findAll({
+            where: {
+                status: 1,
+            },
+            include: [{
+                model: CarreraDocente,
+                attributes: [],
+                where: { status: 1 }
             }]
         });
 
