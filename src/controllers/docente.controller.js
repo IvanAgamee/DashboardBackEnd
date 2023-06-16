@@ -42,11 +42,10 @@ exports.crudDocente = async (req, res) => {
                 if (newDocente) {
 
                     let data = {
-                        docenteId: newDocente.id,
+                        docenteId: newDocente.docenteId,
                         carreraId: docente.carreraId,
                         status: 1
                     }
-
                     let carreraDocente = await CarreraDocente.create(data);
 
                 }
@@ -72,17 +71,17 @@ exports.crudDocente = async (req, res) => {
     if (docentes != undefined) {
         return Promise.all(docentes.map(docentesAsync)) // Mapeo de los docentes, se aplica la función anterior
             .then(result => {
-                return [{
+                return res.json({
                     success: true,
                     message: `Se guardó correctamente los docentes.`,
-                }];
+                });
             }).catch(error => {
                 console.log(error)
-                return [{
+                return res.json({
                     success: false,
                     message: `Ha ocurrido un error al guardar los docentes.`,
                     error: error
-                }]
+                });
             })
     } else { // En caso de que no existan datos, se retorna el mensaje.
         return [{
@@ -90,4 +89,32 @@ exports.crudDocente = async (req, res) => {
             message: `No existen docentes.`,
         }];
     }
+};
+
+exports.updateImage = async (req, res) => {
+
+    try {
+
+        let updated = await Docente.update({ urlImagen: 'user.webp' }, {
+            where: {
+                urlImagen: null
+            }
+        });
+
+        if (updated) {
+            return res.json({
+                success: false,
+                message: "Todo bn",
+            });
+        }
+
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al guardar el registro.",
+            error: e.message,
+        });
+    }
+
 };
