@@ -66,6 +66,7 @@ exports.crudDocente = async (req, res) => {
             // let docente = req.body; // Guarda los datos del docente en la variable
 
             if (docente.docenteId == null) { // En caso de que el id sea nulo, se crea un nuevo docente.
+                docente.urlImagen = docente.urlImagen ? docente.urlImagen : 'user.webp';
                 let newDocente = await Docente.create(docente);
                 if (newDocente) {
 

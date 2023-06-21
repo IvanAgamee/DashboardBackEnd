@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
+const Seccion = require("./Seccion");
 
 const Objeto = sequelize.define("tbl_objeto", {
     objetoId: {
@@ -19,6 +20,9 @@ const Objeto = sequelize.define("tbl_objeto", {
     descripcion: {
         type: Sequelize.TEXT,
     },
+    posicion: {
+        type: Sequelize.INTEGER,
+    },
     status: {
         type: Sequelize.INTEGER,
     },
@@ -34,6 +38,8 @@ const Objeto = sequelize.define("tbl_objeto", {
     updatedAt: {
         type: Sequelize.DATE,
     }
+}, {
+    freezeTableName: true
 });
 
 Objeto.belongsTo(Seccion, {

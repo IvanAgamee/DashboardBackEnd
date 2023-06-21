@@ -4,388 +4,317 @@ USE `dashboardCarreras`;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
--- --------------------------------------------------------
---
--- Base de datos: `dashboardCarreras`
---
--- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `tbl_rol`
---
+-- --------------------------------------------------------
 
 CREATE TABLE `tbl_rol` (
-  `rolId` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`rolId`),
-  UNIQUE INDEX `rolId_UNIQUE` (`rolId` ASC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `rolId` INT(11) NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(150) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`rolId`),
+    UNIQUE INDEX `rolId_UNIQUE` (`rolId` ASC)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_usuario`
---
-
-CREATE TABLE `tbl_usuario` (
-  `usuarioId` int(11) NOT NULL AUTO_INCREMENT,
-  `rolId` int(11) NOT NULL,
-  `departamentoId` int(11) NOT NULL,
-  `nombre` varchar(150) NOT NULL,
-  `username` varchar(150) NOT NULL,
-  `password` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`usuarioId`),
-  UNIQUE INDEX `usuarioId_UNIQUE` (`usuarioId` ASC),
-  CONSTRAINT `fk_tbl_usuario_rolId` FOREIGN KEY (`rolId`)
-  REFERENCES `dashboardCarreras`.`tbl_rol`(`rolId`),
-  CONSTRAINT `fk_tbl_usuario_departamentoId` FOREIGN KEY (`departamentoId`)
-  REFERENCES `dashboardCarreras`.`tbl_departamento`(`departamentoId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_departamento`
---
 
 CREATE TABLE `tbl_departamento` (
-  `departamentoId` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`departamentoId`),
-  UNIQUE INDEX `departamentoId_UNIQUE` (`departamentoId` ASC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `departamentoId` INT(11) NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(150) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`departamentoId`),
+    UNIQUE INDEX `departamentoId_UNIQUE` (`departamentoId` ASC)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `tbl_puesto_administrativo`
---
+CREATE TABLE `tbl_usuario` (
+    `usuarioId` INT(11) NOT NULL AUTO_INCREMENT,
+    `rolId` INT(11) NOT NULL,
+    `departamentoId` INT(11) NOT NULL,
+    `nombre` VARCHAR(150) NOT NULL,
+    `username` VARCHAR(150) NOT NULL,
+    `password` VARCHAR(150) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`usuarioId`),
+    UNIQUE INDEX `usuarioId_UNIQUE` (`usuarioId` ASC),
+    CONSTRAINT `fk_tbl_usuario_rolId` FOREIGN KEY (`rolId`)
+        REFERENCES `dashboardCarreras`.`tbl_rol` (`rolId`),
+    CONSTRAINT `fk_tbl_usuario_departamentoId` FOREIGN KEY (`departamentoId`)
+        REFERENCES `dashboardCarreras`.`tbl_departamento` (`departamentoId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
+
+-- --------------------------------------------------------
 
 CREATE TABLE `tbl_puesto_administrativo` (
-  `puestoId` int(11) NOT NULL AUTO_INCREMENT,
-  `nombrePuesto` text NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`puestoId`),
-  UNIQUE INDEX `puestoId_UNIQUE` (`puestoId` ASC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `puestoId` INT(11) NOT NULL AUTO_INCREMENT,
+    `nombrePuesto` TEXT NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`puestoId`),
+    UNIQUE INDEX `puestoId_UNIQUE` (`puestoId` ASC)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_administrativo`
---
 
 CREATE TABLE `tbl_administrativo` (
-  `administrativoId` int(11) NOT NULL AUTO_INCREMENT,
-  `puestoId` int(11) NOT NULL,
-  `nombre` text NOT NULL,
-  `descripcion` text NOT NULL,
-  `imagen` text NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`administrativoId`),
-  UNIQUE INDEX `administrativoId_UNIQUE` (`administrativoId` ASC),
-  CONSTRAINT `fk_tbl_administrativo_puestoId` FOREIGN KEY (`puestoId`)
-  REFERENCES `dashboardCarreras`.`tbl_puesto_Administrativo`(`puestoId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `administrativoId` INT(11) NOT NULL AUTO_INCREMENT,
+    `puestoId` INT(11) NOT NULL,
+    `nombre` TEXT NOT NULL,
+    `descripcion` TEXT NOT NULL,
+    `imagen` TEXT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`administrativoId`),
+    UNIQUE INDEX `administrativoId_UNIQUE` (`administrativoId` ASC),
+    CONSTRAINT `fk_tbl_administrativo_puestoId` FOREIGN KEY (`puestoId`)
+        REFERENCES `dashboardCarreras`.`tbl_puesto_Administrativo` (`puestoId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_rol_permiso`
---
 
 CREATE TABLE `tbl_rol_permiso` (
-  `rolPermisoId` int(11) NOT NULL AUTO_INCREMENT,
-  `rolId` int(11) NOT NULL,
-  `departamentoId` int(11) NOT NULL,
-  `add` int(2) NOT NULL,
-  `modify` int(2) NOT NULL,
-  `delete` int(2) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`rolPermisoId`),
-  UNIQUE INDEX `rolPermisoId_UNIQUE` (`rolPermisoId` ASC),
-  CONSTRAINT `fk_tbl_rol_permiso_rolId` FOREIGN KEY (`rolId`)
-  REFERENCES `dashboardCarreras`.`tbl_rol`(`rolId`),
-  CONSTRAINT `fk_tbl_rol_permiso_departamentoId` FOREIGN KEY (`departamentoId`)
-  REFERENCES `dashboardCarreras`.`tbl_departamento`(`departamentoId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `rolPermisoId` INT(11) NOT NULL AUTO_INCREMENT,
+    `rolId` INT(11) NOT NULL,
+    `departamentoId` INT(11) NOT NULL,
+    `add` INT(2) NOT NULL,
+    `modify` INT(2) NOT NULL,
+    `delete` INT(2) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`rolPermisoId`),
+    UNIQUE INDEX `rolPermisoId_UNIQUE` (`rolPermisoId` ASC),
+    CONSTRAINT `fk_tbl_rol_permiso_rolId` FOREIGN KEY (`rolId`)
+        REFERENCES `dashboardCarreras`.`tbl_rol` (`rolId`),
+    CONSTRAINT `fk_tbl_rol_permiso_departamentoId` FOREIGN KEY (`departamentoId`)
+        REFERENCES `dashboardCarreras`.`tbl_departamento` (`departamentoId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_modulo`
---
 
 CREATE TABLE `tbl_modulo` (
-  `moduloId` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`moduloId`),
-  UNIQUE INDEX `moduloId_UNIQUE` (`moduloId` ASC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `moduloId` INT(11) NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(150) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`moduloId`),
+    UNIQUE INDEX `moduloId_UNIQUE` (`moduloId` ASC)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_carrera`
---
 
 CREATE TABLE `tbl_carrera` (
-  `carreraId` int(11) NOT NULL AUTO_INCREMENT,
-  `departamentoId` int(11) NOT NULL,
-  `nombre` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`carreraId`),
-  UNIQUE INDEX `carreraId_UNIQUE` (`carreraId` ASC),
-  CONSTRAINT `fk_tbl_carrera_departamentoId` FOREIGN KEY (`departamentoId`)
-  REFERENCES `dashboardCarreras`.`tbl_departamento`(`departamentoId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `carreraId` INT(11) NOT NULL AUTO_INCREMENT,
+    `departamentoId` INT(11) NOT NULL,
+    `nombre` VARCHAR(150) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`carreraId`),
+    UNIQUE INDEX `carreraId_UNIQUE` (`carreraId` ASC),
+    CONSTRAINT `fk_tbl_carrera_departamentoId` FOREIGN KEY (`departamentoId`)
+        REFERENCES `dashboardCarreras`.`tbl_departamento` (`departamentoId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_administrativo_carrera`
---
 
 CREATE TABLE `tbl_administrativo_carrera` (
-  `adminCarreraId` int(11) NOT NULL AUTO_INCREMENT,
-  `administrativoId` int(11) NOT NULL,
-  `carreraId` int(11) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`adminCarreraId`),
-  UNIQUE INDEX `adminCarreraId_UNIQUE` (`adminCarreraId` ASC),
-  CONSTRAINT `fk_tbl_administrativo_carrera_administrativoId` FOREIGN KEY (`administrativoId`)
-  REFERENCES `dashboardCarreras`.`tbl_administrativo`(`administrativoId`),
-  CONSTRAINT `fk_tbl_administrativo_carrera_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `adminCarreraId` INT(11) NOT NULL AUTO_INCREMENT,
+    `administrativoId` INT(11) NOT NULL,
+    `carreraId` INT(11) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`adminCarreraId`),
+    UNIQUE INDEX `adminCarreraId_UNIQUE` (`adminCarreraId` ASC),
+    CONSTRAINT `fk_tbl_administrativo_carrera_administrativoId` FOREIGN KEY (`administrativoId`)
+        REFERENCES `dashboardCarreras`.`tbl_administrativo` (`administrativoId`),
+    CONSTRAINT `fk_tbl_administrativo_carrera_carreraId` FOREIGN KEY (`carreraId`)
+        REFERENCES `dashboardCarreras`.`tbl_carrera` (`carreraId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_docente`
---
 
 CREATE TABLE `tbl_docente` (
-  `docenteId` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(150) NOT NULL,
-  `descripcion` text NOT NULL,
-  `informacionAcademica` text NOT NULL,
-  `materias` text NOT NULL,
-  `contacto` text NOT NULL,
-  `urlImagen` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`docenteId`),
-  UNIQUE INDEX `docenteId_UNIQUE` (`docenteId` ASC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `docenteId` INT(11) NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(150) NOT NULL,
+    `descripcion` TEXT NOT NULL,
+    `informacionAcademica` TEXT NOT NULL,
+    `materias` TEXT NOT NULL,
+    `contacto` TEXT NOT NULL,
+    `urlImagen` VARCHAR(150) NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`docenteId`),
+    UNIQUE INDEX `docenteId_UNIQUE` (`docenteId` ASC)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_comunidad`
---
 
 CREATE TABLE `tbl_comunidad` (
-  `comunidadId` int(11) NOT NULL AUTO_INCREMENT,
-  `carreraId` int(11) NOT NULL,
-  `nombre` varchar(250) NOT NULL,
-  `logo` varchar(250) NOT NULL,
-  `quienesSomos` text NOT NULL,
-  `queHacemos` text NOT NULL,
-  `fotosComunidad` text NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`comunidadId`),
-  UNIQUE INDEX `comunidadId_UNIQUE` (`comunidadId` ASC),
-  CONSTRAINT `fk_tbl_comunidad_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `comunidadId` INT(11) NOT NULL AUTO_INCREMENT,
+    `carreraId` INT(11) NOT NULL,
+    `nombre` VARCHAR(250) NOT NULL,
+    `logo` VARCHAR(250) NOT NULL,
+    `quienesSomos` TEXT NOT NULL,
+    `queHacemos` TEXT NOT NULL,
+    `fotosComunidad` TEXT NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`comunidadId`),
+    UNIQUE INDEX `comunidadId_UNIQUE` (`comunidadId` ASC),
+    CONSTRAINT `fk_tbl_comunidad_carreraId` FOREIGN KEY (`carreraId`)
+        REFERENCES `dashboardCarreras`.`tbl_carrera` (`carreraId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4 COLLATE = UTF8MB4_GENERAL_CI;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_especialidad`
---
 
 CREATE TABLE `tbl_especialidad` (
-  `especialidadId` int(11) NOT NULL AUTO_INCREMENT,
-  `carreraId` int(11) NOT NULL,
-  `nombre` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`especialidadId`),
-  UNIQUE INDEX `especialidadId_UNIQUE` (`especialidadId` ASC),
-  CONSTRAINT `fk_tbl_especialidad_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `especialidadId` INT(11) NOT NULL AUTO_INCREMENT,
+    `carreraId` INT(11) NOT NULL,
+    `nombre` VARCHAR(150) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`especialidadId`),
+    UNIQUE INDEX `especialidadId_UNIQUE` (`especialidadId` ASC),
+    CONSTRAINT `fk_tbl_especialidad_carreraId` FOREIGN KEY (`carreraId`)
+        REFERENCES `dashboardCarreras`.`tbl_carrera` (`carreraId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_materia`
---
 
 CREATE TABLE `tbl_materia` (
-  `materiaId` int(11) NOT NULL AUTO_INCREMENT,
-  `carreraId` int(11) NOT NULL,
-  `especialidadId` int(11) NULL,
-  `nombre` varchar(150) NOT NULL,
-  `area` varchar(150) NOT NULL,
-  `semestre` int(11) NOT NULL,
-  `competencia` text NOT NULL,
-  `urlVideo` varchar(150) NOT NULL,
-  `urlPrograma` varchar(150) NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`materiaId`),
-  UNIQUE INDEX `materiaId_UNIQUE` (`materiaId` ASC),
-  CONSTRAINT `fk_tbl_materia_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`),
-  CONSTRAINT `fk_tbl_materia_especialidadId` FOREIGN KEY (`especialidadId`)
-  REFERENCES `dashboardCarreras`.`tbl_especialidad`(`especialidadId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `materiaId` INT(11) NOT NULL AUTO_INCREMENT,
+    `carreraId` INT(11) NOT NULL,
+    `especialidadId` INT(11) NULL,
+    `nombre` VARCHAR(150) NOT NULL,
+    `area` VARCHAR(150) NOT NULL,
+    `semestre` INT(11) NOT NULL,
+    `competencia` TEXT NOT NULL,
+    `urlVideo` VARCHAR(150) NULL,
+    `urlPrograma` VARCHAR(150) NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`materiaId`),
+    UNIQUE INDEX `materiaId_UNIQUE` (`materiaId` ASC),
+    CONSTRAINT `fk_tbl_materia_carreraId` FOREIGN KEY (`carreraId`)
+        REFERENCES `dashboardCarreras`.`tbl_carrera` (`carreraId`),
+    CONSTRAINT `fk_tbl_materia_especialidadId` FOREIGN KEY (`especialidadId`)
+        REFERENCES `dashboardCarreras`.`tbl_especialidad` (`especialidadId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_carrera_docente`
---
 
 CREATE TABLE `tbl_carrera_docente` (
-  `carreraDocenteId` int(11) NOT NULL AUTO_INCREMENT,
-  `carreraId` int(11) NOT NULL,
-  `docenteId` int(11) NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`carreraDocenteId`),
-  UNIQUE INDEX `carreraDocenteId_UNIQUE` (`carreraDocenteId` ASC),
-  CONSTRAINT `fk_tbl_carrera_docente_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`),
-  CONSTRAINT `fk_tbl_carrera_docente_docenteId` FOREIGN KEY (`docenteId`)
-  REFERENCES `dashboardCarreras`.`tbl_docente`(`docenteId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `carreraDocenteId` INT(11) NOT NULL AUTO_INCREMENT,
+    `carreraId` INT(11) NOT NULL,
+    `docenteId` INT(11) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`carreraDocenteId`),
+    UNIQUE INDEX `carreraDocenteId_UNIQUE` (`carreraDocenteId` ASC),
+    CONSTRAINT `fk_tbl_carrera_docente_carreraId` FOREIGN KEY (`carreraId`)
+        REFERENCES `dashboardCarreras`.`tbl_carrera` (`carreraId`),
+    CONSTRAINT `fk_tbl_carrera_docente_docenteId` FOREIGN KEY (`docenteId`)
+        REFERENCES `dashboardCarreras`.`tbl_docente` (`docenteId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_seccion`
---
 
 CREATE TABLE `tbl_seccion` (
-  `seccionId` int(11) NOT NULL AUTO_INCREMENT,
-  `moduloId` int(11) NOT NULL,
-  `carreraId` int(11) NOT NULL,
-  `titulo` text NOT NULL,
-  `descripcion` text NOT NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`seccionId`),
-  UNIQUE INDEX `seccionId_UNIQUE` (`seccionId` ASC),
-  CONSTRAINT `fk_tbl_seccion_moduloId` FOREIGN KEY (`moduloId`)
-  REFERENCES `dashboardCarreras`.`tbl_modulo`(`moduloId`),
-  CONSTRAINT `fk_tbl_seccion_carreraId` FOREIGN KEY (`carreraId`)
-  REFERENCES `dashboardCarreras`.`tbl_carrera`(`carreraId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `seccionId` INT(11) NOT NULL AUTO_INCREMENT,
+    `moduloId` INT(11) NOT NULL,
+    `carreraId` INT(11) NOT NULL,
+    `titulo` TEXT NOT NULL,
+    `descripcion` TEXT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`seccionId`),
+    UNIQUE INDEX `seccionId_UNIQUE` (`seccionId` ASC),
+    CONSTRAINT `fk_tbl_seccion_moduloId` FOREIGN KEY (`moduloId`)
+        REFERENCES `dashboardCarreras`.`tbl_modulo` (`moduloId`),
+    CONSTRAINT `fk_tbl_seccion_carreraId` FOREIGN KEY (`carreraId`)
+        REFERENCES `dashboardCarreras`.`tbl_carrera` (`carreraId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tbl_objeto`
---
 
 CREATE TABLE `tbl_objeto` (
-  `objetoId` int(11) NOT NULL AUTO_INCREMENT,
-  `seccionId` int(11) NOT NULL,
-  `imagen` text NULL,
-  `titulo` text NULL,
-  `descripcion` text NULL,
-  `posicion` INT(10) NOT NULL 
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`objetoId`),
-  UNIQUE INDEX `objetoId_UNIQUE` (`objetoId` ASC),
-  CONSTRAINT `fk_tbl_objeto_seccionId` FOREIGN KEY (`seccionId`)
-  REFERENCES `dashboardCarreras`.`tbl_seccion`(`seccionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `objetoId` INT(11) NOT NULL AUTO_INCREMENT,
+    `seccionId` INT(11) NOT NULL,
+    `imagen` TEXT NULL,
+    `titulo` TEXT NULL,
+    `descripcion` TEXT NULL,
+    `posicion` INT(10) NOT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`objetoId`),
+    UNIQUE INDEX `objetoId_UNIQUE` (`objetoId` ASC),
+    CONSTRAINT `fk_tbl_objeto_seccionId` FOREIGN KEY (`seccionId`)
+        REFERENCES `dashboardCarreras`.`tbl_seccion` (`seccionId`)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 -- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `tbl_tipo_objeto`
---
-
 CREATE TABLE `tbl_tipo_objeto` (
-  `tipoObjId` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` text NULL,
-  `status` int(2) NOT NULL,
-  `createdBy` int(2) NULL,
-  `createdAt` DATE NULL,
-  `updatedBy` int(2) NULL,
-  `updatedAt` DATE NULL,
-  PRIMARY KEY (`tipoObjId`),
-  UNIQUE INDEX `tipoObjId_UNIQUE` (`tipoObjId` ASC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `tipoObjId` INT(11) NOT NULL AUTO_INCREMENT,
+    `nombre` TEXT NULL,
+    `status` INT(2) NOT NULL,
+    `createdBy` INT(2) NULL,
+    `createdAt` DATE NULL,
+    `updatedBy` INT(2) NULL,
+    `updatedAt` DATE NULL,
+    PRIMARY KEY (`tipoObjId`),
+    UNIQUE INDEX `tipoObjId_UNIQUE` (`tipoObjId` ASC)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 
 --
@@ -395,14 +324,6 @@ CREATE TABLE `tbl_tipo_objeto` (
 INSERT INTO `tbl_rol` (`rolId`, `nombre`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
 (1, 'Administrador', 1, NULL, NULL, NULL, NULL),
 (2, 'Jefe de departamento', 1, NULL, NULL, NULL, NULL);
-
-
---
--- Volcado de datos para la tabla `tbl_usuario`
---
-
-INSERT INTO `tbl_usuario` (`usuarioId`, `rolId`, `nombre`, `username`, `password`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
-(1, 1, 'Admin', 'Admin', 'Admin01', 1, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -459,20 +380,20 @@ INSERT INTO `tbl_puesto_administrativo` (`puestoId`, `nombrePuesto`, `status`, `
 (4, 'Coordinador de Carrera', 1, NULL, NULL, NULL, NULL);
 
 --
--- Volcado de datos para la tabla `tbl_administrativo_carrera`
---
-
-INSERT INTO `tbl_administrativo_carrera` (`adminCarreraId`, `administrativoId`, `carreraId`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
-(1, 1, 11, 1, NULL, NULL, NULL, NULL),
-(2, 2, 11, 1, NULL, NULL, NULL, NULL);
-
---
 -- Volcado de datos para la tabla `tbl_administrativo`
 --
 
 INSERT INTO `tbl_administrativo` (`administrativoId`, `puestoId`, `nombre`, `descripcion`, `imagen`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
 (1, 1, 'Daniela Hernández Barrios', 'Daniela Hernández Barrios, Jefa del departamento de Sistemas y Computación de la carrera Ingeniería en Sistemas Computacionales en el Tecnológico de Veracruz; Ingeniero en Sistemas Computacionales, En el cargo de jefatura del departamento, su función principal, es coordinar la aplicación de programas de estudio relacionados con las áreas de sistemas y computación de las carreras que se imparten en el instituto tecnológico, así mismo el desarrollo de proyectos de investigación y vinculación con el sector productivo, derivados de los programas mencionados, proponiendo objetivos, metas y acciones; verificar que las actividades de las áreas se realicen de acuerdo con las normas, lineamientos y procedimientos establecidos con calidad y espíritu de servicio.', 'img/Docentes/danielaHernandezBarrios.webp', 1, NULL, NULL, NULL, NULL),
 (2, 4, 'Berenice Lagunes Padilla', 'Berenice Lagunes Padilla, coordinadora de la carrera ingeniería en Sistemas Computacionales en el Tecnológico de Veracruz; licenciada en Ciencias de la Educación, con maestría en Educación por competencias. En el cargo de coordinación, su función principal, es la orientación académica de los alumnos estudiantes de dicha licenciatura a lo largo de su estancia en la Institución, para un correcto avance y aprovechamiento de su programa de estudios. Así mismo se realizan diferentes funciones en la coordinación, como lo son: consulta y cambio de NIP, realizar la estructura académica con base en las estadísticas de la población inscrita y las necesidades de grupos que así se generen dentro de los periodos semestrales así como de cursos de verano.', 'img/Docentes/bereniceLagunesPadilla.webp', 1, NULL, NULL, NULL, NULL);
+
+--
+-- Volcado de datos para la tabla `tbl_administrativo_carrera`
+--
+
+INSERT INTO `tbl_administrativo_carrera` (`adminCarreraId`, `administrativoId`, `carreraId`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
+(1, 1, 11, 1, NULL, NULL, NULL, NULL),
+(2, 2, 11, 1, NULL, NULL, NULL, NULL);
 
 --
 -- Volcado de datos para la tabla `tbl_comunidad`
@@ -659,3 +580,10 @@ INSERT INTO `tbl_materia` (`materiaId`, `carreraId`, `especialidadId`, `nombre`,
 (50, 11, 11, 'Concurrencia con GPUS en Videojuegos', 'Especialidad', 8, 'Identificar y definir los diferentes elementos (personajes, guion, escenarios, roles) que requiere un videojuego en computadora.', 'https://www.youtube.com/embed/GxoV38SbVHU', 'https://bit.ly/3YYBMbA', 1, NULL, NULL, NULL, NULL),
 (51, 11, 11, 'Transacciones Computacionales con Blockchain', 'Especialidad', 9, 'Capacidad de organización del hardware para obtener un equipo de altas prestaciones acorde con los diferentes requerimientos que tenga el usuario o empresa.', 'https://www.youtube.com/embed/qpwDO6ydJAA', 'https://bit.ly/3kpxv21', 1, NULL, NULL, NULL, NULL),
 (52, 11, 11, 'Bases de Datos Distribuidas', 'Especialidad', 9, 'Conocer y aplicar la filosofía de manejo de Base de Datos Distribuidas.', 'https://www.youtube.com/embed/eys4i3Bb5_s', 'https://bit.ly/3Yde3nb', 1, NULL, NULL, NULL, NULL);
+
+--
+-- Volcado de datos para la tabla `tbl_usuario`
+--
+
+INSERT INTO `tbl_usuario` (`usuarioId`, `rolId`, `departamentoId`, `nombre`, `username`, `password`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
+(1, 1, 6, 'Admin', 'Admin', 'Admin01', 1, NULL, NULL, NULL, NULL);

@@ -1,30 +1,19 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
 const Carrera = require("./Carrera");
+const Administrativo = require("./Administrativo");
 
-const Comunidad = sequelize.define("tbl_comunidad", {
-    comunidadId: {
+const AdministrativoCarrera = sequelize.define("tbl_administrativo_carrera", {
+    adminCarreraId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    carreraId: {
+    administrativoId: {
         type: Sequelize.INTEGER,
     },
-    nombre: {
-        type: Sequelize.STRING,
-    },
-    logo: {
-        type: Sequelize.STRING,
-    },
-    quienesSomos: {
-        type: Sequelize.TEXT,
-    },
-    queHacemos: {
-        type: Sequelize.TEXT,
-    },
-    fotosComunidad: {
-        type: Sequelize.TEXT,
+    carreraId: {
+        type: Sequelize.INTEGER,
     },
     status: {
         type: Sequelize.INTEGER,
@@ -41,13 +30,9 @@ const Comunidad = sequelize.define("tbl_comunidad", {
     updatedAt: {
         type: Sequelize.DATE,
     }
-},{
-    freezeTableName: true
-});
+},
+    {
+        freezeTableName: true
+    });
 
-Comunidad.belongsTo(Carrera, {
-    foreignKey: 'carreraId',
-    as: 'carrera'
-});
-
-module.exports = Comunidad;
+module.exports = AdministrativoCarrera;

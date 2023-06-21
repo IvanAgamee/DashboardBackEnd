@@ -14,6 +14,9 @@ app.get("/", (req, res) => {
 });
 
 // Lista de rutas
+require('./routes/administrativo')(app);
+require('./routes/comunidad')(app);
+require('./routes/seccion')(app);
 require('./routes/modulo')(app);
 require('./routes/docente')(app);
 require('./routes/materia')(app);
