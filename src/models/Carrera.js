@@ -40,4 +40,9 @@ Carrera.belongsTo(Departamento, {
     as: 'departamento'
 });
 
+Departamento.hasMany(Carrera, {
+    foreignKey: 'departamentoId',
+    as: 'carrera'
+})
+
 module.exports = Carrera;

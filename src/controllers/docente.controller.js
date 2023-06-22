@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const sequelize = require("../database/database");
+const sequalize = require("../database/database");
 const Docente = require('../models/Docente');
 const CarreraDocente = require('../models/CarreraDocente');
 
@@ -65,10 +65,16 @@ exports.getDocentesByCarreraId = async (req, res) => {
         const docentes = await Docente.findAll({
             where: {
                 status: 1,
+            },     
+            attributes: {
+                include: [
+                    [sequalize.col('carreraDocente.carreraId'), 'carreraId']
+                ]
             },
             include: [{
                 model: CarreraDocente,
                 attributes: [],
+                as: "carreraDocente",
                 where: {
                     status: 1,
                     carreraId: carreraId

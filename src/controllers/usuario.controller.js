@@ -4,21 +4,17 @@ const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
 const sequalize = require("../database/database");
 const RolPermiso = require('../models/RolPermiso');
+const Departamento = require('../models/Departamento');
+const Carrera = require('../models/Carrera');
 
 exports.login = async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        const user = await Usuario.findOne({
+        let user = await Usuario.findOne({
             where: {
                 username,
                 password
-            },
-            attributes: {
-                include: [
-                    [sequelize.col('rol.rolPermiso.departamentoId'), 'departamentoId'],
-                    [sequelize.col('rol.nombre'), 'rolNombre'],
-                ]
             },
             include: [{
                 model: Rol,
@@ -29,13 +25,34 @@ exports.login = async (req, res) => {
                     as: 'rolPermiso',
                     attributes: []
                 }]
-            }],
+            },
+            {
+                model: Departamento,
+                as: 'departamento',
+                // attributes: [],
+                include: [{
+                    model: Carrera,
+                    as: 'carrera',
+                    // attributes: []
+                }]
+            }
+        ],
         });
+        let departamento = user.departamento;
+        let carrera = user.departamento.carrera;
 
-        if (!user) return res.json({ success: false, message: 'Usuario o contraseña incorrectos' });
+        if (!user) return res.json({
+            success: false,
+            message: 'Usuario o contraseña incorrectos'
+        });
         // user.setDataValue('rolePermissions', await getByUserAndRole(user.roleId, user.id));
 
-        return res.json({ success: true, data: user });
+        return res.json({
+            success: true,
+            data: user,
+            departamento: departamento,
+            carrera: carrera
+        });
 
     } catch (e) {
         console.log(e);

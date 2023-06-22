@@ -1,6 +1,7 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
 const Rol = require("./Rol");
+const Departamento = require("./Departamento");
 
 const Usuario = sequelize.define("tbl_usuario", {
     usuarioId: {
@@ -9,6 +10,9 @@ const Usuario = sequelize.define("tbl_usuario", {
         autoIncrement: true,
     },
     rolId: {
+        type: Sequelize.INTEGER,
+    },
+    departamentoId: {
         type: Sequelize.INTEGER,
     },
     nombre: {
@@ -43,5 +47,10 @@ const Usuario = sequelize.define("tbl_usuario", {
 Usuario.belongsTo(Rol, {
     foreignKey: 'rolId',
     as: 'rol'
+});
+
+Usuario.belongsTo(Departamento, {
+    foreignKey: 'departamentoId',
+    as: 'departamento'
 });
 module.exports = Usuario;

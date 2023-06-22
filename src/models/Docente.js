@@ -57,10 +57,11 @@ Docente.belongsToMany(Carrera, {  // Un cliente pertenece a muchos agentes aduan
 Carrera.belongsToMany(Docente, {  // Un agente aduanal pertenece a muchos clientes
     through: CarreraDocente,   // Modelo que actúa como la unión de Cliente y Agente Aduanal
     foreignKey: "carreraId",  // Llave foránea que hace referencia a Agente Aduanal
+    as: "carrera"
 });
 
-Carrera.hasMany(CarreraDocente, { foreignKey: "carreraId" });
-Docente.hasMany(CarreraDocente, { foreignKey: "docenteId" });
+Carrera.hasMany(CarreraDocente, { foreignKey: "carreraId", as: "carreraDocente" });
+Docente.hasMany(CarreraDocente, { foreignKey: "docenteId", as: "carreraDocente" });
 
 CarreraDocente.belongsTo(Carrera, { foreignKey: "carreraId" });
 CarreraDocente.belongsTo(Docente, { foreignKey: "docenteId" });
