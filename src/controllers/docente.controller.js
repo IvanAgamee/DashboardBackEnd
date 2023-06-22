@@ -59,6 +59,38 @@ exports.getDocentes = async (req, res) => {
     }
 };
 
+exports.getDocentesByCarreraId = async (req, res) => {
+    try {
+        let carreraId = req.query.carreraId;
+        const docentes = await Docente.findAll({
+            where: {
+                status: 1,
+            },
+            include: [{
+                model: CarreraDocente,
+                attributes: [],
+                where: {
+                    status: 1,
+                    carreraId: carreraId
+                }
+            }]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: docentes,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.crudDocente = async (req, res) => {
     let docentes = req.body;
     const docentesAsync = async (docente) => {
