@@ -2,18 +2,18 @@ const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Comunidad = require('../models/Comunidad');
 
-exports.crudComunidad = async (req, res) => {
+exports.crudComunidadMasivo = async (req, res) => {
     let comunidades = req.body;
     const comunidadesAsync = async (comunidad) => {
         try {
             if (comunidad.comunidadId == null) { // En caso de que el id sea nulo, se crea nueva comunidad.
                 let newComunidad = await Comunidad.create(comunidad);
-               
+
             } else if (comunidad.comunidadId) { // En caso de que el id NO sea nulo, se actualiza el comunidad.
                 let comunidadId = comunidad.comunidadId;
                 delete comunidad.comunidadId;
 
-                let updatedDocente = await Comunidad.update(comunidad, {
+                let updatedComunidad = await Comunidad.update(comunidad, {
                     where: {
                         comunidadId: comunidadId
                     }
@@ -48,5 +48,68 @@ exports.crudComunidad = async (req, res) => {
             success: true,
             message: `No existen comunidades.`,
         }];
+    }
+};
+
+exports.crudComunidad = async (req, res) => {
+    try {
+        let comunidad = req.body;
+        if (comunidad.comunidadId == null) { // En caso de que el id sea nulo, se crea nueva comunidad.
+            let newComunidad = await Comunidad.create(comunidad);
+            if (newComunidad) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado la comunidad.",
+                });
+            }
+        } else if (comunidad.comunidadId) { // En caso de que el id NO sea nulo, se actualiza el comunidad.
+            let comunidadId = comunidad.comunidadId;
+            delete comunidad.comunidadId;
+
+            let updatedComunidad = await Comunidad.update(comunidad, {
+                where: {
+                    comunidadId: comunidadId
+                }
+            });
+            if (updatedComunidad) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado la comunidad.",
+                });
+            }
+        }
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al guardar el registro.",
+            error: e.message,
+        });
+    }
+
+};
+
+exports.geComunidadByCarreraId = async (req, res) => {
+    try {
+        let carreraId = req.query.carreraId;
+        const comunidad = await Comunidad.findAll({
+            where: {
+                status: 1,
+                carreraId: carreraId
+            }
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: comunidad,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
     }
 };

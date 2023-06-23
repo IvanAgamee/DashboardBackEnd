@@ -6,6 +6,7 @@ module.exports = app => {
     router.get('/getDocentes', m.getDocentes);
     router.get('/getDocentesByCarreraId', m.getDocentesByCarreraId);
     router.post('/crudDocente', m.crudDocente);
+    router.post('/crudDocenteMasivo', m.crudDocenteMasivo);
     router.post('/updateImage', m.updateImage);
 
     app.use('/api/docente', router);

@@ -3,7 +3,155 @@ const sequelize = require("../database/database");
 const Seccion = require('../models/Seccion');
 const Objeto = require('../models/Objeto');
 
+exports.getSeccionByCarreraId = async (req, res) => {
+    try {
+        let carreraId = req.query.carreraId;
+        const docentes = await Seccion.findAll({
+            where: {
+                status: 1,
+                carreraId: carreraId
+            },
+            include: [
+                {
+                    model: Objeto,
+                    as: "objeto",
+                    where: {
+                        status: 1
+                    },
+                    order: [
+                        [sequelize.literal('posicion'), 'ASC']
+                    ]
+                },
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: docentes,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getObjetoByCarreraId = async (req, res) => {
+    try {
+        let carreraId = req.query.carreraId;
+        const docentes = await Objeto.findAll({
+            where: {
+                status: 1
+            },
+            order: [
+                [sequelize.literal('posicion'), 'ASC']
+            ],
+            include: [
+                {
+                    model: Seccion,
+                    as: "seccion",
+                    where: {
+                        status: 1,
+                        carreraId: carreraId
+                    }
+                },
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: docentes,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.crudSeccion = async (req, res) => {
+    try {
+        let seccion = req.body;
+        if (seccion.seccionId == null) {
+            let newSeccion = await Seccion.create(seccion);
+            if (newSeccion) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado la sección.",
+                });
+            }
+        } else if (seccion.seccionId) {
+            let seccionId = seccion.seccionId;
+            delete seccion.seccionId;
+
+            let updatedSeccion = await Seccion.update(seccion, {
+                where: {
+                    seccionId: seccionId
+                }
+            });
+            if (updatedSeccion) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado la sección.",
+                });
+            }
+        }
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al guardar el registro.",
+            error: e.message,
+        });
+    }
+};
+
+exports.crudObjeto = async (req, res) => {
+    try {
+        let objeto = req.body;
+        if (objeto.objetoId == null) {
+            let newObj = await Objeto.create(objeto);
+            if (newObj) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado el objeto.",
+                });
+            }
+        } else if (objeto.objetoId) {
+            let objetoId = objeto.objetoId;
+            delete objeto.objetoId;
+
+            let updatedObjeto = await Objeto.update(objeto, {
+                where: {
+                    objetoId: objetoId
+                }
+            });
+            if (updatedObjeto) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado el objeto.",
+                });
+            }
+        }
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al guardar el registro.",
+            error: e.message,
+        });
+    }
+};
+
+exports.crudSeccionMasivo = async (req, res) => {
     let secciones = req.body;
     const seccionesAsync = async (seccion) => {
         try {
@@ -52,7 +200,7 @@ exports.crudSeccion = async (req, res) => {
 };
 
 
-exports.crudObjeto = async (req, res) => {
+exports.crudObjetoMasivo = async (req, res) => {
     let objetos = req.body;
     const objetosAsync = async (objeto) => {
         try {

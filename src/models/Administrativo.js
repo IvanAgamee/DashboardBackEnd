@@ -53,8 +53,8 @@ Carrera.belongsToMany(Administrativo, {  // Un agente aduanal pertenece a muchos
     foreignKey: "carreraId",  // Llave foránea que hace referencia a Agente Aduanal
 });
 
-Carrera.hasMany(AdministrativoCarrera, { foreignKey: "carreraId" });
-Administrativo.hasMany(AdministrativoCarrera, { foreignKey: "administrativoId" });
+Carrera.hasMany(AdministrativoCarrera, { foreignKey: "carreraId", as: "administrativoCarrera" });
+Administrativo.hasMany(AdministrativoCarrera, { foreignKey: "administrativoId",  as: "administrativoCarrera"});
 
 AdministrativoCarrera.belongsTo(Carrera, { foreignKey: "carreraId" });
 AdministrativoCarrera.belongsTo(Administrativo, { foreignKey: "administrativoId" });
