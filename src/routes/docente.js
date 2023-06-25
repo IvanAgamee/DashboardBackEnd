@@ -4,7 +4,8 @@ module.exports = app => {
 
     router.get('/getSistemasDocentes', m.getSistemasDocentes);
     router.get('/getDocentes', m.getDocentes);
-    router.get('/getDocentesByCarreraId', m.getDocentesByCarreraId);
+    router.post('/getDocenteById', m.getDocenteById);
+    router.post('/getDocentesByCarreraId', m.getDocentesByCarreraId);
     router.post('/crudDocente', m.crudDocente);
     router.post('/updateImage', m.updateImage);
 

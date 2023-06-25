@@ -4,6 +4,7 @@ module.exports = app => {
 
     router.get('/getMaterias', m.getMaterias);
     router.post('/crudMateria', m.crudMateria);
+    router.post('/getMateriasByCarreraId', m.getMateriasByCarreraId);
 
     app.use('/api/materia', router);
 }
