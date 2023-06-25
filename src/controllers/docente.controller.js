@@ -11,6 +11,7 @@ exports.getSistemasDocentes = async (req, res) => {
             },
             include: [{
                 model: CarreraDocente,
+                as: 'carreraDocente',
                 attributes: [],
                 where: { status: 1, carreraId: 11 }
             }]
@@ -39,6 +40,7 @@ exports.getDocentes = async (req, res) => {
             },
             include: [{
                 model: CarreraDocente,
+                as: 'carreraDocente',
                 attributes: [],
                 where: { status: 1 }
             }]
@@ -59,9 +61,37 @@ exports.getDocentes = async (req, res) => {
     }
 };
 
+exports.getDocenteById = async (req, res) => {
+    try {
+        const { docenteId } = req.body;
+        const docente = await Docente.findByPk(docenteId);
+
+        if (docente != null) {
+            return res.json({
+                success: true,
+                message: "Se han encontrado registros.",
+                data: docente,
+            });
+        }
+        else {
+            return res.json({
+                success: false,
+                message: "No se encontro un docente con ese ID"
+            });
+        }
+    }
+    catch (e) {
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.getDocentesByCarreraId = async (req, res) => {
     try {
-        let carreraId = req.query.carreraId;
+        let { carreraId } = req.body;
         const docentes = await Docente.findAll({
             where: {
                 status: 1,

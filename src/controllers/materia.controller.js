@@ -1,7 +1,8 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, where } = require('sequelize');
 const sequelize = require("../database/database");
 const Materia = require('../models/Materia');
 const Especialidad = require('../models/Especialidad');
+const Carrera = require('../models/Carrera');
 
 exports.getMaterias = async (req, res) => {
     try {
@@ -27,6 +28,40 @@ exports.getMaterias = async (req, res) => {
             message: "Se han encontrado registros.",
             data: materias,
         });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getMateriasByCarreraId = async (req, res) => {
+    try {
+        const { carreraId } = req.body;
+
+        let materia = await Materia.findAll({
+            where: {
+                carreraId: carreraId,
+            },
+            include: [
+                {
+                    model: Especialidad,
+                    as: 'especialidad',
+                    attributes: ['nombre'],
+                },
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: materia,
+
+        });
+
     } catch (e) {
         console.log(e);
         return res.status(500).json({
