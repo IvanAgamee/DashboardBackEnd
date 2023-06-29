@@ -15,6 +15,7 @@ exports.getSeccionByCarreraId = async (req, res) => {
                 {
                     model: Objeto,
                     as: "objeto",
+                    required: false,
                     where: {
                         status: 1
                     },
