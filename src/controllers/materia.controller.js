@@ -160,29 +160,3 @@ exports.crudMateriaMasivo = async (req, res) => {
         }];
     }
 };
-
-
-exports.getMateriasByCarreraId = async (req, res) => {
-    try {
-        let carreraId = req.query.carreraId;
-        const materia = await Materia.findAll({
-            where: {
-                status: 1,
-                carreraId: carreraId
-            },
-        });
-
-        return res.json({
-            success: true,
-            message: "Se han encontrado registros.",
-            data: materia,
-        });
-    } catch (e) {
-        console.log(e);
-        return res.status(500).json({
-            success: false,
-            message: "Ha ocurrido un error al obtener los registros.",
-            error: e.message,
-        });
-    }
-};
