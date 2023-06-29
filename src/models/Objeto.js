@@ -46,4 +46,8 @@ Objeto.belongsTo(Seccion, {
     foreignKey: 'seccionId',
     as: 'seccion'
 });
+Seccion.hasMany(Objeto, {
+    foreignKey: 'seccionId',
+    as: 'objeto'
+});
 module.exports = Objeto;

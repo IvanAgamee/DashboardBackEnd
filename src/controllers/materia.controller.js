@@ -73,6 +73,44 @@ exports.getMateriasByCarreraId = async (req, res) => {
 };
 
 exports.crudMateria = async (req, res) => {
+    try {
+        let materia = req.body; // Guarda los datos de la materia en la variable
+
+        if (materia.materiaId == null) { // En caso de que el id sea nulo, se crea una nueva materia.
+            let newMateria = await Materia.create(materia);
+            if (newMateria) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado la materia.",
+                });
+            }
+        } else if (materia.materiaId) { // En caso de que el id NO sea nulo, se actualiza la materia.
+            let materiaId = materia.materiaId;
+            delete materia.materiaId;
+
+            let updatedMateria = await Materia.update(materia, {
+                where: {
+                    materiaId: materiaId
+                }
+            });
+            if (updatedMateria) {
+                return res.status(200).json({
+                    success: true,
+                    message: "Se ha guardado la materia.",
+                });
+            }
+        }
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al guardar el registro.",
+            error: e.message,
+        });
+    }
+};
+
+exports.crudMateriaMasivo = async (req, res) => {
 
     let materias = req.body; // Guarda los datos de la materia en la variable
     const materiasAsync = async (materia) => {
