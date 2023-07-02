@@ -89,7 +89,7 @@ exports.crudComunidad = async (req, res) => {
 
 };
 
-exports.geComunidadByCarreraId = async (req, res) => {
+exports.getComunidadByCarreraId = async (req, res) => {
     try {
         let carreraId = req.query.carreraId;
         const comunidad = await Comunidad.findAll({
@@ -113,3 +113,29 @@ exports.geComunidadByCarreraId = async (req, res) => {
         });
     }
 };
+
+exports.getComunidadById = async (req, res) => {
+    try {
+        let comunidadId = req.query.comunidadId;
+        const comunidad = await Comunidad.findOne({
+            where: {
+                status: 1,
+                comunidadId: comunidadId
+            }
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: comunidad,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
