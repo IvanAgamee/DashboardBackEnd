@@ -24,6 +24,7 @@ require('./routes/carrera')(app);
 require('./routes/departamento')(app);
 require('./routes/especialidad')(app);
 require('./routes/usuario')(app);
+require('./routes/grafica')(app);
 
 // set port, listen for requests
 
