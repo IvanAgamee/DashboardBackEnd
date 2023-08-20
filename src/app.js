@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
     res.json({ message: "Server Up." });
 });
 
-// Lista de rutas
+// Lista de rutas de carretas
 require('./routes/administrativo')(app);
 require('./routes/comunidad')(app);
 require('./routes/seccion')(app);

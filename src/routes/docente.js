@@ -2,6 +2,29 @@ module.exports = app => {
     var router = require('express').Router();
     var m = require("../controllers/docente.controller");
 
+    const multer = require("multer");
+    const path = require('path');
+    const PATH_DOCENTE = `${__dirname}/../storage/docentes`;
+
+    const storage = multer.diskStorage({
+      destination: (req, file, callBack) => {
+        callBack(null, PATH_DOCENTE + '/' + req.query.carreraNombre);
+      },
+      filename: (req, file, callBack) => {
+        
+        const lastDotIndex = file.originalname.lastIndexOf(".");
+        const result = file.originalname.slice(lastDotIndex + 1);
+
+        let nameFile = `${req.body.docenteNombre}.${result}`;
+        nameFile = nameFile.replace(/['"]+/g, '').replace(/ /g, '-');
+
+        callBack(null, nameFile);
+      },
+    });
+
+    const upload = multer({ storage: storage });
+
+    router.post("/uploadDocenteImage", upload.single("file"), m.uploadDocenteImage);
     router.get('/getSistemasDocentes', m.getSistemasDocentes);
     router.get('/getDocentes', m.getDocentes);
     router.post('/getDocenteById', m.getDocenteById);

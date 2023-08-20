@@ -232,7 +232,7 @@ exports.updateImage = async (req, res) => {
 
         let updated = await Docente.update({ urlImagen: 'user.webp' }, {
             where: {
-                urlImagen: null
+                docenteId: docenteId
             }
         });
 
@@ -252,4 +252,35 @@ exports.updateImage = async (req, res) => {
         });
     }
 
+};
+
+exports.uploadDocenteImage = async (req, res) => {
+    try {
+        const { body, file } = req;
+
+        if (!file) {
+            const error = new Error("No File");
+        }
+
+        const lastDotIndex = file.originalname.lastIndexOf(".");
+        const result = file.originalname.slice(lastDotIndex + 1);
+
+        let nameFile = `${body.docenteNombre}.${result}`;
+        nameFile = nameFile.replace(/['"]+/g, '').replace(/ /g, '-');
+
+        const fileData = {
+            success: true,
+            message: "Se ha subido correctamente",
+            nameFile: nameFile
+        };
+
+        res.send({ fileData });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al subir el archivo",
+            error: e.message,
+        });
+    }
 };
