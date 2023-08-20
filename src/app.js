@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
@@ -6,7 +7,7 @@ const morgan = require('morgan');
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/imagenes',express.static(path.join(__dirname,'storage')));
 app.use(morgan('dev'));
 
 app.get("/", (req, res) => {
