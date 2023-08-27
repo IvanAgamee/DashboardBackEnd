@@ -261,9 +261,10 @@ exports.uploadDocenteImage = async (req, res) => {
         if (!file) {
             const error = new Error("No File");
         }
-
-        const lastDotIndex = file.originalname.lastIndexOf(".");
-        const result = file.originalname.slice(lastDotIndex + 1);
+        
+        const originalName = file.originalname ? file.originalname : file.name;
+        const lastDotIndex = originalName.lastIndexOf(".");
+        const result = originalName.slice(lastDotIndex + 1);
 
         let nameFile = `${body.docenteNombre}.${result}`;
         nameFile = nameFile.replace(/['"]+/g, '').replace(/ /g, '-');

@@ -12,8 +12,9 @@ module.exports = app => {
       },
       filename: (req, file, callBack) => {
         
-        const lastDotIndex = file.originalname.lastIndexOf(".");
-        const result = file.originalname.slice(lastDotIndex + 1);
+        const originalName = file.originalname ? file.originalname : file.name;
+        const lastDotIndex = originalName.lastIndexOf(".");
+        const result = originalName.slice(lastDotIndex + 1);
 
         let nameFile = `${req.body.docenteNombre}.${result}`;
         nameFile = nameFile.replace(/['"]+/g, '').replace(/ /g, '-');
