@@ -6,6 +6,10 @@ const Materia = require("../models/Materia");
 const CarreraDocente = require('../models/CarreraDocente');
 const Carrera = require('../models/Carrera');
 const Comunidad = require('../models/Comunidad');
+const fs = require('fs');
+const path = require('path');
+const multer = require("multer");
+let PATH_STORAGE = `${__dirname}/../storage`;
 
 // Número total de usuarios
 exports.getTotalUsuarios = async (req, res) => {
@@ -205,3 +209,43 @@ exports.getTotalComunidades = async (req, res) => {
         });
     }
 };
+
+
+exports.getFileFromStorage = async (req, res) => {
+    try {
+        console.log(req.body)
+        const filePath = path.resolve(`${PATH_STORAGE}/${req.body.pathFile}`, `${req.body.filename}`);
+        let filepath = filePath;
+        res.sendFile(filepath);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener el archivo.",
+            error: e,
+        });
+    }
+};
+
+/**
+ * Remueve el archivo ubicado en el directorio proporcionado.
+ * @param {Object} req - Objeto de solicitud HTTP.
+ * @param {Object} res - Objeto de respuesta HTTP.
+ * @returns {Object} - Objeto de respuesta JSON con los resultados 
+ */
+exports.removeFileFromStorage = (req, res) => {
+    let pathFile = req.body.pathFile;
+
+    const filePath = path.join(PATH_STORAGE, pathFile);
+
+    try {
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+            return res.json({ success: true, message: 'Se ha eliminado correctamente' });
+        } else {
+            return res.json({ success: false, message: 'El archivo no existe' });
+        }
+    } catch (err) {
+        return res.json({ success: false, message: 'Error al eliminar el archivo' });
+    }
+}

@@ -91,14 +91,16 @@ exports.getDocenteById = async (req, res) => {
 
 exports.getDocentesByCarreraId = async (req, res) => {
     try {
-        let { carreraId } = req.body;
+        let { carreraId, offset, limit } = req.body;
+
         const docentes = await Docente.findAll({
+            offset, limit, subQuery: false,
             where: {
                 status: 1,
             },
             attributes: {
                 include: [
-                    [sequalize.col('carreraDocente.carreraId'), 'carreraId']
+                    [sequalize.literal('carreraDocente.carreraId'), 'carreraId']
                 ]
             },
             include: [{
@@ -116,6 +118,7 @@ exports.getDocentesByCarreraId = async (req, res) => {
             success: true,
             message: "Se han encontrado registros.",
             data: docentes,
+            count: docentes.length
         });
     } catch (e) {
         console.log(e);
@@ -261,7 +264,7 @@ exports.uploadDocenteImage = async (req, res) => {
         if (!file) {
             const error = new Error("No File");
         }
-        
+
         const originalName = file.originalname ? file.originalname : file.name;
         const lastDotIndex = originalName.lastIndexOf(".");
         const result = originalName.slice(lastDotIndex + 1);
@@ -272,7 +275,8 @@ exports.uploadDocenteImage = async (req, res) => {
         const fileData = {
             success: true,
             message: "Se ha subido correctamente",
-            nameFile: nameFile
+            nameFile: nameFile,
+            file: file
         };
 
         res.send({ fileData });
@@ -282,6 +286,64 @@ exports.uploadDocenteImage = async (req, res) => {
             success: false,
             message: "Ha ocurrido un error al subir el archivo",
             error: e.message,
+            file: req.body.file
         });
+    }
+};
+
+exports.getFolderDocente = (id) => {
+    try {
+        let name;
+        switch (Number(id)) {
+            case 1:
+                name = 'Ing-Gestion-Empresarial';
+                break;
+            case 2:
+                name = 'Lic-Administracion'
+                break;
+            case 3:
+                name = 'Ing-Quimica'
+                break;
+            case 4:
+                name = 'Ing-Bioquimica'
+                break;
+            case 5:
+                name = 'Ing-Mecanica'
+                break;
+            case 6:
+                name = 'Ing-Mecatronica'
+                break;
+            case 7:
+                name = 'Ing-Industrial'
+                break;
+            case 8:
+                name = 'Ing-EER'
+                break;
+            case 9:
+                name = 'Ing-Electrica'
+                break;
+            case 10:
+                name = 'Ing-Electronica'
+                break;
+            case 11:
+                name = 'Ing-SistemasComputacionales'
+                break;
+            case 12:
+                name = 'MECEIB'
+                break;
+            case 13:
+                name = 'Doct-CienciasAlimentos'
+                break;
+            case 14:
+                name = 'Mtria-Administracion'
+                break;
+            case 15:
+                name = 'MEEYER'
+                break;
+        }
+        return name
+    } catch (error) {
+        console.log(error);
+        return null;
     }
 };
