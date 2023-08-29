@@ -4,7 +4,7 @@ module.exports = app => {
 
     router.get('/getCarreras', m.getCarreras);
     router.post('/crudCarrera', m.crudCarrera);
+    router.post('/getCarrerasByDepartment', m.getCarrerasByDeparment);
     router.post('/crudCarreraMasivo', m.crudCarreraMasivo);
-
     app.use('/api/carrera', router);
 }

@@ -4,6 +4,7 @@ module.exports = app => {
 
     router.get('/getSeccionByCarreraId', m.getSeccionByCarreraId);
     router.get('/getObjetoByCarreraId', m.getObjetoByCarreraId);
+    router.get('/getObjetoBySeccionId', m.getObjetoBySeccionId);
     router.post('/crudSeccion', m.crudSeccion);
     router.post('/crudObjeto', m.crudObjeto);
     router.post('/crudSeccionMasivo', m.crudSeccionMasivo);

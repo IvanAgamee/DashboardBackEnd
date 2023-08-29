@@ -11,6 +11,7 @@ exports.getSistemasDocentes = async (req, res) => {
             },
             include: [{
                 model: CarreraDocente,
+                as: 'carreraDocente',
                 attributes: [],
                 where: { status: 1, carreraId: 11 }
             }]
@@ -39,6 +40,7 @@ exports.getDocentes = async (req, res) => {
             },
             include: [{
                 model: CarreraDocente,
+                as: 'carreraDocente',
                 attributes: [],
                 where: { status: 1 }
             }]
@@ -59,16 +61,46 @@ exports.getDocentes = async (req, res) => {
     }
 };
 
+exports.getDocenteById = async (req, res) => {
+    try {
+        const { docenteId } = req.body;
+        const docente = await Docente.findByPk(docenteId);
+
+        if (docente != null) {
+            return res.json({
+                success: true,
+                message: "Se han encontrado registros.",
+                data: docente,
+            });
+        }
+        else {
+            return res.json({
+                success: false,
+                message: "No se encontro un docente con ese ID"
+            });
+        }
+    }
+    catch (e) {
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.getDocentesByCarreraId = async (req, res) => {
     try {
-        let carreraId = req.query.carreraId;
+        let { carreraId, offset, limit } = req.body;
+
         const docentes = await Docente.findAll({
+            offset, limit, subQuery: false,
             where: {
                 status: 1,
             },
             attributes: {
                 include: [
-                    [sequalize.col('carreraDocente.carreraId'), 'carreraId']
+                    [sequalize.literal('carreraDocente.carreraId'), 'carreraId']
                 ]
             },
             include: [{
@@ -86,6 +118,7 @@ exports.getDocentesByCarreraId = async (req, res) => {
             success: true,
             message: "Se han encontrado registros.",
             data: docentes,
+            count: docentes.length
         });
     } catch (e) {
         console.log(e);
@@ -202,7 +235,7 @@ exports.updateImage = async (req, res) => {
 
         let updated = await Docente.update({ urlImagen: 'user.webp' }, {
             where: {
-                urlImagen: null
+                docenteId: docenteId
             }
         });
 
@@ -222,4 +255,95 @@ exports.updateImage = async (req, res) => {
         });
     }
 
+};
+
+exports.uploadDocenteImage = async (req, res) => {
+    try {
+        const { body, file } = req;
+
+        if (!file) {
+            const error = new Error("No File");
+        }
+
+        const originalName = file.originalname ? file.originalname : file.name;
+        const lastDotIndex = originalName.lastIndexOf(".");
+        const result = originalName.slice(lastDotIndex + 1);
+
+        let nameFile = `${body.docenteNombre}.${result}`;
+        nameFile = nameFile.replace(/['"]+/g, '').replace(/ /g, '-');
+
+        const fileData = {
+            success: true,
+            message: "Se ha subido correctamente",
+            nameFile: nameFile,
+            file: file
+        };
+
+        res.send({ fileData });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al subir el archivo",
+            error: e.message,
+            file: req.body.file
+        });
+    }
+};
+
+exports.getFolderDocente = (id) => {
+    try {
+        let name;
+        switch (Number(id)) {
+            case 1:
+                name = 'Ing-Gestion-Empresarial';
+                break;
+            case 2:
+                name = 'Lic-Administracion'
+                break;
+            case 3:
+                name = 'Ing-Quimica'
+                break;
+            case 4:
+                name = 'Ing-Bioquimica'
+                break;
+            case 5:
+                name = 'Ing-Mecanica'
+                break;
+            case 6:
+                name = 'Ing-Mecatronica'
+                break;
+            case 7:
+                name = 'Ing-Industrial'
+                break;
+            case 8:
+                name = 'Ing-EER'
+                break;
+            case 9:
+                name = 'Ing-Electrica'
+                break;
+            case 10:
+                name = 'Ing-Electronica'
+                break;
+            case 11:
+                name = 'Ing-SistemasComputacionales'
+                break;
+            case 12:
+                name = 'MECEIB'
+                break;
+            case 13:
+                name = 'Doct-CienciasAlimentos'
+                break;
+            case 14:
+                name = 'Mtria-Administracion'
+                break;
+            case 15:
+                name = 'MEEYER'
+                break;
+        }
+        return name
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 };

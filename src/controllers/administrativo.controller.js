@@ -1,6 +1,8 @@
 const sequalize = require("../database/database");
 const Administrativo = require("../models/Administrativo");
 const AdministrativoCarrera = require("../models/AdministrativoCarrera");
+const Carrera = require("../models/Carrera");
+const PuestoAdministrativo = require("../models/PuestoAdministrativo");
 
 exports.crudAdministrativoMasivo = async (req, res) => {
     let administrativos = req.body;
@@ -107,7 +109,6 @@ exports.crudAdministrativo = async (req, res) => {
     }
 };
 
-
 exports.getAdministrativosByCarreraId = async (req, res) => {
     try {
         let carreraId = req.query.carreraId;
@@ -117,7 +118,7 @@ exports.getAdministrativosByCarreraId = async (req, res) => {
             },
             attributes: {
                 include: [
-                    [sequalize.col('administrativoCarrera.carreraId'), 'carreraId']
+                    [sequalize.literal('administrativoCarrera.carreraId'), 'carreraId']
                 ]
             },
             include: [{
@@ -135,6 +136,71 @@ exports.getAdministrativosByCarreraId = async (req, res) => {
             success: true,
             message: "Se han encontrado registros.",
             data: administrativos,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+
+exports.getAdministrativo = async (req, res) => {
+    try {
+        const { carreraId, puestoId } = req.body;
+
+        let administrativo = await Administrativo.findOne({
+            where: {
+                status: 1,
+                puestoId: puestoId
+            },
+            subQuery: false,
+            attributes: {
+                include: [
+                    [sequalize.literal('administrativoCarrera.carreraId'), 'carreraId'],
+                    [sequalize.literal('puesto.nombre'), 'nombrePuesto'],
+                ]
+            },
+            include: [
+                {
+                    model: AdministrativoCarrera,
+                    as: "administrativoCarrera",
+                    attributes: [],
+                    where: {
+                        status: 1,
+                        carreraId: carreraId
+                    },
+                    include: [
+                        {
+                            model: Carrera,
+                            attributes: ['nombre'] // Incluye solo el atributo 'nombre' de Carrera
+                        }
+                    ]
+                },
+                {
+                    model: PuestoAdministrativo,
+                    attributes: [],
+                    as: "puesto"
+                }
+            ]
+        });
+
+        const carrera = await Carrera.findOne({
+            where: {
+                carreraId: carreraId
+            },
+            attributes: ['nombre']
+        });
+
+        administrativo = { ...administrativo.dataValues, nombreCarrera: carrera.nombre };
+        
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: administrativo
         });
     } catch (e) {
         console.log(e);

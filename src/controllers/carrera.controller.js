@@ -37,6 +37,42 @@ exports.getCarreras = async (req, res) => {
     }
 };
 
+exports.getCarrerasByDeparment = async (req, res) => {
+    try {
+        const { departamentoId } = req.body;
+        const carreras = await Carrera.findAll({
+            where: {
+                status: 1,
+                departamentoId: departamentoId,
+            },
+            attributes: {
+                include: [
+                    [sequelize.col('departamento.nombre'), 'departamentoNombre'],
+                ]
+            },
+            include: [
+                {
+                    model: Departamento,
+                    as: "departamento",
+                    attributes: []
+                },
+            ]
+        });
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: carreras,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.crudCarrera = async (req, res) => {
     try {
         let carrera = req.body; // Guarda los datos del carrera en la variable

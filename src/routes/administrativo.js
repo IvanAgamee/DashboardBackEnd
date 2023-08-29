@@ -3,6 +3,7 @@ module.exports = app => {
     var m = require("../controllers/administrativo.controller");
 
     router.get('/getAdministrativosByCarreraId', m.getAdministrativosByCarreraId);
+    router.post('/getAdministrativo', m.getAdministrativo);
     router.post('/crudAdministrativo', m.crudAdministrativo);
     router.post('/crudAdministrativoMasivo', m.crudAdministrativoMasivo);
 

@@ -15,6 +15,7 @@ exports.getSeccionByCarreraId = async (req, res) => {
                 {
                     model: Objeto,
                     as: "objeto",
+                    required: false,
                     where: {
                         status: 1
                     },
@@ -57,6 +58,43 @@ exports.getObjetoByCarreraId = async (req, res) => {
                     where: {
                         status: 1,
                         carreraId: carreraId
+                    }
+                },
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: docentes,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getObjetoBySeccionId = async (req, res) => {
+    try {
+        let seccionId = req.query.seccionId;
+        const docentes = await Objeto.findAll({
+            where: {
+                status: 1,
+                seccionId: seccionId
+            },
+            order: [
+                [sequelize.literal('posicion'), 'ASC']
+            ],
+            include: [
+                {
+                    model: Seccion,
+                    as: "seccion",
+                    where: {
+                        status: 1
                     }
                 },
             ]
