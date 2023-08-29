@@ -23,7 +23,7 @@ const sequelize = new Sequelize(
     host: 'localhost',
     port: 3306,
     dialect: 'mysql',
-    logging: true
+    // logging: true
 });
 
 sequelize.authenticate().then(() => {
