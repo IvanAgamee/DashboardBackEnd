@@ -7,12 +7,12 @@ module.exports = app => {
 
   const storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-      let carreraNombre = m.getFolderDocente(req.body.carreraNombre);
-      callBack(null, PATH_DOCENTE + '/' + carreraNombre);
+      let carreraId = m.getFolderDocente(req.body.carreraId);
+      callBack(null, PATH_DOCENTE + '/' + carreraId);
     },
     filename: (req, file, callBack) => {
 
-      const originalName = file.originalname ? file.originalname : file.name;
+      const originalName = file.name;
       const lastDotIndex = originalName.lastIndexOf(".");
       const result = originalName.slice(lastDotIndex + 1);
 
