@@ -265,7 +265,7 @@ exports.uploadDocenteImage = async (req, res) => {
             const error = new Error("No File");
         }
 
-        const originalName = file.originalname ? file.originalname : file.name;
+        const originalName = file.originalname;
         const lastDotIndex = originalName.lastIndexOf(".");
         const result = originalName.slice(lastDotIndex + 1);
 
