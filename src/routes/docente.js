@@ -9,7 +9,7 @@ module.exports = app => {
   const storage = multer.diskStorage({
     destination: (req, file, callBack) => {
       let filepath = m.getFolderCarrera(req.query.carreraId);
-      callBack(null, filepath + '/' + filepath + '/docentes');
+      callBack(null, PATH_DOCENTE + '/' + filepath + '/docentes');
     },
     filename: (req, file, callBack) => {
 
@@ -33,7 +33,6 @@ module.exports = app => {
   router.post('/getDocentesByCarreraId', d.getDocentesByCarreraId);
   router.post('/crudDocente', d.crudDocente);
   router.post('/crudDocenteMasivo', d.crudDocenteMasivo);
-  router.post('/updateImage', d.updateImage);
 
   app.use('/api/docente', router);
 }

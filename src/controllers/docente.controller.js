@@ -3,7 +3,7 @@ const sequalize = require("../database/database");
 const Docente = require('../models/Docente');
 const CarreraDocente = require('../models/CarreraDocente');
 var m = require("../controllers/main.controller");
-let PATH_STORAGE = `${__dirname}/../storage`;
+const PATH_STORAGE = `${__dirname}/../storage`;
 const path = require('path');
 
 exports.getSistemasDocentes = async (req, res) => {
@@ -86,7 +86,7 @@ exports.getDocenteById = async (req, res) => {
 
         if (docente != null) {
             if (docente.dataValues.urlImagen) {
-                const pathFile = m.getFolderCarrera(docente.dataValues.carreraId);
+                const pathFile = m.getFolderCarreras(docente.dataValues.carreraId);
                 docente.dataValues.pathFile = pathFile + '/docentes';
             }
             return res.json({
@@ -251,34 +251,6 @@ exports.crudDocenteMasivo = async (req, res) => {
     }
 };
 
-exports.updateImage = async (req, res) => {
-
-    try {
-
-        let updated = await Docente.update({ urlImagen: 'user.webp' }, {
-            where: {
-                docenteId: docenteId
-            }
-        });
-
-        if (updated) {
-            return res.json({
-                success: false,
-                message: "Todo bn",
-            });
-        }
-
-    } catch (e) {
-        console.log(e);
-        return res.status(500).json({
-            success: false,
-            message: "Ha ocurrido un error al guardar el registro.",
-            error: e.message,
-        });
-    }
-
-};
-
 exports.uploadDocenteImage = async (req, res) => {
     try {
         const { body, file } = req;
@@ -286,6 +258,8 @@ exports.uploadDocenteImage = async (req, res) => {
         if (!file) {
             const error = new Error("No File");
         }
+        let filepath = m.getFolderCarrera(req.query.carreraId);
+        filepath = filepath + '/docentes';
 
         const originalName = file.originalname;
         const lastDotIndex = originalName.lastIndexOf(".");
@@ -297,7 +271,8 @@ exports.uploadDocenteImage = async (req, res) => {
         const fileData = {
             success: true,
             message: "Se ha subido correctamente",
-            nameFile: nameFile
+            nameFile: nameFile,
+            pathFile: filepath
         };
 
         res.send({ fileData });
