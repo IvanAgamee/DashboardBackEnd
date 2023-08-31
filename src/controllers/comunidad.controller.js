@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Comunidad = require('../models/Comunidad');
+var m = require("../controllers/main.controller");
 
 exports.crudComunidadMasivo = async (req, res) => {
     let comunidades = req.body;
@@ -140,35 +141,39 @@ exports.getComunidadById = async (req, res) => {
 };
 
 exports.uploadFiles = async (req, res) => {
-	try {
-		const { body, files } = req;
-		let data = body.comunidadNombre.replace(/"/g, '');
-		let nameFiles = [];
+    try {
+        const { body, files } = req;
+        let data = body.comunidadNombre.replace(/"/g, '');
+        let nameFiles = [];
 
-		if (!files) {
-			const error = new Error("No File");
-			logError.error(`Error ${error}`);
-		}
+        if (!files) {
+            const error = new Error("No File");
+            logError.error(`Error ${error}`);
+        }
 
-		files.forEach((f) => {
-			let nameFile = `${data}-${f.originalname}`;
-			nameFile.replace(/['"]+/g, '-');
-			nameFiles.push({ nameFile: nameFile });
-		});
+        let filepath = m.getFolderCarrera(req.query.carreraId);
+        filepath = filepath + '/comunidades';
 
-		const fileData = {
-			success: true,
-			message: "Se ha subido correctamente",
-			filenames: nameFiles,
-		};
+        files.forEach((f) => {
+            let nameFile = `${data}-${f.originalname}`;
+            nameFile.replace(/['"]+/g, '-');
+            nameFiles.push({ nameFile: nameFile });
+        });
 
-		res.send({ fileData });
-	} catch (e) {
-		console.log(e);
-		return res.status(500).json({
-			success: false,
-			message: "Ha ocurrido un error al subir el archivo",
-			error: e.message,
-		});
-	}
+        const fileData = {
+            success: true,
+            message: "Se ha subido correctamente",
+            filenames: nameFiles,
+            pathFile: filepath
+        };
+
+        res.send({ fileData });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al subir el archivo",
+            error: e.message,
+        });
+    }
 };
