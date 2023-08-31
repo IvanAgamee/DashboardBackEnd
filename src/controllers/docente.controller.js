@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const sequalize = require("../database/database");
 const Docente = require('../models/Docente');
 const CarreraDocente = require('../models/CarreraDocente');
+var m = require("../controllers/main.controller");
 let PATH_STORAGE = `${__dirname}/../storage`;
 const path = require('path');
 
@@ -85,7 +86,7 @@ exports.getDocenteById = async (req, res) => {
 
         if (docente != null) {
             if (docente.dataValues.urlImagen) {
-                const pathFile = this.getFolderDocente(docente.dataValues.carreraId);
+                const pathFile = m.getFolderCarrera(docente.dataValues.carreraId);
                 docente.dataValues.pathFile = pathFile + '/docentes';
             }
             return res.json({
