@@ -86,7 +86,7 @@ exports.getDocenteById = async (req, res) => {
 
         if (docente != null) {
             if (docente.dataValues.urlImagen) {
-                const pathFile = m.getFolderCarreras(docente.dataValues.carreraId);
+                const pathFile = m.getFolderCarrera(docente.dataValues.carreraId);
                 docente.dataValues.pathFile = pathFile + '/docentes';
             }
             return res.json({
