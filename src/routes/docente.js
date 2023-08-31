@@ -1,15 +1,15 @@
 module.exports = app => {
   var router = require('express').Router();
-  var m = require("../controllers/docente.controller");
+  var d = require("../controllers/docente.controller");
+  var m = require("../controllers/main.controller");
   const multer = require("multer");
   const path = require('path');
-  const PATH_DOCENTE = `${__dirname}/../storage/docentes`;
+  const PATH_DOCENTE = `${__dirname}/../storage`;
 
   const storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-      console.log(req.query)
-      let carreraId = m.getFolderDocente(req.query.carreraId);
-      callBack(null, PATH_DOCENTE + '/' + carreraId);
+      let filepath = m.getFolderCarrera(req.query.carreraId);
+      callBack(null, filepath + '/' + filepath + '/docentes');
     },
     filename: (req, file, callBack) => {
 
@@ -26,14 +26,14 @@ module.exports = app => {
 
   const upload = multer({ storage: storage });
 
-  router.post("/uploadDocenteImage", upload.single("file"), m.uploadDocenteImage);
-  router.get('/getSistemasDocentes', m.getSistemasDocentes);
-  router.get('/getDocentes', m.getDocentes);
-  router.post('/getDocenteById', m.getDocenteById);
-  router.post('/getDocentesByCarreraId', m.getDocentesByCarreraId);
-  router.post('/crudDocente', m.crudDocente);
-  router.post('/crudDocenteMasivo', m.crudDocenteMasivo);
-  router.post('/updateImage', m.updateImage);
+  router.post("/uploadDocenteImage", upload.single("file"), d.uploadDocenteImage);
+  router.get('/getSistemasDocentes', d.getSistemasDocentes);
+  router.get('/getDocentes', d.getDocentes);
+  router.post('/getDocenteById', d.getDocenteById);
+  router.post('/getDocentesByCarreraId', d.getDocentesByCarreraId);
+  router.post('/crudDocente', d.crudDocente);
+  router.post('/crudDocenteMasivo', d.crudDocenteMasivo);
+  router.post('/updateImage', d.updateImage);
 
   app.use('/api/docente', router);
 }

@@ -9,7 +9,7 @@ const Comunidad = require('../models/Comunidad');
 const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
-let PATH_STORAGE = `${__dirname}/../storage`;
+const PATH_STORAGE = `${__dirname}/../storage`;
 
 // Número total de usuarios
 exports.getTotalUsuarios = async (req, res) => {
@@ -213,7 +213,6 @@ exports.getTotalComunidades = async (req, res) => {
 
 exports.getFileFromStorage = async (req, res) => {
     try {
-        console.log(req.body)
         const filePath = path.resolve(`${PATH_STORAGE}/${req.body.pathFile}`, `${req.body.filename}`);
         let filepath = filePath;
         res.sendFile(filepath);
@@ -249,3 +248,77 @@ exports.removeFileFromStorage = (req, res) => {
         return res.json({ success: false, message: 'Error al eliminar el archivo' });
     }
 }
+
+exports.getFolderCarrera = (id) => {
+    try {
+        let name;
+        switch (Number(id)) {
+            case 1:
+                name = 'Ing-Gestion-Empresarial';
+                break;
+            case 2:
+                name = 'Lic-Administracion'
+                break;
+            case 3:
+                name = 'Ing-Quimica'
+                break;
+            case 4:
+                name = 'Ing-Bioquimica'
+                break;
+            case 5:
+                name = 'Ing-Mecanica'
+                break;
+            case 6:
+                name = 'Ing-Mecatronica'
+                break;
+            case 7:
+                name = 'Ing-Industrial'
+                break;
+            case 8:
+                name = 'Ing-EER'
+                break;
+            case 9:
+                name = 'Ing-Electrica'
+                break;
+            case 10:
+                name = 'Ing-Electronica'
+                break;
+            case 11:
+                name = 'Ing-SistemasComputacionales'
+                break;
+            case 12:
+                name = 'MECEIB'
+                break;
+            case 13:
+                name = 'Doct-CienciasAlimentos'
+                break;
+            case 14:
+                name = 'Mtria-Administracion'
+                break;
+            case 15:
+                name = 'MEEYER'
+                break;
+        }
+        return name
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
+function checkFolderExists (folderName) {
+    try {
+        // Verificar si la carpeta existe
+        if (!fs.existsSync(folderName)) {
+            // Crear la carpeta
+            fs.mkdirSync(folderName);
+            console.log('Carpeta creada correctamente.');
+        } else {
+            console.log('La carpeta ya existe.');
+        }
+    } catch (error) {
+        console.log('Folder util error: ',error);
+    }
+}
+
+// module.exports = { checkFolderExists };

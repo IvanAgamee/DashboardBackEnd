@@ -176,3 +176,31 @@ exports.crudUser = async (req, res) => {
         })
     }
 }
+
+exports.uploadProfileImage = async (req, res) => {
+    try {
+        const { body, file } = req;
+
+        if (!file) {
+            const error = new Error("No File");
+        }
+
+        nameFile = file.originalname.replace(/['"]+/g, '').replace(/ /g, '-');
+
+        const fileData = {
+            success: true,
+            message: "Se ha subido correctamente",
+            nameFile: nameFile
+        };
+
+        res.send({ fileData });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al subir el archivo",
+            error: e.message,
+            file: req.body.file
+        });
+    }
+};
