@@ -16,7 +16,7 @@ const Sequelize = require('sequelize').Sequelize;
 //Conexion para los demás:
 
 const sequelize = new Sequelize(
-'dashboardCarreras', // base de datos
+'dashboardpaginasweb', // base de datos
 'root', // usuario
 '', // contraseña
 {

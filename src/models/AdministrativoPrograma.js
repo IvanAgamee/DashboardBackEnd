@@ -1,18 +1,18 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
-const Modulo = require("./Modulo");
-const Carrera = require("./Carrera");
+const ProgramaEstudio = require("./ProgramaEstudio");
+const Administrativo = require("./Administrativo");
 
-const Pagina = sequelize.define("tbl_pagina", {
-    paginaId: {
+const AdministrativoPrograma = sequelize.define("tbl_administrativo_programa", {
+    adminProgramaId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    moduloId: {
+    administrativoId: {
         type: Sequelize.INTEGER,
     },
-    carreraId: {
+    programaId: {
         type: Sequelize.INTEGER,
     },
     status: {
@@ -30,15 +30,9 @@ const Pagina = sequelize.define("tbl_pagina", {
     updatedAt: {
         type: Sequelize.DATE,
     }
-});
+},
+    {
+        freezeTableName: true
+    });
 
-Pagina.belongsTo(Modulo, {
-    foreignKey: 'moduloId',
-    as: 'modulo'
-});
-
-Pagina.belongsTo(Carrera, {
-    foreignKey: 'carreraId',
-    as: 'carrera'
-});
-module.exports = Pagina;
+module.exports = AdministrativoPrograma;

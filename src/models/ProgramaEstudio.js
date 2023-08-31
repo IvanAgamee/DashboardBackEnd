@@ -2,17 +2,17 @@ const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
 const Departamento = require("./Departamento");
 
-const Carrera = sequelize.define("tbl_carrera", {
-    carreraId: {
+const ProgramaEstudio = sequelize.define("tbl_programa_estudio", {
+    programaId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    nombre: {
-        type: Sequelize.STRING,
-    },
     departamentoId: {
         type: Sequelize.INTEGER,
+    },
+    nombre: {
+        type: Sequelize.STRING,
     },
     status: {
         type: Sequelize.INTEGER,
@@ -35,14 +35,14 @@ const Carrera = sequelize.define("tbl_carrera", {
 }
 );
 
-Carrera.belongsTo(Departamento, {
+ProgramaEstudio.belongsTo(Departamento, {
     foreignKey: 'departamentoId',
     as: 'departamento'
 });
 
-Departamento.hasMany(Carrera, {
+Departamento.hasMany(ProgramaEstudio, {
     foreignKey: 'departamentoId',
-    as: 'carrera'
+    as: 'programas'
 })
 
-module.exports = Carrera;
+module.exports = ProgramaEstudio;

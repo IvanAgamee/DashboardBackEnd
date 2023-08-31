@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
-const Carrera = require("./Carrera");
-const AdministrativoCarrera = require("./AdministrativoCarrera");
+const ProgramaEstudio = require("./ProgramaEstudio");
+const AdministrativoCarrera = require("./AdministrativoPrograma");
 const PuestoAdministrativo = require("./PuestoAdministrativo");
 
 const Administrativo = sequelize.define("tbl_administrativo", {
@@ -48,21 +48,21 @@ Administrativo.belongsTo(PuestoAdministrativo, {
     as: "puesto"
 })
 // Asociaciones M:M de tablas Cliente y Agente Aduanal
-Administrativo.belongsToMany(Carrera, {  // Un cliente pertenece a muchos agentes aduanales
+Administrativo.belongsToMany(ProgramaEstudio, {  // Un cliente pertenece a muchos agentes aduanales
     through: AdministrativoCarrera,  // Modelo que actúa como la unión de Cliente y Agente Aduanal
     foreignKey: "administrativoId",   // Llave foránea que hace referencia a Cliente
     as: "administrativos"    // Alias
 });
-Carrera.belongsToMany(Administrativo, {  // Un agente aduanal pertenece a muchos clientes
+ProgramaEstudio.belongsToMany(Administrativo, {  // Un agente aduanal pertenece a muchos clientes
     through: AdministrativoCarrera,   // Modelo que actúa como la unión de Cliente y Agente Aduanal
-    foreignKey: "carreraId",
-    as: "carreras"
+    foreignKey: "programaId",
+    as: "programas" 
 });
 
-Carrera.hasMany(AdministrativoCarrera, { foreignKey: "carreraId", as: "administrativoCarrera" });
-Administrativo.hasMany(AdministrativoCarrera, { foreignKey: "administrativoId", as: "administrativoCarrera" });
+ProgramaEstudio.hasMany(AdministrativoCarrera, { foreignKey: "programaId", as: "administrativoPrograma" });
+Administrativo.hasMany(AdministrativoCarrera, { foreignKey: "administrativoId", as: "administrativoPrograma" });
 
-AdministrativoCarrera.belongsTo(Carrera, { foreignKey: "carreraId" });
+AdministrativoCarrera.belongsTo(ProgramaEstudio, { foreignKey: "programaId" });
 AdministrativoCarrera.belongsTo(Administrativo, { foreignKey: "administrativoId" });
 
 module.exports = Administrativo;

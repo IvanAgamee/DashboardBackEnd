@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
-const Carrera = require("./Carrera");
+const ProgramaEstudio = require("./ProgramaEstudio");
 
 const Especialidad = sequelize.define("tbl_especialidad", {
     especialidadId: {
@@ -8,7 +8,7 @@ const Especialidad = sequelize.define("tbl_especialidad", {
         primaryKey: true,
         autoIncrement: true,
     },
-    carreraId: {
+    programaId: {
         type: Sequelize.INTEGER,
     },
     nombre: {
@@ -35,9 +35,9 @@ const Especialidad = sequelize.define("tbl_especialidad", {
     }
 );
 
-Especialidad.belongsTo(Carrera, {
-    foreignKey: 'carreraId',
-    as: 'carrera'
+Especialidad.belongsTo(ProgramaEstudio, {
+    foreignKey: 'programaId',
+    as: 'programas'
 });
 
 module.exports = Especialidad;

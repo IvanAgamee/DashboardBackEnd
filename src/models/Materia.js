@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
-const Carrera = require("./Carrera");
+const ProgramaEstudio = require("./ProgramaEstudio");
 const Especialidad = require("./Especialidad");
 
 const Materia = sequelize.define("tbl_materia", {
@@ -9,7 +9,13 @@ const Materia = sequelize.define("tbl_materia", {
         primaryKey: true,
         autoIncrement: true,
     },
-    carreraId: {
+    programaId: {
+        type: Sequelize.INTEGER,
+    },
+    tipoMateriaId: {
+        type: Sequelize.INTEGER,
+    },
+    lineaInvestigacionId: {
         type: Sequelize.INTEGER,
     },
     especialidadId: {
@@ -26,6 +32,12 @@ const Materia = sequelize.define("tbl_materia", {
     },
     competencia: {
         type: Sequelize.TEXT,
+    },
+    creditos: {
+        type: Sequelize.INTEGER,
+    },
+    matricula: {
+        type: Sequelize.STRING,
     },
     urlVideo: {
         type: Sequelize.STRING,
@@ -50,9 +62,9 @@ const Materia = sequelize.define("tbl_materia", {
     }
 });
 
-Materia.belongsTo(Carrera, {
-    foreignKey: 'carreraId',
-    as: 'carrera'
+Materia.belongsTo(ProgramaEstudio, {
+    foreignKey: 'programaId',
+    as: 'programas'
 });
 
 Materia.belongsTo(Especialidad, {

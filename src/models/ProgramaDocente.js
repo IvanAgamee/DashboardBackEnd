@@ -1,15 +1,15 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
-const Carrera = require("./Carrera");
+const ProgramaEstudio = require("./ProgramaEstudio");
 const Docente = require("./Docente");
 
-const CarreraDocente = sequelize.define("tbl_carrera_docente", {
-    carreraDocenteId: {
+const ProgramaDocente = sequelize.define("tbl_programa_docente", {
+    programaDocenteId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    carreraId: {
+    programaId: {
         type: Sequelize.INTEGER,
     },
     docenteId: {
@@ -35,4 +35,4 @@ const CarreraDocente = sequelize.define("tbl_carrera_docente", {
     freezeTableName: true
 });
 
-module.exports = CarreraDocente;
+module.exports = ProgramaDocente;

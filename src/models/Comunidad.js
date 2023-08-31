@@ -1,6 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
-const Carrera = require("./Carrera");
+const ProgramaEstudio = require("./ProgramaEstudio");
 
 const Comunidad = sequelize.define("tbl_comunidad", {
     comunidadId: {
@@ -8,7 +8,7 @@ const Comunidad = sequelize.define("tbl_comunidad", {
         primaryKey: true,
         autoIncrement: true,
     },
-    carreraId: {
+    programaId: {
         type: Sequelize.INTEGER,
     },
     nombre: {
@@ -45,9 +45,9 @@ const Comunidad = sequelize.define("tbl_comunidad", {
     freezeTableName: true
 });
 
-Comunidad.belongsTo(Carrera, {
-    foreignKey: 'carreraId',
-    as: 'carrera'
+Comunidad.belongsTo(ProgramaEstudio, {
+    foreignKey: 'programaId',
+    as: 'programas' //nombre alias
 });
 
 module.exports = Comunidad;
