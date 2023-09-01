@@ -3,8 +3,8 @@ const sequelize = require("../database/database");
 const Docente = require("../models/Docente");
 const Usuario = require("../models/Usuario");
 const Materia = require("../models/Materia");
-const CarreraDocente = require('../models/CarreraDocente');
-const Carrera = require('../models/Carrera');
+const ProgramaDocente = require('../models/ProgramaDocente');
+const ProgramaEstudio = require('../models/ProgramaEstudio');
 const Comunidad = require('../models/Comunidad');
 const fs = require('fs');
 const path = require('path');
@@ -34,7 +34,7 @@ exports.getTotalUsuarios = async (req, res) => {
     }
 };
 
-// Número total de profesores según el ID de una carrera
+// Número total de profesores según el ID de una ProgramaEstudio
 exports.getTotalDocentesByCarreraID = async (req, res) => {
     try {
         const { carreraId } = req.query;
@@ -44,9 +44,9 @@ exports.getTotalDocentesByCarreraID = async (req, res) => {
                 status: 1
             },
             include: [{
-                model: CarreraDocente,
+                model: ProgramaDocente,
                 attributes: [],
-                as: "carreraDocente",
+                as: "ProgramaDocente",
                 where: {
                     status: 1,
                     carreraId: carreraId
@@ -167,7 +167,7 @@ exports.getTotalMateriasByCarreraId = async (req, res) => {
 // Número total de carreras
 exports.getTotalCarreras = async (req, res) => {
     try {
-        const total = await Carrera.count({
+        const total = await ProgramaEstudio.count({
             where: {
                 status: 1
             },

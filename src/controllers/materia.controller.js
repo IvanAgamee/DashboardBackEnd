@@ -2,7 +2,7 @@ const { Sequelize, where } = require('sequelize');
 const sequelize = require("../database/database");
 const Materia = require('../models/Materia');
 const Especialidad = require('../models/Especialidad');
-const Carrera = require('../models/Carrera');
+const ProgramaEstudio = require('../models/ProgramaEstudio');
 
 exports.getMaterias = async (req, res) => {
     try {

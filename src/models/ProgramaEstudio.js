@@ -42,7 +42,7 @@ ProgramaEstudio.belongsTo(Departamento, {
 
 Departamento.hasMany(ProgramaEstudio, {
     foreignKey: 'departamentoId',
-    as: 'programas'
+    as: 'programaEstudio'
 })
 
 module.exports = ProgramaEstudio;

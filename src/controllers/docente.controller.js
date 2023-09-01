@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 const sequalize = require("../database/database");
 const Docente = require('../models/Docente');
-const CarreraDocente = require('../models/CarreraDocente');
+const ProgramaDocente = require('../models/ProgramaDocente');
 var m = require("../controllers/main.controller");
 const PATH_STORAGE = `${__dirname}/../storage`;
 const path = require('path');
@@ -13,8 +13,8 @@ exports.getSistemasDocentes = async (req, res) => {
                 status: 1,
             },
             include: [{
-                model: CarreraDocente,
-                as: 'carreraDocente',
+                model: ProgramaDocente,
+                as: 'ProgramaDocente',
                 attributes: [],
                 where: { status: 1, carreraId: 11 }
             }]
@@ -42,8 +42,8 @@ exports.getDocentes = async (req, res) => {
                 status: 1,
             },
             include: [{
-                model: CarreraDocente,
-                as: 'carreraDocente',
+                model: ProgramaDocente,
+                as: 'ProgramaDocente',
                 attributes: [],
                 where: { status: 1 }
             }]
@@ -71,13 +71,13 @@ exports.getDocenteById = async (req, res) => {
             {
                 attributes: {
                     include: [
-                        [sequalize.literal('carreraDocente.carreraId'), 'carreraId']
+                        [sequalize.literal('ProgramaDocente.carreraId'), 'carreraId']
                     ]
                 },
                 include: [{
-                    model: CarreraDocente,
+                    model: ProgramaDocente,
                     attributes: [],
-                    as: "carreraDocente",
+                    as: "ProgramaDocente",
                     where: {
                         status: 1
                     }
@@ -122,13 +122,13 @@ exports.getDocentesByCarreraId = async (req, res) => {
             },
             attributes: {
                 include: [
-                    [sequalize.literal('carreraDocente.carreraId'), 'carreraId']
+                    [sequalize.literal('ProgramaDocente.carreraId'), 'carreraId']
                 ]
             },
             include: [{
-                model: CarreraDocente,
+                model: ProgramaDocente,
                 attributes: [],
-                as: "carreraDocente",
+                as: "ProgramaDocente",
                 where: {
                     status: 1,
                     carreraId: carreraId
@@ -206,7 +206,7 @@ exports.crudDocenteMasivo = async (req, res) => {
                         carreraId: docente.carreraId,
                         status: 1
                     }
-                    let carreraDocente = await CarreraDocente.create(data);
+                    let ProgramaDocente = await ProgramaDocente.create(data);
 
                 }
             } else if (docente.docenteId) { // En caso de que el id NO sea nulo, se actualiza el docente.

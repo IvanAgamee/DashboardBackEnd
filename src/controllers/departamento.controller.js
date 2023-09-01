@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 const sequalize = require("../database/database");
 const Departamento = require('../models/Departamento');
-const Carrera = require('../models/Carrera');
+const ProgramaEstudio = require('../models/ProgramaEstudio');
 
 exports.getDepartamentos = async (req, res) => {
     try {
@@ -11,8 +11,8 @@ exports.getDepartamentos = async (req, res) => {
             },
             include:[
                 {
-                    model: Carrera,
-                    as: "carrera",
+                    model: ProgramaEstudio,
+                    as: "ProgramaEstudio",
                     where: {
                         status: 1
                     },
@@ -44,8 +44,8 @@ exports.getDepartamentoById = async (req, res) => {
             },
             include:[
                 {
-                    model: Carrera,
-                    as: "carrera",
+                    model: ProgramaEstudio,
+                    as: "ProgramaEstudio",
                     where: {
                         status: 1
                     },

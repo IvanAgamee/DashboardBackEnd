@@ -3,9 +3,8 @@ const sequelize = require("../database/database");
 const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
 const sequalize = require("../database/database");
-const RolPermiso = require('../models/RolPermiso');
 const Departamento = require('../models/Departamento');
-const Carrera = require('../models/Carrera');
+const ProgramaEstudio = require('../models/ProgramaEstudio');
 
 exports.login = async (req, res) => {
     try {
@@ -19,27 +18,22 @@ exports.login = async (req, res) => {
             include: [{
                 model: Rol,
                 as: 'rol',
-                attributes: [],
-                include: [{
-                    model: RolPermiso,
-                    as: 'rolPermiso',
-                    attributes: []
-                }]
+                attributes: []
             },
             {
                 model: Departamento,
                 as: 'departamento',
                 // attributes: [],
                 include: [{
-                    model: Carrera,
-                    as: 'carrera',
+                    model: ProgramaEstudio,
+                    as: 'programaEstudio',
                     // attributes: []
                 }]
             }
         ],
         });
         let departamento = user.departamento;
-        let carrera = user.departamento.carrera;
+        let programa = user.departamento.programaEstudio;
 
         if (!user) return res.json({
             success: false,
@@ -51,7 +45,7 @@ exports.login = async (req, res) => {
             success: true,
             data: user,
             departamento: departamento,
-            carrera: carrera
+            programaEstudio: programa
         });
 
     } catch (e) {

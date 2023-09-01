@@ -1,11 +1,11 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
-const Carrera = require('../models/Carrera');
+const ProgramaEstudio = require('../models/ProgramaEstudio');
 const Departamento = require('../models/Departamento');
 
 exports.getCarreras = async (req, res) => {
     try {
-        const carreras = await Carrera.findAll({
+        const carreras = await ProgramaEstudio.findAll({
             where: {
                 status: 1,
             },
@@ -40,7 +40,7 @@ exports.getCarreras = async (req, res) => {
 exports.getCarrerasByDeparment = async (req, res) => {
     try {
         const { departamentoId } = req.body;
-        const carreras = await Carrera.findAll({
+        const carreras = await ProgramaEstudio.findAll({
             where: {
                 status: 1,
                 departamentoId: departamentoId,
@@ -75,21 +75,21 @@ exports.getCarrerasByDeparment = async (req, res) => {
 
 exports.crudCarrera = async (req, res) => {
     try {
-        let carrera = req.body; // Guarda los datos del carrera en la variable
+        let ProgramaEstudio = req.body; // Guarda los datos del ProgramaEstudio en la variable
 
-        if (carrera.id == null) { // En caso de que el id sea nulo, se crea un nuevo carrera.
-            let newCarrera = await Carrera.create(carrera);
+        if (ProgramaEstudio.id == null) { // En caso de que el id sea nulo, se crea un nuevo ProgramaEstudio.
+            let newCarrera = await ProgramaEstudio.create(ProgramaEstudio);
             if (newCarrera) {
                 return res.status(200).json({
                     success: true,
-                    message: "Se ha guardado la carrera.",
+                    message: "Se ha guardado la ProgramaEstudio.",
                 });
             }
-        } else if (carrera.id) { // En caso de que el id NO sea nulo, se actualiza el carrera.
-            let carreraId = carrera.id;
-            delete carrera.id;
+        } else if (ProgramaEstudio.id) { // En caso de que el id NO sea nulo, se actualiza el ProgramaEstudio.
+            let carreraId = ProgramaEstudio.id;
+            delete ProgramaEstudio.id;
 
-            let updatedCarrera = await Carrera.update(carrera, {
+            let updatedCarrera = await ProgramaEstudio.update(ProgramaEstudio, {
                 where: {
                     id: carreraId
                 }
@@ -97,7 +97,7 @@ exports.crudCarrera = async (req, res) => {
             if (updatedCarrera) {
                 return res.status(200).json({
                     success: true,
-                    message: "Se ha guardado la carrera..",
+                    message: "Se ha guardado la ProgramaEstudio..",
                 });
             }
         }
@@ -113,15 +113,15 @@ exports.crudCarrera = async (req, res) => {
 
 exports.crudCarreraMasivo = async (req, res) => {
     let carreras = req.body;
-    const carrerasAsync = async (carrera) => {
+    const carrerasAsync = async (ProgramaEstudio) => {
         try {
-            if (carrera.carreraId == null) {
-                let newCarrera = await Carrera.create(carrera);
-            } else if (carrera.carreraId) {
-                let carreraId = carrera.carreraId;
-                delete carrera.carreraId;
+            if (ProgramaEstudio.carreraId == null) {
+                let newCarrera = await ProgramaEstudio.create(ProgramaEstudio);
+            } else if (ProgramaEstudio.carreraId) {
+                let carreraId = ProgramaEstudio.carreraId;
+                delete ProgramaEstudio.carreraId;
 
-                let updatedCarrera = await Carrera.update(carrera, {
+                let updatedCarrera = await ProgramaEstudio.update(ProgramaEstudio, {
                     where: {
                         carreraId: carreraId
                     }

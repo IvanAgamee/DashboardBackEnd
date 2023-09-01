@@ -1,7 +1,7 @@
 const sequalize = require("../database/database");
 const Administrativo = require("../models/Administrativo");
-const AdministrativoCarrera = require("../models/AdministrativoCarrera");
-const Carrera = require("../models/Carrera");
+const AdministrativoPrograma = require("../models/AdministrativoPrograma");
+const ProgramaEstudio = require("../models/ProgramaEstudio");
 const PuestoAdministrativo = require("../models/PuestoAdministrativo");
 
 exports.crudAdministrativoMasivo = async (req, res) => {
@@ -17,7 +17,7 @@ exports.crudAdministrativoMasivo = async (req, res) => {
                         status: 1
                     };
 
-                    let newUnion = await AdministrativoCarrera.create(data);
+                    let newUnion = await AdministrativoPrograma.create(data);
                     // await crudAdminCarrera(administrativo.carreraId, newAdmin);
                 }
             } else if (administrativo.administrativoId) { // En caso de que el id NO sea nulo, se actualiza el administrativo.
@@ -74,7 +74,7 @@ exports.crudAdministrativo = async (req, res) => {
                     status: 1
                 };
 
-                let newUnion = await AdministrativoCarrera.create(data);
+                let newUnion = await AdministrativoPrograma.create(data);
 
                 if (newUnion) {
                     return res.status(200).json({
@@ -118,13 +118,13 @@ exports.getAdministrativosByCarreraId = async (req, res) => {
             },
             attributes: {
                 include: [
-                    [sequalize.literal('administrativoCarrera.carreraId'), 'carreraId']
+                    [sequalize.literal('AdministrativoPrograma.carreraId'), 'carreraId']
                 ]
             },
             include: [{
-                model: AdministrativoCarrera,
+                model: AdministrativoPrograma,
                 attributes: [],
-                as: "administrativoCarrera",
+                as: "administrativoPrograma",
                 where: {
                     status: 1,
                     carreraId: carreraId
@@ -160,14 +160,14 @@ exports.getAdministrativo = async (req, res) => {
             subQuery: false,
             attributes: {
                 include: [
-                    [sequalize.literal('administrativoCarrera.carreraId'), 'carreraId'],
+                    [sequalize.literal('AdministrativoPrograma.carreraId'), 'carreraId'],
                     [sequalize.literal('puesto.nombre'), 'nombrePuesto'],
                 ]
             },
             include: [
                 {
-                    model: AdministrativoCarrera,
-                    as: "administrativoCarrera",
+                    model: AdministrativoPrograma,
+                    as: "administrativoPrograma",
                     attributes: [],
                     where: {
                         status: 1,
@@ -175,8 +175,9 @@ exports.getAdministrativo = async (req, res) => {
                     },
                     include: [
                         {
-                            model: Carrera,
-                            attributes: ['nombre'] // Incluye solo el atributo 'nombre' de Carrera
+                            model: ProgramaEstudio,
+                            as: 'programas',
+                            attributes: ['nombre'] // Incluye solo el atributo 'nombre' de ProgramaEstudio
                         }
                     ]
                 },
@@ -188,14 +189,14 @@ exports.getAdministrativo = async (req, res) => {
             ]
         });
 
-        const carrera = await Carrera.findOne({
+        const ProgramaEstudio = await ProgramaEstudio.findOne({
             where: {
                 carreraId: carreraId
             },
             attributes: ['nombre']
         });
 
-        administrativo = { ...administrativo.dataValues, nombreCarrera: carrera.nombre };
+        administrativo = { ...administrativo.dataValues, nombreCarrera: ProgramaEstudio.nombre };
         
         return res.json({
             success: true,
