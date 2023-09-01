@@ -159,6 +159,13 @@ exports.crudDocente = async (req, res) => {
         if (docente.docenteId == null) { // En caso de que el id sea nulo, se crea un nuevo docente.
             let newDocente = await Docente.create(docente);
             if (newDocente) {
+                let data = {
+                    docenteId: newDocente.docenteId,
+                    carreraId: docente.carreraId,
+                    status: 1
+                }
+                let carreraDocente = await CarreraDocente.create(data);
+
                 return res.status(200).json({
                     success: true,
                     message: "Se ha guardado el docente",
@@ -168,7 +175,7 @@ exports.crudDocente = async (req, res) => {
             let docenteId = docente.docenteId;
             delete docente.docenteId;
 
-            let updatedDocente = await Docente.update(docente, {
+            const updatedDocente = await Docente.update(docente, {
                 where: {
                     docenteId: docenteId
                 }
@@ -177,6 +184,7 @@ exports.crudDocente = async (req, res) => {
                 return res.status(200).json({
                     success: true,
                     message: "Se ha guardado el docente.",
+                    docente: updatedDocente
                 });
             }
         }
