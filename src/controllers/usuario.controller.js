@@ -95,12 +95,12 @@ exports.getUsers = async (req, res) => {
     }
 }
 exports.getUserById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
 
     try {
         const user = await Usuario.findOne({
             where: {
-                id
+                usuarioId: id
             }
         });
 
