@@ -37,7 +37,7 @@ exports.getTotalUsuarios = async (req, res) => {
 // Número total de profesores según el ID de una ProgramaEstudio
 exports.getTotalDocentesByCarreraID = async (req, res) => {
     try {
-        const { carreraId } = req.query;
+        const { programaId } = req.query;
 
         const total = await Docente.count({
             where: {
@@ -49,7 +49,7 @@ exports.getTotalDocentesByCarreraID = async (req, res) => {
                 as: "ProgramaDocente",
                 where: {
                     status: 1,
-                    carreraId: carreraId
+                    programaId: programaId
                 }
             }]
         });
@@ -141,12 +141,12 @@ exports.getTotalMaterias = async (req, res) => {
 exports.getTotalMateriasByCarreraId = async (req, res) => {
     try {
 
-        const { carreraId } = req.query;
+        const { programaId } = req.query;
 
         const total = await Materia.count({
             where: {
                 status: 1,
-                carreraId: carreraId
+                programaId: programaId
             },
         });
         return res.json({

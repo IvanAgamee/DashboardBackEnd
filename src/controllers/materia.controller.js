@@ -40,11 +40,11 @@ exports.getMaterias = async (req, res) => {
 
 exports.getMateriasByCarreraId = async (req, res) => {
     try {
-        const { carreraId } = req.body;
+        const { programaId } = req.body;
 
         let materia = await Materia.findAll({
             where: {
-                carreraId: carreraId,
+                programaId: programaId,
             },
             include: [
                 {

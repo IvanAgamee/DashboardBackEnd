@@ -16,7 +16,7 @@ exports.getSistemasDocentes = async (req, res) => {
                 model: ProgramaDocente,
                 as: 'ProgramaDocente',
                 attributes: [],
-                where: { status: 1, carreraId: 11 }
+                where: { status: 1, programaId: 11 }
             }]
         });
 
@@ -71,7 +71,7 @@ exports.getDocenteById = async (req, res) => {
             {
                 attributes: {
                     include: [
-                        [sequalize.literal('ProgramaDocente.carreraId'), 'carreraId']
+                        [sequalize.literal('ProgramaDocente.programaId'), 'programaId']
                     ]
                 },
                 include: [{
@@ -86,7 +86,7 @@ exports.getDocenteById = async (req, res) => {
 
         if (docente != null) {
             if (docente.dataValues.urlImagen) {
-                const pathFile = m.getFolderCarrera(docente.dataValues.carreraId);
+                const pathFile = m.getFolderCarrera(docente.dataValues.programaId);
                 docente.dataValues.pathFile = pathFile + '/docentes';
             }
             return res.json({
@@ -113,7 +113,7 @@ exports.getDocenteById = async (req, res) => {
 
 exports.getDocentesByCarreraId = async (req, res) => {
     try {
-        let { carreraId, offset, limit } = req.body;
+        let { programaId, offset, limit } = req.body;
 
         const docentes = await Docente.findAll({
             offset, limit, subQuery: false,
@@ -122,16 +122,16 @@ exports.getDocentesByCarreraId = async (req, res) => {
             },
             attributes: {
                 include: [
-                    [sequalize.literal('ProgramaDocente.carreraId'), 'carreraId']
+                    [sequalize.literal('programaDocente.programaId'), 'programaId']
                 ]
             },
             include: [{
                 model: ProgramaDocente,
                 attributes: [],
-                as: "ProgramaDocente",
+                as: "programaDocente",
                 where: {
                     status: 1,
-                    carreraId: carreraId
+                    programaId: programaId
                 }
             }]
         });
@@ -161,10 +161,10 @@ exports.crudDocente = async (req, res) => {
             if (newDocente) {
                 let data = {
                     docenteId: newDocente.docenteId,
-                    carreraId: docente.carreraId,
+                    programaId: docente.programaId,
                     status: 1
                 }
-                let carreraDocente = await CarreraDocente.create(data);
+                let carreraDocente = await ProgramaDocente.create(data);
 
                 return res.status(200).json({
                     success: true,
@@ -211,10 +211,10 @@ exports.crudDocenteMasivo = async (req, res) => {
 
                     let data = {
                         docenteId: newDocente.docenteId,
-                        carreraId: docente.carreraId,
+                        programaId: docente.programaId,
                         status: 1
                     }
-                    let ProgramaDocente = await ProgramaDocente.create(data);
+                    let programaDocente = await ProgramaDocente.create(data);
 
                 }
             } else if (docente.docenteId) { // En caso de que el id NO sea nulo, se actualiza el docente.
@@ -266,7 +266,7 @@ exports.uploadDocenteImage = async (req, res) => {
         if (!file) {
             const error = new Error("No File");
         }
-        let filepath = m.getFolderCarrera(req.query.carreraId);
+        let filepath = m.getFolderCarrera(req.query.programaId);
         filepath = filepath + '/docentes';
 
         const originalName = file.originalname;

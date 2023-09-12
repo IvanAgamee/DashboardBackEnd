@@ -16,7 +16,7 @@ const Sequelize = require('sequelize').Sequelize;
 //Conexion para los demás:
 
 const sequelize = new Sequelize(
-'dashboardpaginasweb', // base de datos
+'ProgramasEstudioITVER', // base de datos
 'root', // usuario
 '', // contraseña
 {

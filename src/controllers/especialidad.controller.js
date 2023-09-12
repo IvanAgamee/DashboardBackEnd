@@ -4,12 +4,12 @@ const Especialidad = require('../models/Especialidad');
 
 exports.getEspecialidadesByCarreraId = async (req, res) => {
     try {
-        const { carreraId } = req.query;
+        const { programaId } = req.query;
 
         const especialidades = await Especialidad.findAll({
             where: {
                 status: 1,
-                carreraId: carreraId
+                programaId: programaId
             },
         });
         return res.json({
@@ -92,6 +92,7 @@ exports.crudEspecialidadMasivo = async (req, res) => {
     let especialidades = req.body;
     const especialidadesAsync = async (especialidad) => {
         try {
+            console.log(especialidad)
             if (especialidad.especialidadId == null) {
                 let newEsp = await Especialidad.create(especialidad);
             } else if (especialidad.especialidadId) {

@@ -5,11 +5,11 @@ const Objeto = require('../models/Objeto');
 
 exports.getSeccionByCarreraId = async (req, res) => {
     try {
-        let carreraId = req.query.carreraId;
+        let programaId = req.query.programaId;
         const docentes = await Seccion.findAll({
             where: {
                 status: 1,
-                carreraId: carreraId
+                programaId: programaId
             },
             include: [
                 {
@@ -43,7 +43,7 @@ exports.getSeccionByCarreraId = async (req, res) => {
 
 exports.getObjetoByCarreraId = async (req, res) => {
     try {
-        let carreraId = req.query.carreraId;
+        let programaId = req.query.programaId;
         const docentes = await Objeto.findAll({
             where: {
                 status: 1
@@ -57,7 +57,7 @@ exports.getObjetoByCarreraId = async (req, res) => {
                     as: "seccion",
                     where: {
                         status: 1,
-                        carreraId: carreraId
+                        programaId: programaId
                     }
                 },
             ]

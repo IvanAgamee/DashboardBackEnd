@@ -92,11 +92,11 @@ exports.crudComunidad = async (req, res) => {
 
 exports.getComunidadByCarreraId = async (req, res) => {
     try {
-        let carreraId = req.query.carreraId;
+        let programaId = req.query.programaId;
         const comunidad = await Comunidad.findAll({
             where: {
                 status: 1,
-                carreraId: carreraId
+                programaId: programaId
             }
         });
 
@@ -151,7 +151,7 @@ exports.uploadFiles = async (req, res) => {
             logError.error(`Error ${error}`);
         }
 
-        let filepath = m.getFolderCarrera(req.query.carreraId);
+        let filepath = m.getFolderCarrera(req.query.programaId);
         filepath = filepath + '/comunidades';
 
         files.forEach((f) => {

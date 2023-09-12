@@ -86,12 +86,12 @@ exports.crudCarrera = async (req, res) => {
                 });
             }
         } else if (ProgramaEstudio.id) { // En caso de que el id NO sea nulo, se actualiza el ProgramaEstudio.
-            let carreraId = ProgramaEstudio.id;
+            let programaId = ProgramaEstudio.id;
             delete ProgramaEstudio.id;
 
             let updatedCarrera = await ProgramaEstudio.update(ProgramaEstudio, {
                 where: {
-                    id: carreraId
+                    id: programaId
                 }
             });
             if (updatedCarrera) {
@@ -115,15 +115,15 @@ exports.crudCarreraMasivo = async (req, res) => {
     let carreras = req.body;
     const carrerasAsync = async (ProgramaEstudio) => {
         try {
-            if (ProgramaEstudio.carreraId == null) {
+            if (ProgramaEstudio.programaId == null) {
                 let newCarrera = await ProgramaEstudio.create(ProgramaEstudio);
-            } else if (ProgramaEstudio.carreraId) {
-                let carreraId = ProgramaEstudio.carreraId;
-                delete ProgramaEstudio.carreraId;
+            } else if (ProgramaEstudio.programaId) {
+                let programaId = ProgramaEstudio.programaId;
+                delete ProgramaEstudio.programaId;
 
                 let updatedCarrera = await ProgramaEstudio.update(ProgramaEstudio, {
                     where: {
-                        carreraId: carreraId
+                        programaId: programaId
                     }
                 });
             }

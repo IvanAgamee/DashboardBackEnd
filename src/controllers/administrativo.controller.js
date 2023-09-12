@@ -13,12 +13,12 @@ exports.crudAdministrativoMasivo = async (req, res) => {
                 if (newAdmin) {
                     let data = {
                         administrativoId: newAdmin.administrativoId, // Manda el id del cliente
-                        carreraId: administrativo.carreraId,  // Manda el id del contacto creado
+                        programaId: administrativo.programaId,  // Manda el id del contacto creado
                         status: 1
                     };
 
                     let newUnion = await AdministrativoPrograma.create(data);
-                    // await crudAdminCarrera(administrativo.carreraId, newAdmin);
+                    // await crudAdminCarrera(administrativo.programaId, newAdmin);
                 }
             } else if (administrativo.administrativoId) { // En caso de que el id NO sea nulo, se actualiza el administrativo.
                 let administrativoId = administrativo.administrativoId;
@@ -70,7 +70,7 @@ exports.crudAdministrativo = async (req, res) => {
             if (newAdmin) {
                 let data = {
                     administrativoId: newAdmin.administrativoId, // Manda el id del cliente
-                    carreraId: administrativo.carreraId,  // Manda el id del contacto creado
+                    programaId: administrativo.programaId,  // Manda el id del contacto creado
                     status: 1
                 };
 
@@ -111,14 +111,14 @@ exports.crudAdministrativo = async (req, res) => {
 
 exports.getAdministrativosByCarreraId = async (req, res) => {
     try {
-        let carreraId = req.query.carreraId;
+        let programaId = req.query.programaId;
         const administrativos = await Administrativo.findAll({
             where: {
                 status: 1,
             },
             attributes: {
                 include: [
-                    [sequalize.literal('AdministrativoPrograma.carreraId'), 'carreraId']
+                    [sequalize.literal('AdministrativoPrograma.programaId'), 'programaId']
                 ]
             },
             include: [{
@@ -127,7 +127,7 @@ exports.getAdministrativosByCarreraId = async (req, res) => {
                 as: "administrativoPrograma",
                 where: {
                     status: 1,
-                    carreraId: carreraId
+                    programaId: programaId
                 }
             }]
         });
@@ -150,7 +150,7 @@ exports.getAdministrativosByCarreraId = async (req, res) => {
 
 exports.getAdministrativo = async (req, res) => {
     try {
-        const { carreraId, puestoId } = req.body;
+        const { programaId, puestoId } = req.body;
 
         let administrativo = await Administrativo.findOne({
             where: {
@@ -160,7 +160,7 @@ exports.getAdministrativo = async (req, res) => {
             subQuery: false,
             attributes: {
                 include: [
-                    [sequalize.literal('AdministrativoPrograma.carreraId'), 'carreraId'],
+                    [sequalize.literal('AdministrativoPrograma.programaId'), 'programaId'],
                     [sequalize.literal('puesto.nombre'), 'nombrePuesto'],
                 ]
             },
@@ -171,7 +171,7 @@ exports.getAdministrativo = async (req, res) => {
                     attributes: [],
                     where: {
                         status: 1,
-                        carreraId: carreraId
+                        programaId: programaId
                     },
                     include: [
                         {
@@ -191,7 +191,7 @@ exports.getAdministrativo = async (req, res) => {
 
         const ProgramaEstudio = await ProgramaEstudio.findOne({
             where: {
-                carreraId: carreraId
+                programaId: programaId
             },
             attributes: ['nombre']
         });
