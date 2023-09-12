@@ -89,12 +89,12 @@ exports.getUsers = async (req, res) => {
     }
 }
 exports.getUserById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.query;
 
     try {
         const user = await Usuario.findOne({
             where: {
-                id
+                usuarioId: id
             }
         });
 
@@ -137,6 +137,8 @@ exports.crudUser = async (req, res) => {
                     message: 'Nombre de usuario ya existente'
                 });
             } else {  // En caso de que no exista o no se repita el nombre de usuario
+                usuario.urlImagen = usuario.urlImagen ? usuario.urlImagen : 'user.webp';
+
                 let newUsuario = await Usuario.create(usuario); // crea el usuario
                 if (newUsuario) {
                     return res.status(200).json({
