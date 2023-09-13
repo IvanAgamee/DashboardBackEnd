@@ -189,7 +189,7 @@ exports.getAdministrativo = async (req, res) => {
             ]
         });
 
-        const ProgramaEstudio = await ProgramaEstudio.findOne({
+        const programaEstudio = await ProgramaEstudio.findOne({
             where: {
                 programaId: programaId
             },

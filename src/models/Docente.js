@@ -54,9 +54,6 @@ const Docente = sequelize.define("tbl_docente", {
     programaId: {
         type: Sequelize.INTEGER,
     },
-    tipoDocenteId: {
-        type: Sequelize.INTEGER,
-    },
     status: {
         type: Sequelize.INTEGER,
     },
