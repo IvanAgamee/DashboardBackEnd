@@ -76,21 +76,21 @@ const Docente = sequelize.define("tbl_docente", {
 
 
 // Asociaciones M:M de tablas Docente y Programa de Estudio
-// Docente.belongsToMany(ProgramaEstudio, {  // Un docente pertenece a muchos programas de estudio
-//     through: ProgramaDocente,  // Modelo que actúa como la unión de Docente y Programa de estudio
-//     foreignKey: "docenteId",   // Llave foránea que hace referencia a Docente
-//     as: "docentes"    // Alias
-// });
-// ProgramaEstudio.belongsToMany(Docente, {  // Un programa de estudio pertenece a muchos docentes
-//     through: ProgramaDocente,   // Modelo que actúa como la unión de Dicente y Programa de estudio
-//     foreignKey: "programaId",  // Llave foránea que hace referencia a Programa de estudio
-//     as: "programas"
-// });
+Docente.belongsToMany(ProgramaEstudio, {  // Un docente pertenece a muchos programas de estudio
+    through: ProgramaDocente,  // Modelo que actúa como la unión de Docente y Programa de estudio
+    foreignKey: "docenteId",   // Llave foránea que hace referencia a Docente
+    as: "docentes"    // Alias
+});
+ProgramaEstudio.belongsToMany(Docente, {  // Un programa de estudio pertenece a muchos docentes
+    through: ProgramaDocente,   // Modelo que actúa como la unión de Dicente y Programa de estudio
+    foreignKey: "programaId",  // Llave foránea que hace referencia a Programa de estudio
+    as: "programa"
+});
 
-// ProgramaEstudio.hasMany(ProgramaDocente, { foreignKey: "programaId", as: "programaDocente" });
-// Docente.hasMany(ProgramaDocente, { foreignKey: "docenteId", as: "programaDocente" });
+ProgramaEstudio.hasMany(ProgramaDocente, { foreignKey: "programaId", as: "programaDocente" });
+Docente.hasMany(ProgramaDocente, { foreignKey: "docenteId", as: "programaDocente" });
 
-// ProgramaDocente.belongsTo(ProgramaEstudio, { foreignKey: "programaId" });
-// ProgramaDocente.belongsTo(Docente, { foreignKey: "docenteId" });
+ProgramaDocente.belongsTo(ProgramaEstudio, { foreignKey: "programaId" });
+ProgramaDocente.belongsTo(Docente, { foreignKey: "docenteId" });
 
 module.exports = Docente;

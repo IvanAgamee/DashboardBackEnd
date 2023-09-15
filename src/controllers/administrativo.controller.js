@@ -18,7 +18,7 @@ exports.crudAdministrativoMasivo = async (req, res) => {
                     };
 
                     let newUnion = await AdministrativoPrograma.create(data);
-                    // await crudAdminCarrera(administrativo.programaId, newAdmin);
+                    // await crudAdminPrograma(administrativo.programaId, newAdmin);
                 }
             } else if (administrativo.administrativoId) { // En caso de que el id NO sea nulo, se actualiza el administrativo.
                 let administrativoId = administrativo.administrativoId;
@@ -109,7 +109,7 @@ exports.crudAdministrativo = async (req, res) => {
     }
 };
 
-exports.getAdministrativosByCarreraId = async (req, res) => {
+exports.getAdministrativosByProgramaId = async (req, res) => {
     try {
         let programaId = req.query.programaId;
         const administrativos = await Administrativo.findAll({
@@ -196,7 +196,7 @@ exports.getAdministrativo = async (req, res) => {
             attributes: ['nombre']
         });
 
-        administrativo = { ...administrativo.dataValues, nombreCarrera: ProgramaEstudio.nombre };
+        administrativo = { ...administrativo.dataValues, nombrePrograma: ProgramaEstudio.nombre };
         
         return res.json({
             success: true,

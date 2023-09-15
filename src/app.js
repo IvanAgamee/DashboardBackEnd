@@ -21,7 +21,7 @@ require('./routes/seccion')(app);
 require('./routes/modulo')(app);
 require('./routes/docente')(app);
 require('./routes/materia')(app);
-require('./routes/carrera')(app);
+require('./routes/programa')(app);
 require('./routes/departamento')(app);
 require('./routes/especialidad')(app);
 require('./routes/usuario')(app);

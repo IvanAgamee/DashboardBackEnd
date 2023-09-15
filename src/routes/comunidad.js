@@ -9,7 +9,7 @@ module.exports = app => {
 
     const storage = multer.diskStorage({
         destination: (req, file, callBack) => {
-            let filepath = m.getFolderCarrera(req.query.carreraId);
+            let filepath = m.getFolderPrograma(req.query.programaId);
             filepath = PATH_COMUNIDAD + '/' + filepath + '/comunidades/' + req.body.comunidadNombre;
 
             if (!fs.existsSync(filepath)) {
@@ -30,7 +30,7 @@ module.exports = app => {
     const upload = multer({ storage: storage });
 
     router.post("/uploadFiles", upload.array("files[]", 2), c.uploadFiles);
-    router.get('/getComunidadByCarreraId', c.getComunidadByCarreraId);
+    router.get('/getComunidadByProgramaId', c.getComunidadByProgramaId);
     router.post('/crudComunidad', c.crudComunidad);
     router.post('/crudComunidadMasivo', c.crudComunidadMasivo);
     router.get('/getComunidadById', c.getComunidadById);

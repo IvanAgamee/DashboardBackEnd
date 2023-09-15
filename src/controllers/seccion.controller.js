@@ -3,7 +3,7 @@ const sequelize = require("../database/database");
 const Seccion = require('../models/Seccion');
 const Objeto = require('../models/Objeto');
 
-exports.getSeccionByCarreraId = async (req, res) => {
+exports.getSeccionByProgramaId = async (req, res) => {
     try {
         let programaId = req.query.programaId;
         const docentes = await Seccion.findAll({
@@ -41,7 +41,7 @@ exports.getSeccionByCarreraId = async (req, res) => {
     }
 };
 
-exports.getObjetoByCarreraId = async (req, res) => {
+exports.getObjetoByProgramaId = async (req, res) => {
     try {
         let programaId = req.query.programaId;
         const docentes = await Objeto.findAll({

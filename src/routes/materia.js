@@ -3,7 +3,7 @@ module.exports = app => {
     var m = require("../controllers/materia.controller");
     router.get('/getMaterias', m.getMaterias);
     router.get('/getMateriaById', m.getMateriaById);
-    router.post('/getMateriasByCarreraId', m.getMateriasByProgramaId);
+    router.post('/getMateriasByProgramaId', m.getMateriasByProgramaId);
     router.post('/crudMateria', m.crudMateria);
     router.post('/crudMateriaMasivo', m.crudMateriaMasivo);
     app.use('/api/materia', router);

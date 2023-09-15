@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Especialidad = require('../models/Especialidad');
 
-exports.getEspecialidadesByCarreraId = async (req, res) => {
+exports.getEspecialidadesByProgramaId = async (req, res) => {
     try {
         const { programaId } = req.query;
 

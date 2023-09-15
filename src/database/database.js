@@ -2,7 +2,7 @@ const Sequelize = require('sequelize').Sequelize;
 
 // Eric Connexion:
 // const sequelize = new Sequelize(
-//     'dashboardCarreras', // base de datos
+//     'dashboardProgramas', // base de datos
 //     'monitor', // usuario
 //     '12345', // contraseña
 //     {

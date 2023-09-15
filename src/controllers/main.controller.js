@@ -35,7 +35,7 @@ exports.getTotalUsuarios = async (req, res) => {
 };
 
 // Número total de profesores según el ID de una ProgramaEstudio
-exports.getTotalDocentesByCarreraID = async (req, res) => {
+exports.getTotalDocentesByProgramaID = async (req, res) => {
     try {
         const { programaId } = req.query;
 
@@ -46,7 +46,7 @@ exports.getTotalDocentesByCarreraID = async (req, res) => {
             include: [{
                 model: ProgramaDocente,
                 attributes: [],
-                as: "ProgramaDocente",
+                as: "programaDocente",
                 where: {
                     status: 1,
                     programaId: programaId
@@ -137,8 +137,8 @@ exports.getTotalMaterias = async (req, res) => {
     }
 };
 
-// Número total de carreras
-exports.getTotalMateriasByCarreraId = async (req, res) => {
+// Número total de programas
+exports.getTotalMateriasByProgramaId = async (req, res) => {
     try {
 
         const { programaId } = req.query;
@@ -164,8 +164,8 @@ exports.getTotalMateriasByCarreraId = async (req, res) => {
     }
 };
 
-// Número total de carreras
-exports.getTotalCarreras = async (req, res) => {
+// Número total de programas
+exports.getTotalProgramas = async (req, res) => {
     try {
         const total = await ProgramaEstudio.count({
             where: {
@@ -249,7 +249,7 @@ exports.removeFileFromStorage = (req, res) => {
     }
 }
 
-exports.getFolderCarrera = (id) => {
+exports.getFolderPrograma = (id) => {
     try {
         let name;
         switch (Number(id)) {

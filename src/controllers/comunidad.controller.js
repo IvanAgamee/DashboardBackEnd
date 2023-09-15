@@ -90,7 +90,7 @@ exports.crudComunidad = async (req, res) => {
 
 };
 
-exports.getComunidadByCarreraId = async (req, res) => {
+exports.getComunidadByProgramaId = async (req, res) => {
     try {
         let programaId = req.query.programaId;
         const comunidad = await Comunidad.findAll({
@@ -126,7 +126,7 @@ exports.getComunidadById = async (req, res) => {
 
         if (comunidad != null) {
             if (comunidad.dataValues.fotosComunidad) {
-                const pathFile = m.getFolderCarrera(comunidad.dataValues.carreraId);
+                const pathFile = m.getFolderPrograma(comunidad.dataValues.programaId);
                 console.log(pathFile)
                 comunidad.dataValues.pathFile = pathFile + '/comunidades';
                 comunidad.dataValues.fotosComunidad = comunidad.dataValues.fotosComunidad.split(',');
@@ -170,7 +170,7 @@ exports.uploadFiles = async (req, res) => {
             logError.error(`Error ${error}`);
         }
 
-        let filepath = m.getFolderCarrera(req.query.programaId);
+        let filepath = m.getFolderPrograma(req.query.programaId);
         filepath = filepath + '/comunidades';
 
         files.forEach((f) => {

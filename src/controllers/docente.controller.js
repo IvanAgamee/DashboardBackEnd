@@ -43,7 +43,7 @@ exports.getDocentes = async (req, res) => {
             },
             include: [{
                 model: ProgramaDocente,
-                as: 'ProgramaDocente',
+                as: 'programaDocente',
                 attributes: [],
                 where: { status: 1 }
             }]
@@ -89,7 +89,7 @@ exports.getDocenteById = async (req, res) => {
 
         if (docente != null) {
             if (docente.dataValues.urlImagen) {
-                const pathFile = m.getFolderCarrera(docente.dataValues.programaId);
+                const pathFile = m.getFolderPrograma(docente.dataValues.programaId);
                 docente.dataValues.pathFile = pathFile + '/docentes';
             }
             return res.json({
@@ -114,7 +114,7 @@ exports.getDocenteById = async (req, res) => {
     }
 };
 
-exports.getDocentesByCarreraId = async (req, res) => {
+exports.getDocentesByProgramaId = async (req, res) => {
     try {
         let { programaId, offset, limit } = req.body;
 
@@ -167,7 +167,7 @@ exports.crudDocente = async (req, res) => {
                     programaId: docente.programaId,
                     status: 1
                 }
-                let carreraDocente = await ProgramaDocente.create(data);
+                let programaDocente = await ProgramaDocente.create(data);
 
                 return res.status(200).json({
                     success: true,
@@ -269,7 +269,7 @@ exports.uploadDocenteImage = async (req, res) => {
         if (!file) {
             const error = new Error("No File");
         }
-        let filepath = m.getFolderCarrera(req.query.programaId);
+        let filepath = m.getFolderPrograma(req.query.programaId);
         filepath = filepath + '/docentes';
 
         const originalName = file.originalname;

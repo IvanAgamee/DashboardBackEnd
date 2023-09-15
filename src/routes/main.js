@@ -3,11 +3,11 @@ module.exports = app => {
     var main = require("../controllers/main.controller");
 
     router.get('/getTotalUsuarios', main.getTotalUsuarios);
-    router.get('/getTotalDocentesByCarreraID', main.getTotalDocentesByCarreraID);
+    router.get('/getTotalDocentesByProgramaID', main.getTotalDocentesByProgramaID);
     router.get('/getTotalDocentes', main.getTotalDocentes);
     router.get('/getTotalMaterias', main.getTotalMaterias);
-    router.get('/getTotalCarreras', main.getTotalCarreras);
-    router.get('/getTotalMateriasByCarreraId', main.getTotalMateriasByCarreraId);
+    router.get('/getTotalProgramas', main.getTotalProgramas);
+    router.get('/getTotalMateriasByProgramaId', main.getTotalMateriasByProgramaId);
     router.get('/getTotalComunidades', main.getTotalComunidades);
 
     //Obtiene el file desde el storage
