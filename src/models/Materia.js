@@ -12,9 +12,6 @@ const Materia = sequelize.define("tbl_materia", {
     programaId: {
         type: Sequelize.INTEGER,
     },
-    tipoMateriaId: {
-        type: Sequelize.INTEGER,
-    },
     lineaInvestigacionId: {
         type: Sequelize.INTEGER,
     },

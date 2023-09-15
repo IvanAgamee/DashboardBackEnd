@@ -38,7 +38,7 @@ exports.getMaterias = async (req, res) => {
     }
 };
 
-exports.getMateriasByCarreraId = async (req, res) => {
+exports.getMateriasByProgramaId = async (req, res) => {
     try {
         const { programaId } = req.body;
 
@@ -58,6 +58,39 @@ exports.getMateriasByCarreraId = async (req, res) => {
         return res.json({
             success: true,
             message: "Se han encontrado registros.",
+            data: materia,
+
+        });
+
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getMateriaById = async (req, res) => {
+    try {
+        let materiaId = req.query.materiaId;
+        let materia = await Materia.findByPk(materiaId, {
+            where: {
+                status: 1
+            },
+            include: [
+                {
+                    model: Especialidad,
+                    as: 'especialidad',
+                    attributes: ['nombre'],
+                },
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado la materia.",
             data: materia,
 
         });
