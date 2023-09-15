@@ -118,12 +118,31 @@ exports.getComunidadByCarreraId = async (req, res) => {
 exports.getComunidadById = async (req, res) => {
     try {
         let comunidadId = req.query.comunidadId;
-        const comunidad = await Comunidad.findOne({
+        let comunidad = await Comunidad.findByPk(comunidadId, {
             where: {
-                status: 1,
-                comunidadId: comunidadId
+                status: 1
             }
         });
+
+        if (comunidad != null) {
+            if (comunidad.dataValues.fotosComunidad) {
+                const pathFile = m.getFolderCarrera(comunidad.dataValues.carreraId);
+                console.log(pathFile)
+                comunidad.dataValues.pathFile = pathFile + '/comunidades';
+                comunidad.dataValues.fotosComunidad = comunidad.dataValues.fotosComunidad.split(',');
+            }
+            return res.json({
+                success: true,
+                message: "Se han encontrado registros.",
+                data: comunidad
+            });
+        }
+        else {
+            return res.json({
+                success: false,
+                message: "No se encontro un docente con ese ID"
+            });
+        }
 
         return res.json({
             success: true,

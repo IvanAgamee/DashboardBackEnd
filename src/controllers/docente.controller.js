@@ -67,8 +67,11 @@ exports.getDocentes = async (req, res) => {
 exports.getDocenteById = async (req, res) => {
     try {
         const { docenteId } = req.body;
-        const docente = await Docente.findByPk(docenteId,
+        let docente = await Docente.findByPk(docenteId,
             {
+                where: {
+                    status: 1
+                },
                 attributes: {
                     include: [
                         [sequalize.literal('ProgramaDocente.programaId'), 'programaId']

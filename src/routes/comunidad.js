@@ -29,7 +29,7 @@ module.exports = app => {
 
     const upload = multer({ storage: storage });
 
-    router.post("/uploadFiles", upload.array("files[]", 5), c.uploadFiles);
+    router.post("/uploadFiles", upload.array("files[]", 2), c.uploadFiles);
     router.get('/getComunidadByCarreraId', c.getComunidadByCarreraId);
     router.post('/crudComunidad', c.crudComunidad);
     router.post('/crudComunidadMasivo', c.crudComunidadMasivo);
