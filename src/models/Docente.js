@@ -88,7 +88,7 @@ ProgramaEstudio.belongsToMany(Docente, {  // Un programa de estudio pertenece a 
 });
 
 ProgramaEstudio.hasMany(ProgramaDocente, { foreignKey: "programaId", as: "programaDocente" });
-Docente.hasMany(ProgramaDocente, { foreignKey: "docenteId", as: "programaDocente" });
+Docente.hasMany(ProgramaDocente, { foreignKey: "docenteId", as: "ProgramaDocente" });
 
 ProgramaDocente.belongsTo(ProgramaEstudio, { foreignKey: "programaId" });
 ProgramaDocente.belongsTo(Docente, { foreignKey: "docenteId" });

@@ -3,6 +3,43 @@ const sequelize = require("../database/database");
 const Seccion = require('../models/Seccion');
 const Objeto = require('../models/Objeto');
 
+exports.getSeccionById = async (req,res) => {
+    try{
+        let seccionId = req.query.seccionId;
+        const seccion = await Seccion.findOne( {
+            where: {
+                status: 1,
+                seccionId: seccionId
+            },
+            include:[
+                {
+                    model: Objeto,
+                    as: "objeto",
+                    required: false,
+                    where: {
+                        status: 1
+                    },
+                    order: [
+                        [sequelize.literal('posicion'), 'ASC']
+                    ]
+                }
+            ]
+        })
+        res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion
+        })
+    }
+    catch (e) {
+        res.status(404).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        })
+    }
+};
+
 exports.getSeccionByProgramaId = async (req, res) => {
     try {
         let programaId = req.query.programaId;

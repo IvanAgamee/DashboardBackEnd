@@ -2,6 +2,7 @@ module.exports = app => {
     var router = require('express').Router();
     var m = require("../controllers/seccion.controller");
 
+    router.get('/getSeccionById', m.getSeccionById)
     router.get('/getSeccionByProgramaId', m.getSeccionByProgramaId);
     router.get('/getObjetoByProgramaId', m.getObjetoByProgramaId);
     router.get('/getObjetoBySeccionId', m.getObjetoBySeccionId);

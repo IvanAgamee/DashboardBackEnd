@@ -4,7 +4,7 @@ module.exports = app => {
 
     router.get('/getProgramas', m.getProgramas);
     router.post('/crudPrograma', m.crudPrograma);
-    router.post('/getProgramasByDepartment', m.getProgramasByDeparment);
+    router.post('/getProgramasByDeparment', m.getProgramasByDeparment);
     router.post('/crudProgramaMasivo', m.crudProgramaMasivo);
     app.use('/api/programa', router);
 }
