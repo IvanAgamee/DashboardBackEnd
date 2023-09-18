@@ -10,19 +10,24 @@ module.exports = app => {
     const storage = multer.diskStorage({
         destination: (req, file, callBack) => {
 
-            let pathStorage = PATH_COMUNIDAD + '/' + m.getFolderPrograma(req.query.programaId) + '/comunidades/';
+            let pathStorage = PATH_COMUNIDAD + '/' + m.getFolderPrograma(req.query.programaId);
 
             if (!fs.existsSync(pathStorage)) {
                 fs.mkdirSync(pathStorage);
             }
 
-            pathStorage = pathStorage  + req.body.comunidadNombre;
+            pathStorage = pathStorage + '/comunidades/';
 
             if (!fs.existsSync(pathStorage)) {
                 fs.mkdirSync(pathStorage);
             }
 
-            console.log(pathStorage)
+            pathStorage = pathStorage + req.body.comunidadNombre;
+
+            if (!fs.existsSync(pathStorage)) {
+                fs.mkdirSync(pathStorage);
+            }
+
             callBack(null, pathStorage);
 
         },

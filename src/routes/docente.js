@@ -9,7 +9,14 @@ module.exports = app => {
 
   const storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-      let pathStorage = PATH_DOCENTE + '/' + m.getFolderPrograma(req.query.programaId) + '/docentes';
+
+      let pathStorage = PATH_DOCENTE + '/' + m.getFolderPrograma(req.query.programaId);
+
+      if (!fs.existsSync(pathStorage)) {
+        fs.mkdirSync(pathStorage);
+      }
+      
+      pathStorage = pathStorage + '/docentes';
 
       if (!fs.existsSync(pathStorage)) {
         fs.mkdirSync(pathStorage);
