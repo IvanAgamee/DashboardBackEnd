@@ -43,7 +43,7 @@ exports.getDocentes = async (req, res) => {
             },
             include: [{
                 model: ProgramaDocente,
-                as: 'programaDocente',
+                as: 'ProgramaDocente',
                 attributes: [],
                 where: { status: 1 }
             }]
@@ -131,7 +131,7 @@ exports.getDocentesByProgramaId = async (req, res) => {
             include: [{
                 model: ProgramaDocente,
                 attributes: [],
-                as: "programaDocente",
+                as: "ProgramaDocente",
                 where: {
                     status: 1,
                     programaId: programaId
