@@ -127,7 +127,6 @@ exports.getComunidadById = async (req, res) => {
         if (comunidad != null) {
             if (comunidad.dataValues.fotosComunidad) {
                 const pathFile = m.getFolderPrograma(comunidad.dataValues.programaId);
-                console.log(pathFile)
                 comunidad.dataValues.pathFile = pathFile + '/comunidades';
                 comunidad.dataValues.fotosComunidad = comunidad.dataValues.fotosComunidad.split(',');
             }
@@ -176,17 +175,13 @@ exports.uploadFiles = async (req, res) => {
         files.forEach((f) => {
             let nameFile = `${data}-${f.originalname}`;
             nameFile.replace(/['"]+/g, '-');
-            nameFiles.push({ nameFile: nameFile });
+            nameFiles.push(nameFile);
         });
 
-        const fileData = {
-            success: true,
+        res.send({  success: true,
             message: "Se ha subido correctamente",
             filenames: nameFiles,
-            pathFile: filepath
-        };
-
-        res.send({ fileData });
+            pathFile: filepath });
     } catch (e) {
         console.log(e);
         return res.status(500).json({
