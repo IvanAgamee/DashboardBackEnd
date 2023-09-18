@@ -14,7 +14,7 @@ exports.getSistemasDocentes = async (req, res) => {
             },
             include: [{
                 model: ProgramaDocente,
-                as: 'ProgramaDocente',
+                as: 'programaDocente',
                 attributes: [],
                 where: { status: 1, programaId: 11 }
             }]
@@ -43,7 +43,7 @@ exports.getDocentes = async (req, res) => {
             },
             include: [{
                 model: ProgramaDocente,
-                as: 'ProgramaDocente',
+                as: 'programaDocente',
                 attributes: [],
                 where: { status: 1 }
             }]
@@ -80,7 +80,7 @@ exports.getDocenteById = async (req, res) => {
                 include: [{
                     model: ProgramaDocente,
                     attributes: [],
-                    as: "ProgramaDocente",
+                    as: "programaDocente",
                     where: {
                         status: 1
                     }
@@ -131,7 +131,7 @@ exports.getDocentesByProgramaId = async (req, res) => {
             include: [{
                 model: ProgramaDocente,
                 attributes: [],
-                as: "ProgramaDocente",
+                as: "programaDocente",
                 where: {
                     status: 1,
                     programaId: programaId

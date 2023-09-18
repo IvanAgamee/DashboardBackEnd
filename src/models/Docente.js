@@ -84,11 +84,11 @@ Docente.belongsToMany(ProgramaEstudio, {  // Un docente pertenece a muchos progr
 ProgramaEstudio.belongsToMany(Docente, {  // Un programa de estudio pertenece a muchos docentes
     through: ProgramaDocente,   // Modelo que actúa como la unión de Dicente y Programa de estudio
     foreignKey: "programaId",  // Llave foránea que hace referencia a Programa de estudio
-    as: "programaDocente"
+    as: "programa"
 });
 
-ProgramaEstudio.hasMany(ProgramaDocente, { foreignKey: "programaId", as: "ProgramaDocente" });
-Docente.hasMany(ProgramaDocente, { foreignKey: "docenteId", as: "ProgramaDocente" });
+ProgramaEstudio.hasMany(ProgramaDocente, { foreignKey: "programaId", as: "programaDocente" });
+Docente.hasMany(ProgramaDocente, { foreignKey: "docenteId", as: "programaDocente" });
 
 ProgramaDocente.belongsTo(ProgramaEstudio, { foreignKey: "programaId" });
 ProgramaDocente.belongsTo(Docente, { foreignKey: "docenteId" });
