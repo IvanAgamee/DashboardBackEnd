@@ -176,7 +176,7 @@ exports.getAdministrativo = async (req, res) => {
                     include: [
                         {
                             model: ProgramaEstudio,
-                            as: 'programas',
+                            as: 'programaEstudio',
                             attributes: ['nombre'] // Incluye solo el atributo 'nombre' de ProgramaEstudio
                         }
                     ]

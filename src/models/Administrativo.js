@@ -48,21 +48,21 @@ Administrativo.belongsTo(PuestoAdministrativo, {
     as: "puesto"
 })
 // Asociaciones M:M de tablas Cliente y Agente Aduanal
-Administrativo.belongsToMany(ProgramaEstudio, {  // Un cliente pertenece a muchos agentes aduanales
-    through: AdministrativoPrograma,  // Modelo que actúa como la unión de Cliente y Agente Aduanal
-    foreignKey: "administrativoId",   // Llave foránea que hace referencia a Cliente
-    as: "administrativos"    // Alias
+Administrativo.belongsToMany(ProgramaEstudio, {
+    through: AdministrativoPrograma,
+    foreignKey: "administrativoId",
+    as: "administrativos"
 });
-ProgramaEstudio.belongsToMany(Administrativo, {  // Un agente aduanal pertenece a muchos clientes
-    through: AdministrativoPrograma,   // Modelo que actúa como la unión de Cliente y Agente Aduanal
+ProgramaEstudio.belongsToMany(Administrativo, {
+    through: AdministrativoPrograma,
     foreignKey: "programaId",
-    as: "programas" 
+    as: "programaEstudio" 
 });
 
 ProgramaEstudio.hasMany(AdministrativoPrograma, { foreignKey: "programaId", as: "administrativoPrograma" });
 Administrativo.hasMany(AdministrativoPrograma, { foreignKey: "administrativoId", as: "administrativoPrograma" });
 
-AdministrativoPrograma.belongsTo(ProgramaEstudio, { foreignKey: "programaId" });
+AdministrativoPrograma.belongsTo(ProgramaEstudio, { foreignKey: "programaId", as: "programaEstudio" });
 AdministrativoPrograma.belongsTo(Administrativo, { foreignKey: "administrativoId" });
 
 module.exports = Administrativo;
