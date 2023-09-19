@@ -37,6 +37,13 @@ exports.login = async (req, res) => {
                         where: {
                             status: 1
                         },
+                        include: [
+                            {
+                                model: Departamento,
+                                as: "departamento",
+                                // attributes: []
+                            },
+                        ]
                     },
                 ]
             });
@@ -59,11 +66,21 @@ exports.login = async (req, res) => {
                         where: {
                             status: 1
                         },
+                        include: [
+                            {
+                                model: Departamento,
+                                as: "departamento",
+                                // attributes: []
+                            },
+                        ]
                     },
                 ]
             });
             programasEstudioData = departamentosData.programaEstudio;
         }
+
+        user.dataValues.departamento = departamentosData;
+        user.dataValues.programaEstudio = programasEstudioData;
 
         if (!user) return res.json({
             success: false,
