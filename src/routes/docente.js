@@ -5,11 +5,24 @@ module.exports = app => {
   const multer = require("multer");
   const path = require('path');
   const PATH_DOCENTE = `${__dirname}/../storage`;
+  const fs = require('fs')
 
   const storage = multer.diskStorage({
     destination: (req, file, callBack) => {
-      let filepath = m.getFolderPrograma(req.query.programaId);
-      callBack(null, PATH_DOCENTE + '/' + filepath + '/docentes');
+
+      let pathStorage = PATH_DOCENTE + '/' + m.getFolderPrograma(req.query.programaId);
+
+      if (!fs.existsSync(pathStorage)) {
+        fs.mkdirSync(pathStorage);
+      }
+      
+      pathStorage = pathStorage + '/docentes';
+
+      if (!fs.existsSync(pathStorage)) {
+        fs.mkdirSync(pathStorage);
+      }
+
+      callBack(null, pathStorage);
     },
     filename: (req, file, callBack) => {
 

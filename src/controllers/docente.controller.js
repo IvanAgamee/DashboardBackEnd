@@ -88,15 +88,14 @@ exports.getDocenteById = async (req, res) => {
             });
 
         if (docente != null) {
-            if (docente.dataValues.urlImagen) {
                 const pathFile = m.getFolderPrograma(docente.dataValues.programaId);
                 docente.dataValues.pathFile = pathFile + '/docentes';
-            }
-            return res.json({
-                success: true,
-                message: "Se han encontrado registros.",
-                data: docente
-            });
+
+                return res.json({
+                    success: true,
+                    message: "Se han encontrado registros.",
+                    data: docente
+                });
         }
         else {
             return res.json({

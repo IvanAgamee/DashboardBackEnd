@@ -12,7 +12,7 @@ exports.getDepartamentos = async (req, res) => {
             include:[
                 {
                     model: ProgramaEstudio,
-                    as: "programa",
+                    as: "programaEstudio",
                     where: {
                         status: 1
                     },

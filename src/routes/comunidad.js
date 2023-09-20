@@ -9,15 +9,27 @@ module.exports = app => {
 
     const storage = multer.diskStorage({
         destination: (req, file, callBack) => {
-            let filepath = m.getFolderPrograma(req.query.programaId);
-            filepath = PATH_COMUNIDAD + '/' + filepath + '/comunidades/' + req.body.comunidadNombre;
 
-            if (!fs.existsSync(filepath)) {
-                // Crear la carpeta
-                fs.mkdirSync(filepath);
+            let pathStorage = PATH_COMUNIDAD + '/' + m.getFolderPrograma(req.query.programaId);
+
+            if (!fs.existsSync(pathStorage)) {
+                fs.mkdirSync(pathStorage);
             }
 
-            callBack(null, filepath);
+            pathStorage = pathStorage + '/comunidades/';
+
+            if (!fs.existsSync(pathStorage)) {
+                fs.mkdirSync(pathStorage);
+            }
+
+            pathStorage = pathStorage + req.body.comunidadNombre;
+
+            if (!fs.existsSync(pathStorage)) {
+                fs.mkdirSync(pathStorage);
+            }
+
+            callBack(null, pathStorage);
+
         },
         filename: (req, file, callBack) => {
             let nameFile = `${req.body.comunidadNombre}-${file.originalname}`;
@@ -29,7 +41,7 @@ module.exports = app => {
 
     const upload = multer({ storage: storage });
 
-    router.post("/uploadFiles", upload.array("files[]", 2), c.uploadFiles);
+    router.post("/uploadFiles", upload.array("files", 2), c.uploadFiles);
     router.get('/getComunidadByProgramaId', c.getComunidadByProgramaId);
     router.post('/crudComunidad', c.crudComunidad);
     router.post('/crudComunidadMasivo', c.crudComunidadMasivo);

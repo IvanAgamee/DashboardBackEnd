@@ -19,33 +19,79 @@ exports.login = async (req, res) => {
                 model: Rol,
                 as: 'rol',
                 attributes: []
-            },
-            {
-                model: Departamento,
-                as: 'departamento',
-                // attributes: [],
-                include: [{
-                    model: ProgramaEstudio,
-                    as: 'programaEstudio',
-                    // attributes: []
-                }]
-            }
-        ],
+            }],
         });
-        let departamento = user.departamento;
-        let programa = user.departamento.programaEstudio;
+
+        let departamentosData = [];
+        let programasEstudioData = [];
+
+        if (user.rolId === 1) {
+            departamentosData = await Departamento.findAll({
+                where: {
+                    status: 1
+                },
+                include: [
+                    {
+                        model: ProgramaEstudio,
+                        as: "programaEstudio",
+                        where: {
+                            status: 1
+                        },
+                        include: [
+                            {
+                                model: Departamento,
+                                as: "departamento",
+                                // attributes: []
+                            },
+                        ]
+                    },
+                ]
+            });
+
+            departamentosData.forEach(programa => {
+                programasEstudioData.push(programa.programaEstudio);
+            });
+
+            programasEstudioData = programasEstudioData.flat();
+
+        } else {
+            departamentosData = await Departamento.findByPk(user.departamentoId, {
+                where: {
+                    status: 1
+                },
+                include: [
+                    {
+                        model: ProgramaEstudio,
+                        as: "programaEstudio",
+                        where: {
+                            status: 1
+                        },
+                        include: [
+                            {
+                                model: Departamento,
+                                as: "departamento",
+                                // attributes: []
+                            },
+                        ]
+                    },
+                ]
+            });
+            programasEstudioData = departamentosData.programaEstudio;
+        }
+
+        user.dataValues.departamento = departamentosData;
+        user.dataValues.programaEstudio = programasEstudioData;
 
         if (!user) return res.json({
             success: false,
             message: 'Usuario o contraseña incorrectos'
         });
-        // user.setDataValue('rolePermissions', await getByUserAndRole(user.roleId, user.id));
 
         return res.json({
             success: true,
             data: user,
-            departamento: departamento,
-            programaEstudio: programa
+            departamento: departamentosData,
+            programaEstudio: programasEstudioData
         });
 
     } catch (e) {
