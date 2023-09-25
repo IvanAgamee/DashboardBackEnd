@@ -115,6 +115,27 @@ exports.getObjetoByProgramaId = async (req, res) => {
     }
 };
 
+
+exports.getLastIdSecccion = async(req,res) => {
+try{
+    const idSeccion =  await sequelize.query("SELECT MAX(tbl_seccion.seccionId) AS seccionId FROM tbl_seccion",{
+        type: Sequelize.QueryTypes.SELECT});
+    return res.json({
+        success: true,
+        message: "Se han encontrado registros",
+        data: idSeccion[0]
+    });
+}
+catch (e) {
+    res.status(500).json({
+        success: false,
+        message: "Ha ocurrido un error al guardar el registro.",
+        error: e.message,
+    })
+}
+};
+
+
 exports.getObjetoBySeccionId = async (req, res) => {
     try {
         let seccionId = req.query.seccionId;
@@ -273,7 +294,6 @@ exports.crudSeccionMasivo = async (req, res) => {
         }];
     }
 };
-
 
 exports.crudObjetoMasivo = async (req, res) => {
     let objetos = req.body;
