@@ -14,6 +14,9 @@ const ProgramaEstudio = sequelize.define("tbl_programa_estudio", {
     nombre: {
         type: Sequelize.STRING,
     },
+    isPosgrado: {
+        type: Sequelize.INTEGER,
+    },
     status: {
         type: Sequelize.INTEGER,
     },
