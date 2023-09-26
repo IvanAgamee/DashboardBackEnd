@@ -3,6 +3,11 @@ const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
 const morgan = require('morgan');
+const cors = require("cors");
+var corsOptions = {
+    origin: "http://localhost:9000"
+};
+app.use(cors(corsOptions));
 // parse requests of content-type - application/json
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
