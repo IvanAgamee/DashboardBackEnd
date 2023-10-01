@@ -13,9 +13,6 @@ const Seccion = sequelize.define("tbl_seccion", {
     moduloId: {
         type: Sequelize.INTEGER,
     },
-    especialidadId: {
-        type: Sequelize.INTEGER,
-    },
     programaId: {
         type: Sequelize.INTEGER,
     },
@@ -54,10 +51,6 @@ Seccion.belongsTo(Modulo, {
 Seccion.belongsTo(ProgramaEstudio, {
     foreignKey: 'programaId',
     as: 'programas'
-});
-Seccion.belongsTo(Especialidad, {
-    foreignKey: 'especialidadId',
-    as: 'especialidad'
 });
 
 module.exports = Seccion;

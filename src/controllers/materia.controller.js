@@ -84,7 +84,7 @@ exports.getMateriasByEspecialidadId = async (req, res) => {
                 {
                     model: Especialidad,
                     as: 'especialidad',
-                    attributes: ['nombre'],
+                    attributes: ['nombre', 'url'],
                 },
             ]
         });

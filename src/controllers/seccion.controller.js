@@ -117,13 +117,12 @@ exports.getObjetoBySeccionId = async (req, res) => {
 
 exports.getReticulaByProgramaId = async (req, res) => {
     try {
-        const { programaId, especialidadId } = req.body;
+        const { programaId } = req.body;
         const seccion = await Seccion.findOne({
             where: {
                 status: 1,
                 programaId: programaId,
-                titulo: 'Ver plan de estudios',
-                especialidadId: especialidadId
+                titulo: 'Ver plan de estudios'
             }
         });
 

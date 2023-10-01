@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Especialidad = require('../models/Especialidad');
+const Materia = require('../models/Materia');
 
 exports.getEspecialidadesByProgramaId = async (req, res) => {
     try {
@@ -11,6 +12,38 @@ exports.getEspecialidadesByProgramaId = async (req, res) => {
                 status: 1,
                 programaId: programaId
             },
+        });
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: especialidades,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getEspecialidadByProgramaId = async (req, res) => {
+    try {
+        const { programaId, especialidadId } = req.body;
+
+        const especialidades = await Especialidad.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                especialidadId: especialidadId
+            },
+            include: [
+                {
+                    model: Materia,
+                    as: 'materias'
+                },
+            ]
         });
         return res.json({
             success: true,
