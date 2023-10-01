@@ -2,6 +2,7 @@ const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
 const Modulo = require("./Modulo");
 const ProgramaEstudio = require("./ProgramaEstudio");
+const Especialidad = require("./Especialidad");
 
 const Seccion = sequelize.define("tbl_seccion", {
     seccionId: {
@@ -12,6 +13,9 @@ const Seccion = sequelize.define("tbl_seccion", {
     moduloId: {
         type: Sequelize.INTEGER,
     },
+    especialidadId: {
+        type: Sequelize.INTEGER,
+    },
     programaId: {
         type: Sequelize.INTEGER,
     },
@@ -19,6 +23,9 @@ const Seccion = sequelize.define("tbl_seccion", {
         type: Sequelize.TEXT,
     },
     descripcion: {
+        type: Sequelize.TEXT,
+    },
+    url: {
         type: Sequelize.TEXT,
     },
     status: {
@@ -47,6 +54,10 @@ Seccion.belongsTo(Modulo, {
 Seccion.belongsTo(ProgramaEstudio, {
     foreignKey: 'programaId',
     as: 'programas'
+});
+Seccion.belongsTo(Especialidad, {
+    foreignKey: 'especialidadId',
+    as: 'especialidad'
 });
 
 module.exports = Seccion;

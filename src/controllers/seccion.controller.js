@@ -6,7 +6,7 @@ const Objeto = require('../models/Objeto');
 exports.getSeccionByProgramaId = async (req, res) => {
     try {
         let programaId = req.query.programaId;
-        const docentes = await Seccion.findAll({
+        const seccion = await Seccion.findAll({
             where: {
                 status: 1,
                 programaId: programaId
@@ -29,7 +29,7 @@ exports.getSeccionByProgramaId = async (req, res) => {
         return res.json({
             success: true,
             message: "Se han encontrado registros.",
-            data: docentes,
+            data: seccion,
         });
     } catch (e) {
         console.log(e);
@@ -44,7 +44,7 @@ exports.getSeccionByProgramaId = async (req, res) => {
 exports.getObjetoByProgramaId = async (req, res) => {
     try {
         let programaId = req.query.programaId;
-        const docentes = await Objeto.findAll({
+        const objetos = await Objeto.findAll({
             where: {
                 status: 1
             },
@@ -66,7 +66,7 @@ exports.getObjetoByProgramaId = async (req, res) => {
         return res.json({
             success: true,
             message: "Se han encontrado registros.",
-            data: docentes,
+            data: objetos,
         });
     } catch (e) {
         console.log(e);
@@ -81,7 +81,7 @@ exports.getObjetoByProgramaId = async (req, res) => {
 exports.getObjetoBySeccionId = async (req, res) => {
     try {
         let seccionId = req.query.seccionId;
-        const docentes = await Objeto.findAll({
+        const objetos = await Objeto.findOne({
             where: {
                 status: 1,
                 seccionId: seccionId
@@ -103,7 +103,163 @@ exports.getObjetoBySeccionId = async (req, res) => {
         return res.json({
             success: true,
             message: "Se han encontrado registros.",
-            data: docentes,
+            data: objetos,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getReticulaByProgramaId = async (req, res) => {
+    try {
+        const { programaId, especialidadId } = req.body;
+        const seccion = await Seccion.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                titulo: 'Ver plan de estudios',
+                especialidadId: especialidadId
+            }
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getObjetivoEducacionalByProgramaId = async (req, res) => {
+    try {
+        const { programaId } = req.body;
+        const seccion = await Seccion.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                titulo: 'Objetivos educacionales'
+            },
+            include: [
+                {
+                    model: Objeto,
+                    as: "objeto",
+                    where: {
+                        status: 1
+                    },
+                    order: [
+                        [sequelize.literal('posicion'), 'ASC']
+                    ]
+                }
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getObjetivoGeneralByProgramaId = async (req, res) => {
+    try {
+        const { programaId } = req.body;
+        const seccion = await Seccion.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                titulo: 'Objetivo general'
+            }
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getPerfilEgresoByProgramaId = async (req, res) => {
+    try {
+        const { programaId } = req.body;
+
+        const seccion = await Seccion.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                titulo: 'Perfil de egreso'
+            },
+            include: [
+                {
+                    model: Objeto,
+                    as: "objeto",
+                    where: {
+                        status: 1
+                    },
+                    order: [
+                        [sequelize.literal('posicion'), 'ASC']
+                    ]
+                }
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getObjetivoGeneralByProgramaId = async (req, res) => {
+    try {
+        const { programaId } = req.body;
+        const seccion = await Seccion.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                titulo: 'Objetivo general'
+            }
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion,
         });
     } catch (e) {
         console.log(e);

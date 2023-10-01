@@ -72,6 +72,76 @@ exports.getMateriasByProgramaId = async (req, res) => {
     }
 };
 
+exports.getMateriasByEspecialidadId = async (req, res) => {
+    try {
+        const { programaId, especialidadId } = req.body;
+        let materia = await Materia.findAll({
+            where: {
+                programaId: programaId,
+                especialidadId: especialidadId
+            },
+            include: [
+                {
+                    model: Especialidad,
+                    as: 'especialidad',
+                    attributes: ['nombre'],
+                },
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: materia,
+
+        });
+
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getMateriasBySemestre = async (req, res) => {
+    try {
+        const { programaId, semestre} = req.body;
+
+        let materia = await Materia.findAll({
+            where: {
+                programaId: programaId,
+                semestre: semestre,
+                especialidadId: null
+            },
+            include: [
+                {
+                    model: Especialidad,
+                    as: 'especialidad',
+                    attributes: ['nombre'],
+                },
+            ]
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: materia,
+
+        });
+
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.getMateriaById = async (req, res) => {
     try {
         let materiaId = req.query.materiaId;
