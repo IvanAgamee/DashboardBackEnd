@@ -2,9 +2,8 @@ const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
-const sequalize = require("../database/database");
-const Departamento = require('../models/Departamento');
-const ProgramaEstudio = require('../models/ProgramaEstudio');
+const bcrypt = require('bcrypt');
+const { roleDataAssignment, adminDataAssignment } = require("./roles.controller");
 
 exports.login = async (req, res) => {
     try {
@@ -12,8 +11,7 @@ exports.login = async (req, res) => {
 
         let user = await Usuario.findOne({
             where: {
-                username,
-                password
+                username
             },
             include: [{
                 model: Rol,
@@ -22,83 +20,53 @@ exports.login = async (req, res) => {
             }],
         });
 
-        let departamentosData = [];
-        let programasEstudioData = [];
-
-        if (user.rolId === 1) {
-            departamentosData = await Departamento.findAll({
-                where: {
-                    status: 1
-                },
-                include: [
-                    {
-                        model: ProgramaEstudio,
-                        as: "programaEstudio",
-                        where: {
-                            status: 1
-                        },
-                        include: [
-                            {
-                                model: Departamento,
-                                as: "departamento",
-                                // attributes: []
-                            },
-                        ]
-                    },
-                ]
+        if (!user) {
+            return res.json({
+                success: false,
+                message: 'El usuario no existe.'
             });
-
-            departamentosData.forEach(programa => {
-                programasEstudioData.push(programa.programaEstudio);
-            });
-
-            programasEstudioData = programasEstudioData.flat();
-
-        } else {
-            departamentosData = await Departamento.findByPk(user.departamentoId, {
-                where: {
-                    status: 1
-                },
-                include: [
-                    {
-                        model: ProgramaEstudio,
-                        as: "programaEstudio",
-                        where: {
-                            status: 1
-                        },
-                        include: [
-                            {
-                                model: Departamento,
-                                as: "departamento",
-                                // attributes: []
-                            },
-                        ]
-                    },
-                ]
-            });
-            programasEstudioData = departamentosData.programaEstudio;
         }
 
-        user.dataValues.departamento = departamentosData;
-        user.dataValues.programaEstudio = programasEstudioData;
-
-        if (!user) return res.json({
-            success: false,
-            message: 'Usuario o contraseña incorrectos'
+        const result = await new Promise((resolve, reject) => {
+            bcrypt.compare(password, user.password, (err, result) => {
+                if (err) {
+                    // Rechaza la promesa en caso de error
+                    reject(err);
+                }
+                // Resuelve la promesa con el resultado de la comparación
+                resolve(result);
+            });
         });
+        // Verifica el resultado de la comparación de contraseñas
+        if (result) {
+            // Obtiene los permisos de rol para el usuario
+            let assignData = [];
+            if (user.rolId === 1) {
+                assignData = await adminDataAssignment();
+            } else {
+                assignData = await roleDataAssignment(user.departamentoId);
+            }
 
-        return res.json({
-            success: true,
-            data: user,
-            departamento: departamentosData,
-            programaEstudio: programasEstudioData
-        });
+            user.dataValues.departamento = assignData.departamentosData;
+            user.dataValues.programaEstudio = assignData.programasEstudioData;
+
+            return res.json({
+                success: true,
+                message: 'Inicio de sesión exitoso.',
+                data: user,
+                departamento: assignData.departamentosData,
+                programaEstudio: assignData.programasEstudioData
+            });
+        } else {
+            return res.json({ success: false, message: 'Usuario o contraseña incorrectos.' });
+        }
 
     } catch (e) {
         console.log(e);
         res.status(500).json({ success: false, message: 'Algo ha salido mal', error: e });
     }
 }
+
 
 exports.getUsers = async (req, res) => {
     try {
@@ -108,7 +76,7 @@ exports.getUsers = async (req, res) => {
             },
             attributes: {
                 include: [
-                    [sequalize.col('rol.nombre'), 'rolNombre']
+                    [sequelize.col('rol.nombre'), 'rolNombre']
                 ]
             },
             include: [
@@ -184,6 +152,8 @@ exports.crudUser = async (req, res) => {
                 });
             } else {  // En caso de que no exista o no se repita el nombre de usuario
                 usuario.urlImagen = usuario.urlImagen ? usuario.urlImagen : 'user.webp';
+
+                usuario.password = await bcrypt.hash(usuario.password, 8);
 
                 let newUsuario = await Usuario.create(usuario); // crea el usuario
                 if (newUsuario) {

@@ -1,6 +1,7 @@
 module.exports = app => {
     var router = require('express').Router();
     var uc = require("../controllers/usuario.controller");
+    var r = require("../controllers/roles.controller");
     var { validateParams } = require('../middlewares/params_valdiation');
     const multer = require("multer");
     const path = require('path');
@@ -27,6 +28,7 @@ module.exports = app => {
     router.get('/getUsers', uc.getUsers);
     router.get('/getUserById', uc.getUserById);
     router.post('/crudUser', uc.crudUser);
+    router.get('/getRoles', r.getRoles);
 
     app.use('/api/usuario', router);
 }

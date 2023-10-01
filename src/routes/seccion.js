@@ -7,6 +7,10 @@ module.exports = app => {
     router.get('/getSeccionByProgramaId', m.getSeccionByProgramaId);
     router.get('/getObjetoByProgramaId', m.getObjetoByProgramaId);
     router.get('/getObjetoBySeccionId', m.getObjetoBySeccionId);
+    router.post('/getPerfilEgresoByProgramaId', m.getPerfilEgresoByProgramaId);
+    router.post('/getObjetivoGeneralByProgramaId', m.getObjetivoGeneralByProgramaId);
+    router.post('/getObjetivoEducacionalByProgramaId', m.getObjetivoEducacionalByProgramaId);
+    router.post('/getReticulaByProgramaId', m.getReticulaByProgramaId);
     router.post('/crudSeccion', m.crudSeccion);
     router.post('/crudObjeto', m.crudObjeto);
     router.post('/crudSeccionMasivo', m.crudSeccionMasivo);

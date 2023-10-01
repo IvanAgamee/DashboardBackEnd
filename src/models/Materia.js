@@ -69,4 +69,9 @@ Materia.belongsTo(Especialidad, {
     as: 'especialidad'
 });
 
+Especialidad.hasMany(Materia, {
+    foreignKey: 'especialidadId',
+    as: 'materias'
+});
+
 module.exports = Materia;

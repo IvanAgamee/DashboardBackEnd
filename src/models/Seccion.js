@@ -2,6 +2,7 @@ const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
 const Modulo = require("./Modulo");
 const ProgramaEstudio = require("./ProgramaEstudio");
+const Especialidad = require("./Especialidad");
 
 const Seccion = sequelize.define("tbl_seccion", {
     seccionId: {
@@ -19,6 +20,9 @@ const Seccion = sequelize.define("tbl_seccion", {
         type: Sequelize.TEXT,
     },
     descripcion: {
+        type: Sequelize.TEXT,
+    },
+    url: {
         type: Sequelize.TEXT,
     },
     status: {

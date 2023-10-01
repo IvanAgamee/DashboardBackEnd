@@ -14,6 +14,9 @@ const Especialidad = sequelize.define("tbl_especialidad", {
     nombre: {
         type: Sequelize.STRING,
     },
+    url: {
+        type: Sequelize.STRING,
+    },
     status: {
         type: Sequelize.INTEGER,
     },
