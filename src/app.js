@@ -21,6 +21,7 @@ app.get("/", (req, res) => {
 
 // Lista de rutas de carretas
 require('./routes/administrativo')(app);
+require('./routes/egresado')(app);
 require('./routes/comunidad')(app);
 require('./routes/seccion')(app);
 require('./routes/modulo')(app);
