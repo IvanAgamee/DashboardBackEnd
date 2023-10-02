@@ -1,21 +1,5 @@
 const Sequelize = require('sequelize').Sequelize;
 
-// Eric Connexion:
-/*
-const sequelize = new Sequelize(
-    'ProgramasEstudioITVER', // base de datos
-    'monitor', // usuario
-    '12345', // contraseña
-    {
-        host: '127.0.0.1',
-        port: 3309,
-        dialect: 'mysql',
-        logging: true
-    });
-*/
-
-
-//Conexion para los demás:
 
 const sequelize = new Sequelize(
 'ProgramasEstudioITVER', // base de datos
