@@ -15,6 +15,7 @@ module.exports = app => {
     router.post('/crudObjeto', m.crudObjeto);
     router.post('/crudSeccionMasivo', m.crudSeccionMasivo);
     router.post('/crudObjetoMasivo', m.crudObjetoMasivo);
+    router.delete('/borrarObjetos',m.borrarObjetosById);
 
     app.use('/api/seccion', router);
 }

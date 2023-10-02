@@ -118,7 +118,12 @@ exports.getObjetoByProgramaId = async (req, res) => {
 
 exports.getLastIdSecccion = async(req,res) => {
 try{
-    const idSeccion =  await sequelize.query("SELECT MAX(tbl_seccion.seccionId) AS seccionId FROM tbl_seccion",{
+    const idSeccion =  await sequelize.query('SELECT s.seccionId FROM tbl_seccion AS s WHERE s.titulo = :titulo AND s.moduloId = :moduloId AND s.programaId = :programaId',{
+        replacements:{
+        'titulo':req.query.titulo,
+        'moduloId':req.query.moduloId,
+        'programaId':req.query.programaId
+        },
         type: Sequelize.QueryTypes.SELECT});
     return res.json({
         success: true,
@@ -328,6 +333,41 @@ exports.getObjetivoGeneralByProgramaId = async (req, res) => {
     }
 };
 
+exports.borrarObjetosById = async (req, res) => {
+    try {
+        console.log(req.body);
+        let objetos = req.body;
+        if (objetos !== null && Array.isArray(objetos) && objetos.length > 0) {
+            const objetoIds = objetos.map(objeto => objeto.objetoId);
+
+            const data = await Objeto.destroy({
+                where: {
+                    objetoId: {
+                        [Sequelize.Op.in]: objetoIds
+                    }
+                }
+            });
+
+            return res.json({
+                success: true,
+                message: "Se han eliminado los registros.",
+                data: data // Puedes enviar información adicional, como el número de registros eliminados
+            });
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: "No se proporcionaron objetos válidos para eliminar.",
+            });
+        }
+    } catch (e) {
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.crudSeccion = async (req, res) => {
     try {
         let seccion = req.body;
@@ -497,3 +537,4 @@ exports.crudObjetoMasivo = async (req, res) => {
         }];
     }
 };
+
