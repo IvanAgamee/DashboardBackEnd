@@ -195,8 +195,7 @@ exports.getAdministrativo = async (req, res) => {
             },
             attributes: ['nombre']
         });
-
-        administrativo = { ...administrativo.dataValues, nombrePrograma: ProgramaEstudio.nombre };
+        administrativo = { ...administrativo?.dataValues, nombrePrograma: ProgramaEstudio.nombre };
         
         return res.json({
             success: true,

@@ -268,6 +268,58 @@ exports.getObjetivoGeneralByProgramaId = async (req, res) => {
     }
 };
 
+exports.getMisionByProgramaId = async (req, res) => {
+    try {
+        const { programaId } = req.body;
+        const seccion = await Seccion.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                titulo: 'Mision'
+            }
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
+exports.getVisionByProgramaId = async (req, res) => {
+    try {
+        const { programaId } = req.body;
+        const seccion = await Seccion.findOne({
+            where: {
+                status: 1,
+                programaId: programaId,
+                titulo: 'Vision'
+            }
+        });
+
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: seccion,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+
 exports.getPerfilEgresoByProgramaId = async (req, res) => {
     try {
         const { programaId } = req.body;

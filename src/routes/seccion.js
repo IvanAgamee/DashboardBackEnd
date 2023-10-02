@@ -10,6 +10,8 @@ module.exports = app => {
     router.post('/getPerfilEgresoByProgramaId', m.getPerfilEgresoByProgramaId);
     router.post('/getObjetivoGeneralByProgramaId', m.getObjetivoGeneralByProgramaId);
     router.post('/getObjetivoEducacionalByProgramaId', m.getObjetivoEducacionalByProgramaId);
+    router.post('/getMisionByProgramaId', m.getMisionByProgramaId);
+    router.post('/getVisionByProgramaId', m.getVisionByProgramaId);
     router.post('/getReticulaByProgramaId', m.getReticulaByProgramaId);
     router.post('/crudSeccion', m.crudSeccion);
     router.post('/crudObjeto', m.crudObjeto);
