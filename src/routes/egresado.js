@@ -3,6 +3,8 @@ module.exports = app => {
     var m = require("../controllers/egresado.controller");
 
     router.post('/getUltimas5Gen', m.getUltimas5Gen);
+    router.post('/crudGenEgresadaMasivo', m.crudGenEgresadaMasivo);
+    router.post('/crudEgresadoMasivo', m.crudEgresadoMasivo);
 
     app.use('/api/egresado', router);
 }

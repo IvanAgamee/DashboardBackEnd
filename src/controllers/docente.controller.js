@@ -88,14 +88,14 @@ exports.getDocenteById = async (req, res) => {
             });
 
         if (docente != null) {
-                const pathFile = m.getFolderPrograma(docente.dataValues.programaId);
-                docente.dataValues.pathFile = pathFile + '/docentes';
+            const pathFile = m.getFolderPrograma(docente.dataValues.programaId);
+            docente.dataValues.pathFile = pathFile + '/docentes';
 
-                return res.json({
-                    success: true,
-                    message: "Se han encontrado registros.",
-                    data: docente
-                });
+            return res.json({
+                success: true,
+                message: "Se han encontrado registros.",
+                data: docente
+            });
         }
         else {
             return res.json({
@@ -122,6 +122,9 @@ exports.getDocentesByProgramaId = async (req, res) => {
             where: {
                 status: 1,
             },
+            order: [
+                [sequalize.literal('nombre'), 'ASC']
+            ],
             attributes: {
                 include: [
                     [sequalize.literal('programaDocente.programaId'), 'programaId']

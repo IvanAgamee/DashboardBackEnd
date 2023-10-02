@@ -125,7 +125,7 @@ exports.crudEspecialidadMasivo = async (req, res) => {
     let especialidades = req.body;
     const especialidadesAsync = async (especialidad) => {
         try {
-            console.log(especialidad)
+           
             if (especialidad.especialidadId == null) {
                 let newEsp = await Especialidad.create(especialidad);
             } else if (especialidad.especialidadId) {
