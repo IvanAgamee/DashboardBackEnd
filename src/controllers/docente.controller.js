@@ -122,6 +122,9 @@ exports.getDocentesByProgramaId = async (req, res) => {
             where: {
                 status: 1,
             },
+            order: [
+                [sequalize.literal('nombre'), 'ASC']
+            ],
             attributes: {
                 include: [
                     [sequalize.literal('programaDocente.programaId'), 'programaId']
