@@ -1,3 +1,4 @@
+const sequelize = require("../database/database");
 const Egresado = require("../models/Egresado");
 const GeneracionEgresada = require("../models/GeneracionEgresada");
 
@@ -99,24 +100,24 @@ exports.crudEgresadoMasivo = async (req, res) => {
 
 exports.getUltimas5Gen = async (req, res) => {
     try {
-        let { programaId, offset } = req.body;
+        let { programaId } = req.body;
 
         const docentes = await GeneracionEgresada.findAll({
-            offset, subQuery: false,
             limit: 5,
             where: {
                 status: 1,
                 programaId: programaId
             },
+            order: [
+                ['fechaFinal', 'DESC']
+            ],
             include: [{
                 model: Egresado,
                 as: "egresados",
+                required: false,
                 where: {
                     status: 1
                 },
-                order: [
-                    [sequelize.literal('fechaFinal'), 'ASC']
-                ]
             }]
         });
 
