@@ -126,11 +126,10 @@ exports.getComunidadById = async (req, res) => {
 
         if (comunidad != null) {
             const pathFile = m.getFolderPrograma(comunidad.dataValues.programaId);
-            comunidad.dataValues.pathFile = pathFile + '/comunidades/' + comunidad.dataValues.nombre;
+            comunidad.dataValues.pathFile = pathFile + '/comunidades/';
 
-            comunidad.dataValues.fotosComunidad = comunidad.dataValues.fotosComunidad ? 
-            comunidad.dataValues.fotosComunidad.split(',') : '';
-            
+            comunidad.dataValues.fotosComunidad = comunidad.dataValues.fotosComunidad ? comunidad.dataValues.fotosComunidad.split(',') : '';
+
             return res.json({
                 success: true,
                 message: "Se han encontrado registros.",
@@ -172,8 +171,8 @@ exports.uploadFiles = async (req, res) => {
         let filepath = m.getFolderPrograma(req.query.programaId);
         filepath = filepath + '/comunidades';
 
-        let comunidadNombre =  body.comunidadNombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        comunidadNombre =  comunidadNombre.replace(/\s+/g, ""); 
+        let comunidadNombre = body.comunidadNombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        comunidadNombre = comunidadNombre.replace(/\s+/g, "");
 
         files.forEach((f) => {
             let nameFile = `${comunidadNombre}/${f.originalname}`;
