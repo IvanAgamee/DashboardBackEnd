@@ -22,7 +22,9 @@ module.exports = app => {
                 fs.mkdirSync(pathStorage);
             }
 
-            pathStorage = pathStorage + req.body.comunidadNombre;
+            let comunidadNombre =  req.body.comunidadNombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            comunidadNombre =  comunidadNombre.replace(/\s+/g, "");  
+            pathStorage = pathStorage + comunidadNombre;
 
             if (!fs.existsSync(pathStorage)) {
                 fs.mkdirSync(pathStorage);
@@ -32,7 +34,8 @@ module.exports = app => {
 
         },
         filename: (req, file, callBack) => {
-            let nameFile = `${req.body.comunidadNombre}-${file.originalname}`;
+           
+            let nameFile = `${file.originalname}`;
             nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
 
             callBack(null, nameFile);

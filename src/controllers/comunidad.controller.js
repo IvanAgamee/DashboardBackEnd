@@ -162,7 +162,6 @@ exports.getComunidadById = async (req, res) => {
 exports.uploadFiles = async (req, res) => {
     try {
         const { body, files } = req;
-        let data = body.comunidadNombre.replace(/"/g, '');
         let nameFiles = [];
 
         if (!files) {
@@ -173,8 +172,11 @@ exports.uploadFiles = async (req, res) => {
         let filepath = m.getFolderPrograma(req.query.programaId);
         filepath = filepath + '/comunidades';
 
+        let comunidadNombre =  body.comunidadNombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        comunidadNombre =  comunidadNombre.replace(/\s+/g, ""); 
+
         files.forEach((f) => {
-            let nameFile = `${data}-${f.originalname}`;
+            let nameFile = `${comunidadNombre}/${f.originalname}`;
             nameFile.replace(/['"]+/g, '-');
             nameFiles.push(nameFile);
         });
