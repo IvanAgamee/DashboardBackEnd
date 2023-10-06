@@ -160,7 +160,7 @@ exports.getAdministrativo = async (req, res) => {
             subQuery: false,
             attributes: {
                 include: [
-                    [sequalize.literal('AdministrativoPrograma.programaId'), 'programaId'],
+                    [sequalize.literal('administrativoPrograma.programaId'), 'programaId'],
                     [sequalize.literal('puesto.nombre'), 'nombrePuesto'],
                 ]
             },
