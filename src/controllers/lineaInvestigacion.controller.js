@@ -3,7 +3,7 @@ const sequelize = require("../database/database");
 const Materia = require('../models/Materia');
 const LineaInvestigacion = require('../models/LineaInvestigacion');
 
-exports.getLineasByProgramaId = async (req, res) => {
+exports.getLineasInvByProgramaId = async (req, res) => {
     try {
         const { programaId } = req.query;
 
@@ -29,14 +29,13 @@ exports.getLineasByProgramaId = async (req, res) => {
     }
 };
 
-exports.getLineaInvestigacionByProgramaId = async (req, res) => {
+exports.getLineaById = async (req, res) => {
     try {
-        const { programaId, lineaInvestigacionId } = req.body;
+        const { lineaInvestigacionId } = req.query;
 
         const especialidades = await LineaInvestigacion.findOne({
             where: {
                 status: 1,
-                programaId: programaId,
                 lineaInvestigacionId: lineaInvestigacionId
             },
             include: [

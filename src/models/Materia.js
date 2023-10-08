@@ -2,6 +2,7 @@ const { Sequelize } = require("sequelize");
 const sequelize = require("../database/database");
 const ProgramaEstudio = require("./ProgramaEstudio");
 const Especialidad = require("./Especialidad");
+const LineaInvestigacion = require("./LineaInvestigacion");
 
 const Materia = sequelize.define("tbl_materia", {
     materiaId: {
@@ -71,6 +72,16 @@ Materia.belongsTo(Especialidad, {
 
 Especialidad.hasMany(Materia, {
     foreignKey: 'especialidadId',
+    as: 'materias'
+});
+
+Materia.belongsTo(LineaInvestigacion, {
+    foreignKey: 'lineaInvestigacionId',
+    as: 'lineaInvestigacion'
+});
+
+LineaInvestigacion.hasMany(Materia, {
+    foreignKey: 'lineaInvestigacionId',
     as: 'materias'
 });
 

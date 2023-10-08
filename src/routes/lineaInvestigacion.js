@@ -2,9 +2,9 @@ module.exports = app => {
     var router = require('express').Router();
     var m = require("../controllers/lineaInvestigacion.controller");
 
-    router.get('/getLineasByProgramaId', m.getLineasByProgramaId);
+    router.get('/getLineasInvByProgramaId', m.getLineasInvByProgramaId);
     router.get('/getLineasInvestigacion', m.getLineasInvestigacion);
-    router.post('/getLineaInvestigacionByProgramaId', m.getLineaInvestigacionByProgramaId);
+    router.get('/getLineaById', m.getLineaById);
     router.post('/crudLineaInv', m.crudLineaInv);
     router.post('/crudLineasInvMasivo', m.crudLineasInvMasivo);
 
