@@ -24,6 +24,9 @@ const Usuario = sequelize.define("tbl_usuario", {
     password: {
         type: Sequelize.STRING,
     },
+    email: {
+        type: Sequelize.STRING,
+    },
     urlImagen: {
         type: Sequelize.STRING,
     },

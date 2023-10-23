@@ -28,6 +28,8 @@ module.exports = app => {
     router.get('/getUsers', uc.getUsers);
     router.get('/getUserById', uc.getUserById);
     router.post('/crudUser', uc.crudUser);
+    router.post('/forgottenPasswordMail', uc.forgottenPasswordMail);
+    router.post('/changePassword', uc.changePassword);
     router.get('/getRoles', r.getRoles);
 
     app.use('/api/usuario', router);
