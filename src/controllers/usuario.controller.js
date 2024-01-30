@@ -320,7 +320,7 @@ exports.uploadProfileImage = async (req, res) => {
             const error = new Error("No File");
         }
 
-        nameFile = file.originalname.replace(/['"]+/g, '').replace(/ /g, '-');
+        nameFile = file.originalname.replace(/['"]+/g, '-').replace(/ /g, '-');
 
         const fileData = {
             success: true,

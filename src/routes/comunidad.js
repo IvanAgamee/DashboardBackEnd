@@ -36,7 +36,7 @@ module.exports = app => {
         filename: (req, file, callBack) => {
            
             let nameFile = `${file.originalname}`;
-            nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
+            nameFile = nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
 
             callBack(null, nameFile);
         },

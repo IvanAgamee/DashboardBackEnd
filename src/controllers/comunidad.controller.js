@@ -176,7 +176,7 @@ exports.uploadFiles = async (req, res) => {
 
         files.forEach((f) => {
             let nameFile = `${comunidadNombre}/${f.originalname}`;
-            nameFile.replace(/['"]+/g, '-');
+            nameFile = nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
             nameFiles.push(nameFile);
         });
 

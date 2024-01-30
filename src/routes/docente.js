@@ -31,8 +31,7 @@ module.exports = app => {
       const result = originalName.slice(lastDotIndex + 1);
 
       let nameFile = `${req.body.docenteNombre}.${result}`;
-      nameFile = nameFile.replace(/['"]+/g, '').replace(/ /g, '-');
-
+      nameFile = nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
       callBack(null, nameFile);
     },
   });

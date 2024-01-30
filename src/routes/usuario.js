@@ -12,7 +12,7 @@ module.exports = app => {
         callBack(null, PATH_USER);
       },
       filename: (req, file, callBack) => {
-        nameFile = file.originalname.replace(/['"]+/g, '').replace(/ /g, '-');  
+        nameFile = file.originalname.replace(/['"]+/g, '-').replace(/ /g, '-');
         callBack(null, nameFile);
       },
     });
