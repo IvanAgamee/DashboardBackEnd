@@ -6,6 +6,7 @@ module.exports = app => {
     const path = require('path');
     const PATH_COMUNIDAD = `${__dirname}/../storage`;
     const fs = require('fs');
+    const moment = require("moment");
 
     const storage = multer.diskStorage({
         destination: (req, file, callBack) => {
@@ -34,10 +35,13 @@ module.exports = app => {
 
         },
         filename: (req, file, callBack) => {
-           
-            let nameFile = `${file.originalname}`;
-            nameFile = nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
+            
+            const lastDotIndex = file.originalname.lastIndexOf(".");
+            const originalName = file.originalname.substring(0, lastDotIndex);
+            const result = file.originalname.slice(lastDotIndex + 1);
 
+            let nameFile = `${originalName}-${moment().format('DDMMYYYY')}.${result}`;
+            nameFile = nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
             callBack(null, nameFile);
         },
     });

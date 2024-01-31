@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = require("../database/database");
 const Comunidad = require('../models/Comunidad');
 var m = require("../controllers/main.controller");
+const moment = require("moment");
 
 exports.crudComunidadMasivo = async (req, res) => {
     let comunidades = req.body;
@@ -175,7 +176,11 @@ exports.uploadFiles = async (req, res) => {
         comunidadNombre = comunidadNombre.replace(/\s+/g, "");
 
         files.forEach((f) => {
-            let nameFile = `${comunidadNombre}/${f.originalname}`;
+            const lastDotIndex = f.originalname.lastIndexOf(".");
+            const originalName = f.originalname.substring(0, lastDotIndex);
+            const result = f.originalname.slice(lastDotIndex + 1);
+
+            let nameFile = `${comunidadNombre}/${originalName}-${moment().format('DDMMYYYY')}.${result}`;
             nameFile = nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
             nameFiles.push(nameFile);
         });

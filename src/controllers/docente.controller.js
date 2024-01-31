@@ -5,6 +5,7 @@ const ProgramaDocente = require('../models/ProgramaDocente');
 var m = require("../controllers/main.controller");
 const PATH_STORAGE = `${__dirname}/../storage`;
 const path = require('path');
+const moment = require("moment");
 
 exports.getSistemasDocentes = async (req, res) => {
     try {
@@ -278,7 +279,7 @@ exports.uploadDocenteImage = async (req, res) => {
         const lastDotIndex = originalName.lastIndexOf(".");
         const result = originalName.slice(lastDotIndex + 1);
 
-        let nameFile = `${body.docenteNombre}.${result}`;
+        let nameFile = `${body.docenteNombre}-${moment().format('DDMMYYYY')}.${result}`;
         nameFile = nameFile.replace(/['"]+/g, '-').replace(/ /g, '-');
 
         const fileData = {
