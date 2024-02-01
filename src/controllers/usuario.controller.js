@@ -3,6 +3,7 @@ const sequelize = require("../database/database");
 const Usuario = require('../models/Usuario');
 const Rol = require('../models/Rol');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 const { roleDataAssignment, adminDataAssignment } = require("./roles.controller");
 
 exports.login = async (req, res) => {
@@ -262,8 +263,8 @@ exports.forgottenPasswordMail = async (req, res) => {
                 requireTLS: true,
                 secure: false,
                 auth: {
-                    user: 'paginasweb@veracruz.tecnm.mx',
-                    pass: 'pWebD+2023',
+                    user: data.env.EMAIL,
+                    pass: data.env.PASSWORD,
                 },
             });
 
@@ -275,7 +276,7 @@ exports.forgottenPasswordMail = async (req, res) => {
                 + '<br><h4>Este correo se ha generado automáticamente. Las respuestas enviadas a esta dirección de correo no se revisan.</h4>';
 
             const mailOptions = {
-                from: "paginasweb@veracruz.tecnm.mx",
+                from: data.env.EMAIL,
                 to: validateEmail(user.email),
                 subject: 'Recuperación de contraseña',
                 html: body
