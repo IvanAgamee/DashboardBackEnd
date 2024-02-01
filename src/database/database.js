@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize').Sequelize;
-
+require('dotenv').config();
 
 const sequelize = new Sequelize(
-'ProgramasEstudioITVER', // base de datos
-'root', // usuario
-'', // contraseña
+data.env.DB_DATABASE, // base de datos
+data.env.DB_USER, // usuario
+data.env.DB_PASSWORD, // contraseña
 {
-    host: 'localhost',
-    port: 3306,
+    host: data.env.DB_HOST,
+    port: data.env.DB_PORT,
     dialect: 'mysql',
     logging: false
 });
