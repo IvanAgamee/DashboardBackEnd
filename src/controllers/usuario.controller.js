@@ -263,8 +263,8 @@ exports.forgottenPasswordMail = async (req, res) => {
                 requireTLS: true,
                 secure: false,
                 auth: {
-                    user: data.env.EMAIL,
-                    pass: data.env.PASSWORD,
+                    user: process.env.EMAIL,
+                    pass: process.env.PASSWORD,
                 },
             });
 
@@ -276,7 +276,7 @@ exports.forgottenPasswordMail = async (req, res) => {
                 + '<br><h4>Este correo se ha generado automáticamente. Las respuestas enviadas a esta dirección de correo no se revisan.</h4>';
 
             const mailOptions = {
-                from: data.env.EMAIL,
+                from: process.env.EMAIL,
                 to: validateEmail(user.email),
                 subject: 'Recuperación de contraseña',
                 html: body
