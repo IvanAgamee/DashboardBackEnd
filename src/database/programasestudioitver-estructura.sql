@@ -294,6 +294,7 @@ CREATE TABLE `tbl_usuario` (
   `nombre` varchar(150) NOT NULL,
   `username` varchar(150) NOT NULL,
   `password` varchar(150) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
   `urlImagen` varchar(150) DEFAULT NULL,
   `status` int(2) NOT NULL,
   `createdBy` int(2) DEFAULT NULL,
@@ -304,7 +305,8 @@ CREATE TABLE `tbl_usuario` (
 
 INSERT INTO `tbl_usuario` (`usuarioId`, `rolId`, `departamentoId`, `nombre`, `username`, `password`, `urlImagen`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
 (1, 2, 6, 'Sistemas02', 'Sistemas02', '$2b$08$onRYp16dj6tH89iUmf6tL.Mm9nKLlpOV5EFihHULqVR7rLH2Xh3UW', 'user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25'),
-(2, 1, 6, 'Administrador01', 'Administrador01', '$2b$08$PYvd7Ux/ctAMtnuX/5zbrOWz5DGGrryuWNLu7sf/Re1npeOkxXmvm','user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25');
+(2, 1, 6, 'Administrador01', 'Administrador01', '$2b$08$xAcdkiio6jaGXXgL1ksUq.hIFavaRG0suSvtqyZqIDUwj2GPKtR7.','user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25');
+(3, 1, 6, 'Administrador02', 'Administrador02', '$2b$08$5H5L/4ahRb./DBkUyCM4m.O9.AIBM6/zrUE86srwQrQKYvCwHAwDG','user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25');
 
 INSERT INTO `tbl_especialidad` (`especialidadId`, `programaId`, `nombre`, `url`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
 (1, 1, 'Calidad y Productividad', 'https://bit.ly/3Zfdqv7', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
@@ -321,7 +323,7 @@ INSERT INTO `tbl_especialidad` (`especialidadId`, `programaId`, `nombre`, `url`,
 (13, 6, 'Sistemas Robóticos y Mecatrónicos', 'https://tinyurl.com/3582z7mc', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
 (14, 6, 'Sistemas Digitales', 'https://tinyurl.com/y2u8xynk', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
 (15, 6, 'Gestión de Sistemas Energéticos', 'https://tinyurl.com/mw8a6cd9', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
-(16, 7, 'Gestión Industrial y de la Productividad', 'https://tinyurl.com/bmnn8ktp', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
+(16, 7, 'Gestión Industrial y de la Productividad', 'https://tinyurl.com/4dwr9mee', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
 (17, 7, 'Optativas', NULL, 1, NULL, '2023-10-02', NULL, '2023-10-02'),
 (18, 8, 'Gestión de la Calidad de la Energía', 'https://tinyurl.com/3b4353v9', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
 (19, 8, 'Ingeniería Ambiental y Seguridad Laboral', 'https://tinyurl.com/4hbuswfv', 1, NULL, '2023-10-02', NULL, '2023-10-02'),
