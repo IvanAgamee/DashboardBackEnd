@@ -133,7 +133,6 @@ exports.getAdministrativosByProgramaId = async (req, res) => {
             },
             {
                 model: PuestoAdministrativo,
-                attributes: [],
                 as: "puesto"
             }]
         });
