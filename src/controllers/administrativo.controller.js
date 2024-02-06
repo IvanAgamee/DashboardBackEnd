@@ -3,6 +3,7 @@ const Administrativo = require("../models/Administrativo");
 const AdministrativoPrograma = require("../models/AdministrativoPrograma");
 const ProgramaEstudio = require("../models/ProgramaEstudio");
 const PuestoAdministrativo = require("../models/PuestoAdministrativo");
+const mainController = require("../controllers/main.controller");
 
 exports.crudAdministrativoMasivo = async (req, res) => {
     let administrativos = req.body;
@@ -195,8 +196,13 @@ exports.getAdministrativo = async (req, res) => {
             },
             attributes: ['nombre']
         });
-        administrativo = { ...administrativo?.dataValues, nombrePrograma: ProgramaEstudio.nombre };
-        
+        const pathFile = mainController.getFolderPrograma(programaId);
+        administrativo = {
+            ...administrativo?.dataValues,
+            nombrePrograma: ProgramaEstudio.nombre,
+            pathFile: pathFile + '/docentes'
+        };
+
         return res.json({
             success: true,
             message: "Se han encontrado registros.",
