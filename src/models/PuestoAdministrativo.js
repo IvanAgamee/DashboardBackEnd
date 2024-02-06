@@ -7,7 +7,7 @@ const PuestoAdministrativo = sequelize.define("tbl_puesto_administrativo", {
         primaryKey: true,
         autoIncrement: true,
     },
-    nombrePuesto: {
+    nombre: {
         type: Sequelize.STRING,
     },
     status: {

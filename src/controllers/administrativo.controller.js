@@ -119,7 +119,8 @@ exports.getAdministrativosByProgramaId = async (req, res) => {
             },
             attributes: {
                 include: [
-                    [sequalize.literal('AdministrativoPrograma.programaId'), 'programaId']
+                    [sequalize.literal('AdministrativoPrograma.programaId'), 'programaId'],
+                    [sequalize.literal('puesto.nombre'), 'nombrePuesto']
                 ]
             },
             include: [{
@@ -133,8 +134,10 @@ exports.getAdministrativosByProgramaId = async (req, res) => {
             },
             {
                 model: PuestoAdministrativo,
+                attributes: [],
                 as: "puesto"
-            }]
+            }
+        ]
         });
 
         return res.json({
