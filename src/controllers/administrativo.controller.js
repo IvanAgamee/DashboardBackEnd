@@ -119,7 +119,7 @@ exports.getAdministrativosByProgramaId = async (req, res) => {
             },
             attributes: {
                 include: [
-                    [sequalize.literal('AdministrativoPrograma.programaId'), 'programaId'],
+                    [sequalize.literal('administrativoPrograma.programaId'), 'programaId'],
                     [sequalize.literal('puesto.nombre'), 'nombrePuesto']
                 ]
             },

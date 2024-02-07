@@ -144,11 +144,6 @@ exports.getComunidadById = async (req, res) => {
             });
         }
 
-        return res.json({
-            success: true,
-            message: "Se han encontrado registros.",
-            data: comunidad,
-        });
     } catch (e) {
         console.log(e);
         return res.status(500).json({

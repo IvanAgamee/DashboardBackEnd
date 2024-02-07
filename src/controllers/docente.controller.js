@@ -75,7 +75,7 @@ exports.getDocenteById = async (req, res) => {
                 },
                 attributes: {
                     include: [
-                        [sequalize.literal('ProgramaDocente.programaId'), 'programaId']
+                        [sequalize.literal('programaDocente.programaId'), 'programaId']
                     ]
                 },
                 include: [{
