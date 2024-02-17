@@ -11,6 +11,7 @@ module.exports = app => {
     router.get('/getTotalComunidades', main.getTotalComunidades);
 
     //Obtiene el file desde el storage
+    router.post('/getIconosByProgramaId', main.getIconosByProgramaId);
     router.post("/getFileFromStorage", main.getFileFromStorage);
     router.post("/removeFileFromStorage", main.removeFileFromStorage);
 

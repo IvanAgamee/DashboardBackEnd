@@ -306,7 +306,7 @@ exports.getFolderPrograma = (id) => {
     }
 };
 
-function checkFolderExists (folderName) {
+function checkFolderExists(folderName) {
     try {
         // Verificar si la carpeta existe
         if (!fs.existsSync(folderName)) {
@@ -317,7 +317,35 @@ function checkFolderExists (folderName) {
             console.log('La carpeta ya existe.');
         }
     } catch (error) {
-        console.log('Folder util error: ',error);
+        console.log('Folder util error: ', error);
+    }
+}
+
+exports.getIconosByProgramaId = (req, res) => {
+    try {
+
+        const programaEstudio = this.getFolderPrograma(req.body.programaId);
+        const pathFile = `${programaEstudio}/iconos`
+
+        fs.readdir(`${PATH_STORAGE}/${pathFile}`, (err, archivos) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Error interno del servidor');
+            }
+
+            return res.json({
+                success: true,
+                message: "Se han encontrado registros.",
+                data: {
+                    pathFile: pathFile,
+                    icons: archivos
+                },
+            });
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send('Error interno del servidor');
     }
 }
 
