@@ -325,7 +325,7 @@ exports.getIconosByProgramaId = (req, res) => {
     try {
 
         const programaEstudio = this.getFolderPrograma(req.body.programaId);
-        const pathFile = `${programaEstudio}/iconos`
+        const pathFile = `${programaEstudio}/iconos/`
 
         fs.readdir(`${PATH_STORAGE}/${pathFile}`, (err, archivos) => {
             if (err) {
