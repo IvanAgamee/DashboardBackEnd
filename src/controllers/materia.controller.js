@@ -108,7 +108,7 @@ exports.getMateriasByEspecialidadId = async (req, res) => {
 
 exports.getMateriasBySemestre = async (req, res) => {
     try {
-        const { programaId, semestre} = req.body;
+        const { programaId, semestre } = req.body;
 
         let materia = await Materia.findAll({
             where: {
@@ -263,3 +263,26 @@ exports.crudMateriaMasivo = async (req, res) => {
         }];
     }
 };
+
+
+exports.getAreasByProgramaId = async (req, res) => {
+    try {
+        const areas = await sequelize.query('SELECT DISTINCT area FROM tbl_materia WHERE programaId = :programaId ORDER BY area ASC', {
+            replacements: {
+                'programaId': req.query.programaId
+            },
+            type: Sequelize.QueryTypes.SELECT
+        });
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros",
+            data: areas
+        });
+    } catch (e) {
+        res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error.",
+            error: e.message,
+        })
+    }
+}

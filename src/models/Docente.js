@@ -90,7 +90,7 @@ ProgramaEstudio.belongsToMany(Docente, {  // Un programa de estudio pertenece a 
 ProgramaEstudio.hasMany(ProgramaDocente, { foreignKey: "programaId", as: "programaDocente" });
 Docente.hasMany(ProgramaDocente, { foreignKey: "docenteId", as: "programaDocente" });
 
-ProgramaDocente.belongsTo(ProgramaEstudio, { foreignKey: "programaId" });
+ProgramaDocente.belongsTo(ProgramaEstudio, { foreignKey: "programaId", as: 'programa'});
 ProgramaDocente.belongsTo(Docente, { foreignKey: "docenteId" });
 
 module.exports = Docente;

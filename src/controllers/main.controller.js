@@ -71,10 +71,58 @@ exports.getTotalDocentesByProgramaID = async (req, res) => {
 // Número total de docentes
 exports.getTotalDocentes = async (req, res) => {
     try {
-        const total = await Docente.count({
-            where: {
-                status: 1
-            },
+        const total = await Docente.findAll({
+            attributes: [
+                [Sequelize.fn('COUNT', Sequelize.col('*')), 'totalDocentes'],
+            ],
+            include: [
+                {
+                    model: ProgramaDocente,
+                    attributes: [],
+                    as: "programaDocente",
+                    include: [
+                        {
+                            model: ProgramaEstudio,
+                            as: 'programa',
+                            attributes: ['nombre'],
+                        },
+                    ],
+                },
+            ],
+            group: ['programaDocente.programaId'],
+            raw: true,
+        });
+        return res.json({
+            success: true,
+            message: "Se han encontrado registros.",
+            data: total,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            success: false,
+            message: "Ha ocurrido un error al obtener los registros.",
+            error: e.message,
+        });
+    }
+};
+// Número total de materias
+exports.getTotalMaterias = async (req, res) => {
+    try {
+        const total = await Materia.findAll({
+            attributes: [
+                'programaId',
+                [Sequelize.fn('COUNT', Sequelize.col('*')), 'totalMaterias'],
+            ],
+            group: ['programaId'],
+            include: [
+                {
+                    model: ProgramaEstudio,
+                    as: 'programas',
+                    attributes: ['nombre'],
+                },
+            ],
+            // raw: true,
         });
         return res.json({
             success: true,
@@ -91,51 +139,6 @@ exports.getTotalDocentes = async (req, res) => {
     }
 };
 
-// Número total de materias
-exports.getTotalMaterias = async (req, res) => {
-    try {
-        const total = await Materia.count({
-            where: {
-                status: 1
-            },
-        });
-        return res.json({
-            success: true,
-            message: "Se han encontrado registros.",
-            data: total,
-        });
-    } catch (e) {
-        console.log(e);
-        return res.status(500).json({
-            success: false,
-            message: "Ha ocurrido un error al obtener los registros.",
-            error: e.message,
-        });
-    }
-};
-
-// Número total de materias
-exports.getTotalMaterias = async (req, res) => {
-    try {
-        const total = await Materia.count({
-            where: {
-                status: 1
-            },
-        });
-        return res.json({
-            success: true,
-            message: "Se han encontrado registros.",
-            data: total,
-        });
-    } catch (e) {
-        console.log(e);
-        return res.status(500).json({
-            success: false,
-            message: "Ha ocurrido un error al obtener los registros.",
-            error: e.message,
-        });
-    }
-};
 
 // Número total de programas
 exports.getTotalMateriasByProgramaId = async (req, res) => {
