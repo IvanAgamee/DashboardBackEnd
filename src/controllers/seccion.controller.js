@@ -391,14 +391,16 @@ exports.borrarObjetosById = async (req, res) => {
         let objetos = req.body;
         if (objetos !== null && Array.isArray(objetos) && objetos.length > 0) {
             const objetoIds = objetos.map(objeto => objeto.objetoId);
-
-            const data = await Objeto.destroy({
-                where: {
-                    objetoId: {
-                        [Sequelize.Op.in]: objetoIds
+            const data = await Objeto.update(
+                { status: 0 },
+                {
+                    where: {
+                        objetoId: {
+                            [Sequelize.Op.in]: objetoIds
+                        }
                     }
                 }
-            });
+            );
 
             return res.json({
                 success: true,
