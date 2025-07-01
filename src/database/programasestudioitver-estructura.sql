@@ -305,7 +305,7 @@ CREATE TABLE `tbl_usuario` (
 
 INSERT INTO `tbl_usuario` (`usuarioId`, `rolId`, `departamentoId`, `nombre`, `username`, `password`, `urlImagen`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
 (1, 2, 6, 'Sistemas02', 'Sistemas02', '$2b$08$onRYp16dj6tH89iUmf6tL.Mm9nKLlpOV5EFihHULqVR7rLH2Xh3UW', 'user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25'),
-(2, 1, 6, 'Administrador01', 'Administrador01', '$2b$08$xAcdkiio6jaGXXgL1ksUq.hIFavaRG0suSvtqyZqIDUwj2GPKtR7.','user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25');
+(2, 1, 6, 'Administrador01', 'Administrador01', '$2b$08$xAcdkiio6jaGXXgL1ksUq.hIFavaRG0suSvtqyZqIDUwj2GPKtR7.','user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25'),
 (3, 1, 6, 'Administrador02', 'Administrador02', '$2b$08$5H5L/4ahRb./DBkUyCM4m.O9.AIBM6/zrUE86srwQrQKYvCwHAwDG','user.webp', 1, NULL, '2023-09-25', NULL, '2023-09-25');
 
 INSERT INTO `tbl_especialidad` (`especialidadId`, `programaId`, `nombre`, `url`, `status`, `createdBy`, `createdAt`, `updatedBy`, `updatedAt`) VALUES
